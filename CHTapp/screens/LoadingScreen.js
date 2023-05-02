@@ -6,12 +6,13 @@ export class LoadingScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ImageBackground source={require('../src/img/Loading.png')} resizeMode='cover' style={styles.image}>
+        <ImageBackground source={require('../src/assets/img/Loading.png')} resizeMode='cover' style={styles.image}>
             <Text 
                 style={[styles.text , styles.title]}
             >CHT</Text>
             <Text style={[styles.text, styles.subTitle]}>Course - Homework - Technical</Text>
         </ImageBackground>
+        <textBox></textBox>
       </SafeAreaView>
     )
   }
