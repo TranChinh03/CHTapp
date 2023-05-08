@@ -12,7 +12,6 @@ export class LoadingScreen extends Component {
             >CHT</Text>
             <Text style={[styles.text, styles.subTitle]}>Course - Homework - Technical</Text>
         </ImageBackground>
-        <textBox></textBox>
       </SafeAreaView>
     )
   }
