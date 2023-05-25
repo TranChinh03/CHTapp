@@ -4,16 +4,13 @@ const designHeight = 760;
 
 function scale(number, dimension) {
   let scaleNumber;
-  if(dimension == 'w')
-  {
+  if (dimension == 'w') {
     const currentDeviceWidth = Dimensions.get('window').width;
     scaleNumber = (number / designWidth) * currentDeviceWidth;
-  }
-  else if (dimension == 'h')
-  {
+  } else if (dimension == 'h') {
     const currentDeviceHeight = Dimensions.get('window').height;
     scaleNumber = (number / designHeight) * currentDeviceHeight;
-  } 
+  }
   return scaleNumber;
 }
 
