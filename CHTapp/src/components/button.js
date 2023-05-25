@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import scale from './src/constants/responsive';
-import AssetExample from './components/AssetExample';
+import scale from '../constants/responsive';
 import {Card} from 'react-native-paper';
 
 export default function button() {
