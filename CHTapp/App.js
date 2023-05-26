@@ -7,6 +7,8 @@ import textBox from './src/components/textBox'
 import VerifyCodeScreen from './screens/VerifyCodeScreen'
 import CustomButton from './src/components/button'
 import TextBox from './src/components/textBox'
+import courseItem from './src/components/courseItem'
+
 
 export default function App() {
   return (
