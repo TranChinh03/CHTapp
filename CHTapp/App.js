@@ -7,16 +7,21 @@ import textBox from './src/components/textBox'
 import VerifyCodeScreen from './screens/VerifyCodeScreen'
 import CustomButton from './src/components/button'
 import TextBox from './src/components/textBox'
-import courseItem from './src/components/courseItem'
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import LoginScreen from './screens/LoginScreen'
+import SignUpScreen from './screens/SignUpScreen'
 
 
 export default function App() {
   return (
       // <SearchBar placeholder='Find Course...'/>
       // textBox("Enter Text", true),
-      <VerifyCodeScreen/>
+      // <VerifyCodeScreen/>
       // <CustomButton textButton='Confirm'/>
       // <TextBox text="abc" placeholder="Enter..." secureTextEntry={true}></TextBox>
+      // <ForgotPasswordScreen/>
+      // <LoginScreen/>
+      <SignUpScreen/>
   )
 }
 
