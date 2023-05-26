@@ -4,8 +4,9 @@ import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
 import CustomButton from '../src/components/button'
+import TextBox from '../src/components/textBox'
 
-export class VerifyCodeScreen extends Component {
+export class ForgotPasswordScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -15,32 +16,19 @@ export class VerifyCodeScreen extends Component {
                 <Text style={styles.subtext1}>Course - Homework - Technical</Text>
            </View>
            <View style={styles.container2}>
-                <Text style={styles.text2}>Verify</Text>
-                <Text style={styles.text2}>email address</Text>
-                <Text style={styles.subtext2}>Verification code sent to your email</Text>
-                <View style={styles.subcontainer2}>
-                    <View style={styles.textInputContainer}>
-                        <TextInput style={styles.textInput} selectionColor={CUSTOM_COLORS.FrenchViolet} maxLength={1}></TextInput>
-                    </View>
-                    <View style={styles.textInputContainer}>
-                        <TextInput style={styles.textInput} selectionColor={CUSTOM_COLORS.FrenchViolet} maxLength={1}></TextInput>
-                    </View>
-                    <View style={styles.textInputContainer}>
-                        <TextInput style={styles.textInput} selectionColor={CUSTOM_COLORS.FrenchViolet} maxLength={1}></TextInput>
-                    </View>
-                    <View style={styles.textInputContainer}>
-                        <TextInput style={styles.textInput} selectionColor={CUSTOM_COLORS.FrenchViolet} maxLength={1}></TextInput>
-                    </View>
-
-                </View>
+                <Text style={styles.text2}>Forgot</Text>
+                <Text style={styles.text2}>password</Text>
+                <Text style={styles.subtext2}>Enter your email address you're using and we will send you a reset password code to this email</Text>
            </View>
                 
            <View style={styles.container3}>
-                <CustomButton textButton="Confirm code"></CustomButton>
-                <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={styles.subTextButton}>Resend confirmation code</Text>
-                </TouchableOpacity>
                 <View style={styles.subContainer3}>
+                    <TextBox text="" placeholder="Email"></TextBox>
+                    <TextBox text="" placeholder="New Password" secureTextEntry={true}></TextBox>
+                    <TextBox text="" placeholder="Confirm Password" secureTextEntry={true}></TextBox>
+                    <CustomButton textButton="Send"></CustomButton>
+                </View>
+                <View style={styles.bottomContainer}>
                     <Text style={styles.bottomText}>Or back to </Text>
                     <TouchableOpacity>
                         <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
@@ -53,7 +41,7 @@ export class VerifyCodeScreen extends Component {
   }
 }
 
-export default VerifyCodeScreen
+export default ForgotPasswordScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -63,18 +51,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex:1,
+        flex:2,
         alignItems: 'center'
     },
 
     container2: {
-        flex:1,
+        flex: 1.5,
     },
 
     container3: {
-        flex:1,
+        flex:2.5,
         alignSelf: 'center',
-        marginTop: scale(80,'h'),
     },
 
     text1: {
@@ -97,38 +84,18 @@ const styles = StyleSheet.create({
     subtext2: {
         fontSize: scale(14, 'w'),
         alignSelf: 'center',
-        marginTop: scale(40, 'h'),
-    },
-    subcontainer2: {
-        marginTop: scale(40, 'h'),
-        flexDirection: 'row',
-        marginHorizontal: scale(25, 'w'),
-        justifyContent: 'space-between'
-    },
-    textInputContainer: {
-        height: scale(57, 'h'),
-        width: scale(48,'w'),
-        borderWidth: 1,
-        borderColor: CUSTOM_COLORS.FrenchViolet,
-        borderRadius: scale(10,'w'),
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textInput: {
-        fontSize: scale(35, 'h'),
-        color: CUSTOM_COLORS.FrenchViolet,
-
-    },
-    buttonContainer: {
+        marginTop: scale(20, 'h'),
         alignSelf: 'center',
-        marginTop: scale(15, 'h'),
+        marginHorizontal: scale(30, 'w'),
+        textAlign: 'center',
     },
-    subTextButton: {
-        fontSize: scale(14, 'w'),
-        color: CUSTOM_COLORS.usBlue,
-        fontWeight: '500'
-    },
+
     subContainer3: {
+        height: scale(253,'h'),
+        justifyContent: 'space-between',
+    },
+
+    bottomContainer: {
         flexDirection: 'row',
         position: 'absolute',
         bottom: scale(20,'h'),
