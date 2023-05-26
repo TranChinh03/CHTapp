@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 
-const textBox = (placeholder, isPassword) => {
-  const [text, setText] = useState('');
+class TextBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '',
+      placeholder: props.placeholder,
+      secureTextEntry: props.secureTextEntry || false,
+    }
+  }
 
-  const handleTextChange = (newText) => {
-    setText(newText);
+  handleTextChange = (text) => {
+    this.setState({ text });
   };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={handleTextChange}
-        value={text}
-        placeholder={placeholder}
-        secureTextEntry= {isPassword}
-      />
-    </View>
-  );
+  render() {
+
+    const { text, placeholder, secureTextEntry } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={this.handleTextChange}
+          value={text}
+          placeholder={placeholder}
+          secureTextEntry= {secureTextEntry}
+        />
+      </View>
+    );
+};
 };
 
 const styles = StyleSheet.create({
@@ -33,4 +45,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default textBox;
+export default TextBox;
