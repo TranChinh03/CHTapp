@@ -1,6 +1,7 @@
 const CUSTOM_COLORS = {
   FrenchViolet: '#7400B8',
   DarkGray: '#78746D',
+  Grape: '#6930C3',
 
   primary: '#7400B8',
   secondary: '#6930C3',
@@ -14,6 +15,7 @@ const CUSTOM_COLORS = {
 
   white: '#ffffff',
   sunsetOrange: '#FF5F50',
+  black: '#000000'
 };
 
 export default CUSTOM_COLORS;
