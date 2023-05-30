@@ -10,7 +10,7 @@ import TextBox from './src/components/textBox'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import LoginScreen from './screens/LoginScreen'
 import SignUpScreen from './screens/SignUpScreen'
-
+import IntroScreen from './screens/IntroScreen'
 
 export default function App() {
   return (
@@ -21,7 +21,8 @@ export default function App() {
       // <TextBox text="abc" placeholder="Enter..." secureTextEntry={true}></TextBox>
       // <ForgotPasswordScreen/>
       // <LoginScreen/>
-      <SignUpScreen/>
+      // <SignUpScreen/>
+      <IntroScreen/>
   )
 }
 

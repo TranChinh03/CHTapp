@@ -2,6 +2,7 @@ const CUSTOM_COLORS = {
   FrenchViolet: '#7400B8',
   DarkGray: '#78746D',
   Grape: '#6930C3',
+  Arrowtown: '#78746D',
 
   primary: '#7400B8',
   secondary: '#6930C3',
