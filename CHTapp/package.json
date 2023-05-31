@@ -18,7 +18,8 @@
     "react-native-custom-switch": "github:arshigtx/react-native-custom-switch#a965f4d",
     "react-native-paper": "^5.8.0",
     "react-native-star-rating-widget": "^1.7.2",
-    "react-native-svg": "^13.9.0"
+    "react-native-svg": "^13.9.0",
+    "react-navigation-drawer": "^2.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
