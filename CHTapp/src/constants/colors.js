@@ -12,10 +12,11 @@ const CUSTOM_COLORS = {
   usBlue: '#5390D9',
 
   gray: '#3C3A36',
+  lightGray: '#BEBAB3',
 
   white: '#ffffff',
   sunsetOrange: '#FF5F50',
-  black: '#000000'
+  black: '#000000',
 };
 
 export default CUSTOM_COLORS;
