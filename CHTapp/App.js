@@ -10,6 +10,9 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import LoginScreen from './screens/LoginScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import IntroScreen from './screens/IntroScreen'
+import SwitchButton from './src/components/switch'
+import BottomTab from './src/components/bottomTab'
+import CourseScreen from './screens/CourseScreen'
 
 export default function App() {
   return (
@@ -21,6 +24,9 @@ export default function App() {
       // <ForgotPasswordScreen/>
       // <LoginScreen/>
       // <SignUpScreen/>
-      <IntroScreen/>
+      // <IntroScreen/>
+      // <SwitchButton />
+      <CourseScreen/>
+
   )
 }

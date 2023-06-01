@@ -4,7 +4,7 @@ import CustomSwitch from 'react-native-custom-switch';
 import scale from '../constants/responsive';
 import CUSTOM_COLORS from '../constants/colors';
 
-export default class switchButton extends Component {
+export default class SwitchButton extends Component {
   constructor(props) {
     super(props);
     this.state = {showFavor: false};

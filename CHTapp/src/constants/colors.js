@@ -3,6 +3,7 @@ const CUSTOM_COLORS = {
   DarkGray: '#78746D',
   Grape: '#6930C3',
   Arrowtown: '#78746D',
+  PictionBlue: '#4EA8DE',
 
   primary: '#7400B8',
   secondary: '#6930C3',

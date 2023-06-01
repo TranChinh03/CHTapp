@@ -5,3 +5,5 @@ export {default as IMG_INTROBACKGROUND} from './IntroBackground.png';
 export {default as IMG_INTRO1} from './Intro1.png';
 export {default as IMG_INTRO2} from './Intro2.png';
 export {default as IMG_INTRO3} from './Intro3.png';
+export {default as IMG_COURSEBACKGROUND} from './CourseBackground.png';
+export {default as IMG_JAVASCRIPT} from './javascript.png';

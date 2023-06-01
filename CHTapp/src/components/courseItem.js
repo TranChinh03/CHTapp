@@ -7,32 +7,46 @@ import CUSTOM_COLORS from '../constants/colors';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {IC_EYE} from '../assets/icons';
 import scale from '../constants/responsive';
+import { IMG_CPP, IMG_JAVASCRIPT } from '../assets/img';
 
-export default class courseItem extends Component {
+export default class CourseItem extends Component {
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      language: '',
+      title: '',
+      author: '',
+      rating: '',
+      view: '',
+    }
+  }
+
+
   render() {
     return (
       <TouchableOpacity
         style={styles.container}
         // onPress={() => handleCardPress(item)}>
       >
-        <Image
-          source={require('../assets/img/cpp_img.jpg')}
+        <Image 
+          source = {this.props.language === 'C++' ? IMG_CPP : IMG_JAVASCRIPT}
           resizeMode="contain"
           style={styles.logoImage}
-        />
+        /> 
         <View style={styles.infoContainer}>
-          <Text style={styles.courseName}>C++ for Beginners 2023</Text>
-          <Text style={styles.lecturerName}>Hau Nguyen</Text>
+          <Text style={styles.courseName}>{this.props.title}</Text>
+          <Text style={styles.lecturerName}>{this.props.author}</Text>
           <View style={styles.infoWrapper}>
             <StarRating
               onChange={() => {}}
               maxStars={5}
               starSize={15}
-              rating={5}
+              rating={this.props.rating}
               starStyle={styles.star}
             />
             <View style={styles.viewContainer}>
-              <Text style={styles.view}>320</Text>
+              <Text style={styles.view}>{this.props.view}</Text>
               <Image source={IC_EYE} style={styles.icon} />
             </View>
           </View>
