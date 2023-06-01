@@ -11,7 +11,7 @@ import {
 } from '../assets/iconsvg';
 import CUSTOM_SIZES from '../constants/size';
 
-export default class bottomTab extends Component {
+export default class BottomTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -106,13 +106,11 @@ export default class bottomTab extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: 'white',
     height: '100%',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    shadowColor: CUSTOM_COLORS.DarkGray,
-    //shadowOpacity: '75%',
-    //shadowOffset: {width: -25, height: -25},
+    shadowColor: CUSTOM_COLORS.DarkGray, 
+    elevation: 3,
   },
   tabButton: {
     flex: 1,
