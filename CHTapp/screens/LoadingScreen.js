@@ -3,6 +3,13 @@ import React, { Component } from 'react'
 
 
 export class LoadingScreen extends Component {
+
+  componentDidMount() {
+    this.timeoutHandle = setTimeout(()=>{
+        this.props.navigation.navigate('Intro')
+    }, 3000);
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>

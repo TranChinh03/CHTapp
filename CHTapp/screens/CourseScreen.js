@@ -120,9 +120,9 @@ export class CourseScreen extends Component {
                 </FlatList>
               </View>
             </View>
-            <View style={styles.container3}>
+            {/* <View style={styles.container3}>
                 <BottomTab/>
-            </View>
+            </View> */}
         </ImageBackground>
       </SafeAreaView>
     )

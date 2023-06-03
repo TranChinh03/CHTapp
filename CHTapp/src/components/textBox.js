@@ -28,11 +28,11 @@ class TextBox extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.textInput}
-          onChangeText={this.handleTextChange}
-          value={text}
+          // value={text}
           placeholder={placeholder}
           secureTextEntry= {secureTextEntry}
-          cursorColor={CUSTOM_COLORS.black}>
+          cursorColor={CUSTOM_COLORS.black}
+          onChangeText={this.props.onChangeText}>
           </TextInput>
           {this.state.intialSecure ?
             <TouchableOpacity style={styles.iconContainer} 

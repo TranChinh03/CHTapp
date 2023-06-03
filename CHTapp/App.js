@@ -13,6 +13,8 @@ import IntroScreen from './screens/IntroScreen'
 import SwitchButton from './src/components/switch'
 import BottomTab from './src/components/bottomTab'
 import CourseScreen from './screens/CourseScreen'
+import AppNavigation from './navigation/AppNavigation'
+import NavigationBottomTab from './src/components/navigationBottomTab'
 
 export default function App() {
   return (
@@ -26,7 +28,8 @@ export default function App() {
       // <SignUpScreen/>
       // <IntroScreen/>
       // <SwitchButton />
-      <CourseScreen/>
-
+      // <CourseScreen/>
+      <AppNavigation/>
+      // <BottomTab/>
   )
 }

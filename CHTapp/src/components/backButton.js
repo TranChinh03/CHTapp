@@ -4,10 +4,10 @@ import {IC_LeftArrow} from '../assets/iconsvg';
 import scale from '../constants/responsive';
 import CUSTOM_COLORS from '../constants/colors';
 
-export default class backButton extends Component {
+export default class BackButton extends Component {
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
         <IC_LeftArrow style={styles.iconBack} type={this.props.type} />
       </TouchableOpacity>
     );
@@ -16,14 +16,12 @@ export default class backButton extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    verticalAlign: 'center',
-    //alignSelf: 'center',
-    //backgroundColor: 'red',
-    height: '100%',
-    justifyContent: 'center',
+    // backgroundColor: 'red',
+    position: 'absolute',
+    left: 0,
+    marginTop: scale(30, 'h'),
   },
   iconBack: {
-    //alignSelf: 'center',
     marginLeft: scale(20, 'w'),
   },
 });

@@ -16,9 +16,9 @@ export default class HomeScreen extends Component {
         <View style={styles.contentContainer}>
           <Switch />
         </View>
-        <View style={styles.bottomTabContainer}>
+        {/* <View style={styles.bottomTabContainer}>
           <BottomTab />
-        </View>
+        </View> */}
       </SafeAreaView>
     );
   }
