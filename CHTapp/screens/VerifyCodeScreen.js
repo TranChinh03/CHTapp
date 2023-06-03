@@ -4,6 +4,7 @@ import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
 import CustomButton from '../src/components/button'
+import BackButton from '../src/components/backButton'
 
 export class VerifyCodeScreen extends Component {
   render() {
@@ -11,6 +12,7 @@ export class VerifyCodeScreen extends Component {
       <SafeAreaView style={styles.container}>
         <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
            <View style={styles.container1}>
+                <BackButton onPress={() => this.props.navigation.goBack()}/>
                 <Text style={styles.text1}>CHT</Text>
                 <Text style={styles.subtext1}>Course - Homework - Technical</Text>
            </View>
@@ -36,13 +38,14 @@ export class VerifyCodeScreen extends Component {
            </View>
                 
            <View style={styles.container3}>
-                <CustomButton textButton="Confirm code"></CustomButton>
+                <CustomButton onPress={() => this.props.navigation.navigate('Login')} textButton="Confirm code"></CustomButton>
                 <TouchableOpacity style={styles.buttonContainer}>
                     <Text style={styles.subTextButton}>Resend confirmation code</Text>
                 </TouchableOpacity>
                 <View style={styles.subContainer3}>
                     <Text style={styles.bottomText}>Or back to </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('Login')}>
                         <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
                     </TouchableOpacity>
                 </View>

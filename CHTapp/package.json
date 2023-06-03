@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
     "firebase": "^9.22.0",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-custom-switch": "github:arshigtx/react-native-custom-switch#a965f4d",
     "react-native-paper": "^5.8.0",
+    "react-native-safe-area-context": "^4.5.3",
+    "react-native-screens": "^3.20.0",
     "react-native-star-rating-widget": "^1.7.2",
     "react-native-svg": "^13.9.0",
     "react-navigation-drawer": "^2.7.2"

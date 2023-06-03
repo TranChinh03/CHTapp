@@ -69,7 +69,7 @@ export class CustomButton extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.buttonLayout}>
+        <TouchableOpacity style={styles.buttonLayout} onPress={this.props.onPress}>
           <Text style={styles.textInside}>{this.props.textButton}</Text>
         </TouchableOpacity>
       </SafeAreaView>
