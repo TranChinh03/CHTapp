@@ -12,13 +12,14 @@
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/stack": "^6.3.16",
+    "expo": "^48.0.19",
     "firebase": "^9.22.0",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-custom-switch": "github:arshigtx/react-native-custom-switch#a965f4d",
     "react-native-paper": "^5.8.0",
     "react-native-star-rating-widget": "^1.7.2",
-    "react-native-svg": "^13.9.0",
+    "react-native-svg": "13.4.0",
     "react-navigation-drawer": "^2.7.2"
   },
   "devDependencies": {

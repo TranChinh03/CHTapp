@@ -42,7 +42,6 @@
 //   },
 // });
 
-
 import {
   SafeAreaView,
   StyleSheet,
@@ -68,9 +67,11 @@ export class CustomButton extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.buttonLayout}>
-          <Text style={styles.textInside}>{this.props.textButton}</Text>
+      <SafeAreaView style={[styles.container, this.props.containerStyle]}>
+        <TouchableOpacity style={[styles.buttonLayout, this.props.layoutStyle]}>
+          <Text style={[styles.textInside, this.props.textStyle]}>
+            {this.props.textButton}
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -81,25 +82,23 @@ const styles = StyleSheet.create({
   container: {
     height: scale(55, 'h'),
     width: scale(304, 'w'),
-    borderRadius: scale(12,'w'),
+    borderRadius: scale(12, 'w'),
   },
 
   buttonLayout: {
     height: scale(55, 'h'),
     width: scale(304, 'w'),
     backgroundColor: CUSTOM_COLOR.Grape,
-    borderRadius: scale(12,'w'),
+    borderRadius: scale(12, 'w'),
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   textInside: {
-    fontSize: scale(16,'w'),
+    fontSize: scale(16, 'w'),
     color: CUSTOM_COLOR.white,
     fontWeight: '600',
-  }
-
-
+  },
 });
 
 export default CustomButton;
