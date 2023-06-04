@@ -61,7 +61,7 @@ export class IntroScreen extends Component{
         <SafeAreaView style={styles.container}>
             <ImageBackground source={IMG_INTROBACKGROUND} resizeMode='cover' style={styles.image}>
                 <View style={styles.container1}>
-                    <TouchableOpacity style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.buttonContainer} onPress={()=> this.props.navigation.navigate('Login')}>
                         <Text style={styles.buttonText}>Skip</Text>
                     </TouchableOpacity>
                 </View>
@@ -138,8 +138,10 @@ export class IntroScreen extends Component{
                                         onPress={() => {
                                             if(image.id === 1)
                                                 this.scroll.scrollTo({x: screenWidth * 1});
-                                            else if (image.id == 2)
+                                            else if (image.id === 2)
                                                 this.scroll.scrollTo({x: screenWidth * 2});
+                                            else if(image.id === 3)
+                                                this.props.navigation.navigate('Login')
                                         }}>
                                             <Text style={styles.textInside}>{image.button}</Text>
                                     </TouchableOpacity>

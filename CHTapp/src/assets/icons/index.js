@@ -11,3 +11,4 @@ export {default as IC_TAB_COURSE} from './bottomTab2.png';
 export {default as IC_TAB_DL} from './bottomTab3.png';
 export {default as IC_TAB_PRO5} from './bottomTab4.png';
 export {default as IC_VIEW_MORE} from './viewMore.png';
+export {default as IC_EDIT_PRO5} from './edit.png';

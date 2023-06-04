@@ -172,15 +172,14 @@ export class CourseScreen extends Component {
                     />
                   );
                 }}
-                ItemSeparatorComponent={() => (
-                  <View style={{height: scale(20, 'h')}} />
-                )}
-                showsVerticalScrollIndicator={false}></FlatList>
+                ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
+                showsVerticalScrollIndicator={false}>
+                </FlatList>
+              </View>
             </View>
-          </View>
-          <View style={styles.container3}>
-            <BottomTab />
-          </View>
+            {/* <View style={styles.container3}>
+                <BottomTab/>
+            </View> */}
         </ImageBackground>
       </SafeAreaView>
     );
