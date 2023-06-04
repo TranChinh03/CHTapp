@@ -15,6 +15,7 @@ import BottomTab from './src/components/bottomTab'
 import CourseScreen from './screens/CourseScreen'
 import AppNavigation from './navigation/AppNavigation'
 import NavigationBottomTab from './src/components/navigationBottomTab'
+import ProfileScreen from './screens/ProfileScreen'
 
 export default function App() {
   return (
@@ -29,7 +30,8 @@ export default function App() {
       // <IntroScreen/>
       // <SwitchButton />
       // <CourseScreen/>
-      <AppNavigation/>
+      // <AppNavigation/>
+      <ProfileScreen/>
       // <BottomTab/>
   )
 }
