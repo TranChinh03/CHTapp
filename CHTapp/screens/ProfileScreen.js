@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image } from 'react-native'
 import React, { Component } from 'react'
 import { IMG_PROFILEBACKGROUND, IMG_AVT } from '../src/assets/img'
-import { IC_EDIT_PRO5 } from '../src/assets/icons'
+import { IC_EDIT_PRO5, IC_SETTING } from '../src/assets/icons'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
 import CourseAttendedBox from '../src/components/courseAttendedBox'
@@ -14,6 +14,9 @@ export default class ProfileScreen extends Component {
         <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
                 <ImageBackground style={styles.background} source={IMG_PROFILEBACKGROUND}/>
+                <View style={styles.whiteCircle}>
+                    <Image style={styles.icSetting} source = {IC_SETTING}/>
+                </View>
             </View>
 
             <View style={styles.contentContainer}>
@@ -34,7 +37,7 @@ export default class ProfileScreen extends Component {
                 </View>
               </View>
 
-              <ScrollView style={styles.content}>
+              <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <View style={styles.contentRow}>
                         <CourseAttendedBox courses = '7'/>
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
         display: 'flex',
     },
     nameFrame: {
-        flex: 0.7,
+        flex: 0.65,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -137,12 +140,12 @@ const styles = StyleSheet.create({
         marginLeft: scale(5, 'w'),
     },
     subNameContainer: {
-        flex: 0.3,
+        flex: 0.35,
         justifyContent: 'center',
         alignItems: 'center',
     },
     subName: {
-        fontSize: scale(20, 'w'),
+        fontSize: scale(20, 'h'),
         color: CUSTOM_COLORS.black,
         fontWeight: 'light',
         alignSelf: 'center',
@@ -150,11 +153,27 @@ const styles = StyleSheet.create({
     content: {
         //backgroundColor: 'pink',
         flex: 9.25,
-        padding: scale(20, 'w')
+        padding: scale(20, 'w'),
     },
     contentRow: {
         flex: 0.5, 
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    whiteCircle: {
+        height: scale(48, 'w'),
+        width: scale(48, 'w'),
+        borderRadius: scale(24, 'w'),
+        backgroundColor: CUSTOM_COLORS.white,
+        position: 'absolute',
+        right: scale(10, 'w'),
+        top: scale(10, 'w'),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    IC_SETTING: {
+        height: scale(48, 'w'),
+        width: scale(48, 'w'),
+        borderRadius: scale(24, 'w'),
     }
 })

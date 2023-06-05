@@ -12,3 +12,4 @@ export {default as IC_TAB_DL} from './bottomTab3.png';
 export {default as IC_TAB_PRO5} from './bottomTab4.png';
 export {default as IC_VIEW_MORE} from './viewMore.png';
 export {default as IC_EDIT_PRO5} from './edit.png';
+export {default as IC_SETTING} from './setting.png';
