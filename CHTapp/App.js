@@ -21,6 +21,7 @@ import { ProgressBar } from 'react-native-paper'
 import CusProgressBar from './src/components/progressBar'
 import DropDown from './src/components/dropDown'
 import Evaluation from './src/components/evaluation'
+import ProfileScreen from './screens/ProfileScreen'
 
 export default function App() {
   return (
@@ -35,7 +36,8 @@ export default function App() {
       // <IntroScreen/>
       // <SwitchButton />
       // <CourseScreen/>
-      <AppNavigation/>
+      // <AppNavigation/>
+      <ProfileScreen/>
       // <BottomTab/>
       // <CourseDetailScreen/>
       // <LessonBox/>

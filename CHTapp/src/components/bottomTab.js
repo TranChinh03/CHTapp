@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    shadowColor: CUSTOM_COLORS.DarkGray, 
+    shadowColor: CUSTOM_COLORS.DarkGray,
     elevation: 3,
   },
   tabButton: {

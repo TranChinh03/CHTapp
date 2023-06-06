@@ -9,3 +9,5 @@ export {default as IMG_COURSEBACKGROUND} from './CourseBackground.png';
 export {default as IMG_JAVASCRIPT} from './javascript.png';
 export {default as IMG_CPPBACKGROUND} from './Cpp_Background.png';
 export {default as IMG_LECTURERAVA} from './lecturerAva.png';
+export {default as IMG_PROFILEBACKGROUND} from './profile_bg.png';
+export {default as IMG_AVT} from './avt.png';

@@ -3,3 +3,4 @@ export {default as IC_Book} from './IC_Book';
 export {default as IC_Schedule} from './IC_Schedule';
 export {default as IC_Profile} from './IC_Profile';
 export {default as IC_LeftArrow} from './IC_LeftArrow';
+export {default as IC_NotificationBing} from './IC_NotificationBing';

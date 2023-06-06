@@ -7,21 +7,19 @@ import CUSTOM_COLORS from '../constants/colors';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {IC_EYE} from '../assets/icons';
 import scale from '../constants/responsive';
-import { IMG_CPP, IMG_JAVASCRIPT } from '../assets/img';
+import {IMG_CPP, IMG_JAVASCRIPT} from '../assets/img';
 
 export default class CourseItem extends Component {
-  
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       language: '',
       title: '',
       author: '',
       rating: '',
       view: '',
-    }
+    };
   }
-
 
   render() {
     return (
@@ -29,11 +27,11 @@ export default class CourseItem extends Component {
         style={styles.container}
         onPress={this.props.onPress}
       >
-        <Image 
-          source = {this.props.language === 'C++' ? IMG_CPP : IMG_JAVASCRIPT}
+        <Image
+          source={this.props.language === 'C++' ? IMG_CPP : IMG_JAVASCRIPT}
           resizeMode="contain"
           style={styles.logoImage}
-        /> 
+        />
         <View style={styles.infoContainer}>
           <Text style={styles.courseName}>{this.props.title}</Text>
           <Text style={styles.lecturerName}>{this.props.author}</Text>

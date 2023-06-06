@@ -15,3 +15,6 @@ export {default as IC_GLOBAL} from './global.png';
 export {default as IC_PLAYCIRCLE} from './playcircle.png';
 export {default as IC_DROPDOWN} from './dropdown.png';
 export {default as IC_NEXT} from './next.png';
+export {default as IC_VIEW_MORE} from './viewMore.png';
+export {default as IC_EDIT_PRO5} from './edit.png';
+export {default as IC_SETTING} from './setting.png';
