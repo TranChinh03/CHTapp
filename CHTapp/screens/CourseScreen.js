@@ -113,7 +113,7 @@ export class CourseScreen extends Component {
                 columnWrapperStyle={{justifyContent: 'space-between'}}
                 data = {courses}
                 renderItem = {({item, index}) => {
-                  return (<CourseItem language={item.language} title={item.title} author={item.author} rating={item.rating} view={item.view}/>)
+                  return (<CourseItem onPress={()=> this.props.navigation.navigate('CourseDetail')} language={item.language} title={item.title} author={item.author} rating={item.rating} view={item.view}/>)
                 }}
                 ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
                 showsVerticalScrollIndicator={false}>

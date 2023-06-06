@@ -19,6 +19,7 @@ const CUSTOM_COLORS = {
   white: '#ffffff',
   sunsetOrange: '#FF5F50',
   black: '#000000',
+  yellow: '#FFD600',
 };
 
 export default CUSTOM_COLORS;

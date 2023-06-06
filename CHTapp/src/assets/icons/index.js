@@ -10,3 +10,8 @@ export {default as IC_HOME} from './home.png';
 export {default as IC_TAB_COURSE} from './bottomTab2.png';
 export {default as IC_TAB_DL} from './bottomTab3.png';
 export {default as IC_TAB_PRO5} from './bottomTab4.png';
+export {default as IC_INFORMATION} from './information.png';
+export {default as IC_GLOBAL} from './global.png';
+export {default as IC_PLAYCIRCLE} from './playcircle.png';
+export {default as IC_DROPDOWN} from './dropdown.png';
+export {default as IC_NEXT} from './next.png';

@@ -15,6 +15,12 @@ import BottomTab from './src/components/bottomTab'
 import CourseScreen from './screens/CourseScreen'
 import AppNavigation from './navigation/AppNavigation'
 import NavigationBottomTab from './src/components/navigationBottomTab'
+import CourseDetailScreen from './screens/CourseDetailScreen'
+import { LessonBox } from './src/components/lessonBox'
+import { ProgressBar } from 'react-native-paper'
+import CusProgressBar from './src/components/progressBar'
+import DropDown from './src/components/dropDown'
+import Evaluation from './src/components/evaluation'
 
 export default function App() {
   return (
@@ -31,5 +37,10 @@ export default function App() {
       // <CourseScreen/>
       <AppNavigation/>
       // <BottomTab/>
+      // <CourseDetailScreen/>
+      // <LessonBox/>
+      // <CusProgressBar percent = '80%'/>
+      // <DropDown/>
+      // <Evaluation/>
   )
 }
