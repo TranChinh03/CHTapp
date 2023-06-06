@@ -160,17 +160,9 @@ export class CourseScreen extends Component {
               <FlatList
                 numColumns={2}
                 columnWrapperStyle={{justifyContent: 'space-between'}}
-                data={courses}
-                renderItem={({item, index}) => {
-                  return (
-                    <CourseItem
-                      language={item.language}
-                      title={item.title}
-                      author={item.author}
-                      rating={item.rating}
-                      view={item.view}
-                    />
-                  );
+                data = {courses}
+                renderItem = {({item, index}) => {
+                  return (<CourseItem onPress={()=> this.props.navigation.navigate('CourseDetail')} language={item.language} title={item.title} author={item.author} rating={item.rating} view={item.view}/>)
                 }}
                 ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
                 showsVerticalScrollIndicator={false}>
