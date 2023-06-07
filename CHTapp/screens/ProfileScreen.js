@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image } from 'react-native'
+import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import { IMG_PROFILEBACKGROUND, IMG_AVT } from '../src/assets/img'
 import { IC_EDIT_PRO5, IC_SETTING } from '../src/assets/icons'
@@ -14,9 +14,9 @@ export default class ProfileScreen extends Component {
         <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
                 <ImageBackground style={styles.background} source={IMG_PROFILEBACKGROUND}/>
-                <View style={styles.whiteCircle}>
-                    <Image style={styles.icSetting} source = {IC_SETTING}/>
-                </View>
+                <TouchableOpacity style={styles.whiteCircle}>
+                    <Image source = {IC_SETTING}/>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.contentContainer}>
@@ -30,7 +30,9 @@ export default class ProfileScreen extends Component {
               <View style={styles.nameContainer}>
                 <View style={styles.nameFrame}>
                     <Text style={styles.name}>Nhu Huynh</Text>
-                    <Image style={styles.icEdit} source={IC_EDIT_PRO5}/>
+                    <TouchableOpacity>
+                        <Image style={styles.icEdit} source={IC_EDIT_PRO5}/>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.subNameContainer}>
                     <Text style={styles.subName}>Hyu</Text>
@@ -85,7 +87,6 @@ export default class ProfileScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: 'black',
         height: '100%',
         display: 'flex',
     },
@@ -171,9 +172,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    IC_SETTING: {
-        height: scale(48, 'w'),
-        width: scale(48, 'w'),
-        borderRadius: scale(24, 'w'),
-    }
 })

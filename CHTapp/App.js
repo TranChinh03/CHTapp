@@ -16,6 +16,7 @@ import CourseScreen from './screens/CourseScreen'
 import AppNavigation from './navigation/AppNavigation'
 import NavigationBottomTab from './src/components/navigationBottomTab'
 import ProfileScreen from './screens/ProfileScreen'
+import SettingScreen from './screens/SettingScreen'
 
 export default function App() {
   return (
@@ -31,7 +32,8 @@ export default function App() {
       // <SwitchButton />
       // <CourseScreen/>
       // <AppNavigation/>
-      <ProfileScreen/>
+      // <ProfileScreen/>
+      <SettingScreen/>
       // <BottomTab/>
   )
 }
