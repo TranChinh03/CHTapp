@@ -22,6 +22,7 @@ import CusProgressBar from './src/components/progressBar'
 import DropDown from './src/components/dropDown'
 import Evaluation from './src/components/evaluation'
 import ProfileScreen from './screens/ProfileScreen'
+import SettingScreen from './screens/SettingScreen'
 
 export default function App() {
   return (
@@ -37,7 +38,8 @@ export default function App() {
       // <SwitchButton />
       // <CourseScreen/>
       // <AppNavigation/>
-      <ProfileScreen/>
+      // <ProfileScreen/>
+      <SettingScreen/>
       // <BottomTab/>
       // <CourseDetailScreen/>
       // <LessonBox/>
