@@ -7,7 +7,9 @@ import CUSTOM_COLORS from '../constants/colors';
 export default class BackButton extends Component {
   render() {
     return (
-      <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
+      <TouchableOpacity
+        style={[styles.container, this.props.style]}
+        onPress={this.props.onPress}>
         <IC_LeftArrow style={styles.iconBack} type={this.props.type} />
       </TouchableOpacity>
     );
