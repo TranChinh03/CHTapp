@@ -22,6 +22,8 @@ import CusProgressBar from './src/components/progressBar'
 import DropDown from './src/components/dropDown'
 import Evaluation from './src/components/evaluation'
 import ProfileScreen from './screens/ProfileScreen'
+import LessonDetailScreen from './screens/LessonDetailScreen'
+import CusRatingBar from './src/components/CusRatingBar'
 
 export default function App() {
   return (
@@ -36,13 +38,14 @@ export default function App() {
       // <IntroScreen/>
       // <SwitchButton />
       // <CourseScreen/>
-      // <AppNavigation/>
-      <ProfileScreen/>
+      <AppNavigation/>
+      // <ProfileScreen/>
       // <BottomTab/>
       // <CourseDetailScreen/>
       // <LessonBox/>
       // <CusProgressBar percent = '80%'/>
       // <DropDown/>
       // <Evaluation/>
+      // <LessonDetailScreen/>
   )
 }

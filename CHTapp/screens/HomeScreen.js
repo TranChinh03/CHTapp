@@ -214,15 +214,17 @@ const styles = StyleSheet.create({
   introPart: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: scale(30, 'h'),
+    marginTop: scale(5, 'h'),
     justifyContent: 'space-between',
   },
   helloUser: {
     fontWeight: '700',
     fontSize: scale(20, 'w'),
+    color: CUSTOM_COLORS.black,
   },
   slogan: {
     fontSize: scale(13, 'w'),
+    color: CUSTOM_COLORS.black,
   },
   icNotification: {
     marginRight: scale(15, 'w'),
@@ -264,12 +266,14 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: scale(25, 'w'),
     fontWeight: '700',
+    color: CUSTOM_COLORS.black,
   },
   loadAllPart: {
     display: 'flex',
     flexDirection: 'row',
     marginRight: scale(12, 'w'),
     alignItems: 'center',
+    color: CUSTOM_COLORS.black,
   },
   loadAll: {
     marginRight: scale(5, 'w'),

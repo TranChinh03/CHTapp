@@ -70,18 +70,18 @@ export class CourseDetailScreen extends Component {
                         <Text style={styles.normalText2}>First C++ Program</Text>
                     </View>
                     <View>
-                        <LessonBox/>
-                        <LessonBox/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
                     </View>
                     <View style={styles.horizontalContainer}>
                         <Text style={[styles.normalText2, {fontWeight: '500'}]}>Chapter 2: </Text>
                         <Text style={styles.normalText2}>Variables and Data Types</Text>
                     </View>
                     <View>
-                        <LessonBox/>
-                        <LessonBox/>
-                        <LessonBox/>
-                        <LessonBox/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
+                        <LessonBox onPress={()=> this.props.navigation.navigate('LessonDetail')}/>
                     </View>
                     <TouchableOpacity style={styles.buttonContainer}>
                         <Text style={styles.textButton}>See more</Text>

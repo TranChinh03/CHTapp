@@ -11,3 +11,5 @@ export {default as IMG_CPPBACKGROUND} from './Cpp_Background.png';
 export {default as IMG_LECTURERAVA} from './lecturerAva.png';
 export {default as IMG_PROFILEBACKGROUND} from './profile_bg.png';
 export {default as IMG_AVT} from './avt.png';
+export {default as IMG_DECORHOMESCREEN} from './decorHomeScreen.png';
+export {default as IMG_VIDEO} from './Video.png';
