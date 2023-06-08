@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     position: 'absolute',
     left: 0,
-    marginTop: scale(30, 'h'),
+    marginTop: scale(20, 'h'),
   },
   iconBack: {
     marginLeft: scale(20, 'w'),

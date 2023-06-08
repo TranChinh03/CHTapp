@@ -24,6 +24,7 @@ import Evaluation from './src/components/evaluation'
 import ProfileScreen from './screens/ProfileScreen'
 import LessonDetailScreen from './screens/LessonDetailScreen'
 import CusRatingBar from './src/components/CusRatingBar'
+import SettingScreen from './screens/SettingScreen'
 
 export default function App() {
   return (
