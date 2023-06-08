@@ -23,6 +23,8 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import scale from '../src/constants/responsive'
 import CourseDetailScreen from '../screens/CourseDetailScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import LessonDetailScreen from '../screens/LessonDetailScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -81,7 +83,7 @@ const HomeTabs = () => {
         />
         <Tab.Screen 
         name="Profile" 
-        component={CourseScreen}
+        component={ProfileScreen}
         options = {{
             tabBarIcon: ({focused}) => (
                 <View>
@@ -109,6 +111,11 @@ const CourseStack = () => {
       <Stack.Screen
         name="CourseDetail"
         component={CourseDetailScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LessonDetail"
+        component={LessonDetailScreen}
         options={{headerShown: false}}
       />
       

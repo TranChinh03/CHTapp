@@ -35,7 +35,9 @@ import DropDown from './dropDown';
     render() {
       return (
         <SafeAreaView style={styles.container}>
-            <Image style={styles.playIcon} source={IC_PLAYCIRCLE}></Image>
+            <TouchableOpacity  style={styles.playIcon} onPress={this.props.onPress}>
+              <Image source={IC_PLAYCIRCLE}></Image>
+            </TouchableOpacity>
             <View style={styles.textContainer}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Environment Setup</Text>

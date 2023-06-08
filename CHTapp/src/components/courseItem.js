@@ -24,7 +24,7 @@ export default class CourseItem extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={styles.container}
+        style={[styles.container, this.props.style]}
         onPress={this.props.onPress}
       >
         <Image
