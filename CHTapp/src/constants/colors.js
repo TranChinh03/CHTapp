@@ -4,6 +4,7 @@ const CUSTOM_COLORS = {
   Grape: '#6930C3',
   Arrowtown: '#78746D',
   PictionBlue: '#4EA8DE',
+  Aquamarine: '#80FFDB',
 
   primary: '#7400B8',
   secondary: '#6930C3',
@@ -19,6 +20,7 @@ const CUSTOM_COLORS = {
   white: '#ffffff',
   sunsetOrange: '#FF5F50',
   black: '#000000',
+  yellow: '#FFD600',
 };
 
 export default CUSTOM_COLORS;

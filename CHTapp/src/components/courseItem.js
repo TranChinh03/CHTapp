@@ -25,7 +25,7 @@ export default class CourseItem extends Component {
     return (
       <TouchableOpacity
         style={[styles.container, this.props.style]}
-        // onPress={() => handleCardPress(item)}>
+        onPress={this.props.onPress}
       >
         <Image
           source={this.props.language === 'C++' ? IMG_CPP : IMG_JAVASCRIPT}

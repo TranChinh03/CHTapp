@@ -9,7 +9,6 @@ import {
   Image,
 } from 'react-native';
 import React, {Component} from 'react';
-import {IC_NotificationBing} from '../src/assets/iconsvg';
 import {IC_VIEW_MORE} from '../src/assets/icons';
 import {IMG_DECORHOMESCREEN} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
@@ -19,6 +18,7 @@ import TextBox from '../src/components/textBox';
 import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
 import SearchBar from '../src/components/searchBar';
+import { IC_Notification, IC_NotificationBing } from '../src/assets/iconsvg';
 
 var titles = ['Python', 'SQL', 'Java', 'Ruby', 'Go', 'C#', 'C++'];
 
@@ -140,7 +140,7 @@ const renderCourses = (data, category) => {
   );
 };
 
-export class HomeScreen extends Component {
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -160,9 +160,9 @@ export class HomeScreen extends Component {
           </View>
           <TouchableOpacity>
             <IC_NotificationBing
-              style={styles.icNotification}
-              fill={CUSTOM_COLORS.primary}
-            />
+                style={styles.icNotification}
+                fill={CUSTOM_COLORS.primary}
+              />
           </TouchableOpacity>
         </View>
 
@@ -201,7 +201,7 @@ export class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -214,15 +214,17 @@ const styles = StyleSheet.create({
   introPart: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: scale(30, 'h'),
+    marginTop: scale(5, 'h'),
     justifyContent: 'space-between',
   },
   helloUser: {
     fontWeight: '700',
     fontSize: scale(20, 'w'),
+    color: CUSTOM_COLORS.black,
   },
   slogan: {
     fontSize: scale(13, 'w'),
+    color: CUSTOM_COLORS.black,
   },
   icNotification: {
     marginRight: scale(15, 'w'),
@@ -264,12 +266,14 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: scale(25, 'w'),
     fontWeight: '700',
+    color: CUSTOM_COLORS.black,
   },
   loadAllPart: {
     display: 'flex',
     flexDirection: 'row',
     marginRight: scale(12, 'w'),
     alignItems: 'center',
+    color: CUSTOM_COLORS.black,
   },
   loadAll: {
     marginRight: scale(5, 'w'),
@@ -292,3 +296,5 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
 });
+
+// export default HomeScreen

@@ -22,6 +22,9 @@ import {
 } from '../src/assets/iconsvg';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import scale from '../src/constants/responsive'
+import CourseDetailScreen from '../screens/CourseDetailScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import LessonDetailScreen from '../screens/LessonDetailScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,8 +56,8 @@ const HomeTabs = () => {
             ),
         }}/>
         <Tab.Screen 
-        name="Course" 
-        component={CourseScreen}
+        name="CourseStack" 
+        component={CourseStack}
         options = {{
             tabBarIcon: ({focused}) => (
                 <View>
@@ -80,7 +83,7 @@ const HomeTabs = () => {
         />
         <Tab.Screen 
         name="Profile" 
-        component={CourseScreen}
+        component={ProfileScreen}
         options = {{
             tabBarIcon: ({focused}) => (
                 <View>
@@ -96,6 +99,31 @@ const HomeTabs = () => {
 }
 
 const Stack = createNativeStackNavigator();
+
+const CourseStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="HomeScreen">
+       <Stack.Screen
+        name="Course"
+        component={CourseScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CourseDetail"
+        component={CourseDetailScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LessonDetail"
+        component={LessonDetailScreen}
+        options={{headerShown: false}}
+      />
+      
+    </Stack.Navigator>
+  )
+}
+
+
 export default function AppStack() {
   const navigation = useNavigation();
 
