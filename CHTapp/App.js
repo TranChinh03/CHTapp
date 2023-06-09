@@ -26,6 +26,9 @@ import LessonDetailScreen from './screens/LessonDetailScreen'
 import CusRatingBar from './src/components/CusRatingBar'
 import SettingScreen from './screens/SettingScreen'
 import HomeScreen from './screens/HomeScreen'
+import NoticationScreen from './screens/NotificationScreen';
+import NotificationItem from './src/components/notificationItem';
+import TickButton from './src/components/tickButton';
 
 export default function App() {
   return (
@@ -52,5 +55,8 @@ export default function App() {
       // <HomeScreen/>
       // <IntroScreen/>
       // <HomeScreen1/>
+      // <NoticationScreen />
+     // <NotificationItem />
+     // <TickButton />
   )
 }
