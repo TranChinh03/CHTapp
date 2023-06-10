@@ -31,7 +31,9 @@ import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
 import TodoScreen from './screens/TodoScreen';
 
+
 export default function App() {
+
   return (
     // <SearchBar placeholder='Find Course...'/>
     // textBox("Enter Text", true),
