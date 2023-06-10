@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
@@ -7,77 +7,78 @@ import CustomButton from '../src/components/button'
 import TextBox from '../src/components/textBox'
 import { IC_FACEBOOK, IC_GOOGLE } from '../src/assets/icons'
 import BackButton from '../src/components/backButton'
+import { useNavigation } from '@react-navigation/native';
+import {firebase} from '../configs/FirebaseConfig'
 
-export class LoginScreen extends Component {
 
-  state = {
-    email: '',
-    password: '',
-  }
+const LoginScreen = () => {
+    const navigation = useNavigation()
 
-  checkInfo = (email, password) => {
-    if(email === '' || password === '')
-        return false;
-    return true;
-  }
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-  render() {
+    loginUser = async (email, password) => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password)
+        } catch (error) {
+            Alert.alert(error.message)
+        }
+    }
+
     return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
-           <View style={styles.container1}>
-                <BackButton onPress={() => this.props.navigation.goBack()}/>
-                <Text style={styles.text1}>CHT</Text>
-                <Text style={styles.subtext1}>Course - Homework - Technical</Text>
-           </View>
-           <View style={styles.container2}>
-                <Text style={styles.text2}>Log in</Text>
-                <Text style={styles.subtext2}>Login to your account</Text>
-                <View style={styles.subContainer2}>
-                    <View style={styles.textInputContainer}>
-                        <TextBox text= {this.state.email}
-                        placeholder="Email"
-                        onChangeText = {(email) => this.setState({email: email})}></TextBox>
-                        <TextBox text= {this.state.password} 
-                        placeholder="Password" 
-                        secureTextEntry={true}
-                        onChangeText = {(password) => this.setState({password: password})}></TextBox>
-                    </View>
-                    <TouchableOpacity style={styles.buttonContainer} 
-                    onPress = {() => this.props.navigation.navigate('ForgotPassword')}>
-                        <Text style={styles.textButton}>Forgot Password?</Text>
-                    </TouchableOpacity>
-                </View>
-           </View>
-                
-           <View style={styles.container3}>
-                <CustomButton textButton="Log in" 
-                onPress={() => {
-                this.checkInfo(this.state.email, this.state.password) ? 
-                this.props.navigation.navigate('HomeTabs') : 
-                Alert.alert('You need to fill full the information to Login!')
-                }}></CustomButton>
-                <Text style={[styles.textButton, styles.subText3]}>- Or log in with -</Text>
-                <View style={styles.subContainer3}>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image style={styles.icon} source={IC_GOOGLE}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image style={styles.icon} source={IC_FACEBOOK}></Image>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.bottomContainer}>
-                    <Text style={styles.bottomText}>New to CHT? </Text>
-                    <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('SignUp')}>
-                        <Text style={[styles.bottomText, styles.addBottomText]}>Sign up</Text>
-                    </TouchableOpacity>
-                </View>
-           </View>
-        </ImageBackground>
-      </SafeAreaView>
-    )
-  }
+        <SafeAreaView style={styles.container}>
+          <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
+             <View style={styles.container1}>
+                  <BackButton onPress={() => this.props.navigation.goBack()}/>
+                  <Text style={styles.text1}>CHT</Text>
+                  <Text style={styles.subtext1}>Course - Homework - Technical</Text>
+             </View>
+             <View style={styles.container2}>
+                  <Text style={styles.text2}>Log in</Text>
+                  <Text style={styles.subtext2}>Login to your account</Text>
+                  <View style={styles.subContainer2}>
+                      <View style={styles.textInputContainer}>
+                          <TextBox text= {email}
+                          placeholder="Email"
+                          onChangeText = {(email) => setEmail(email)}></TextBox>
+                          <TextBox text= {password} 
+                          placeholder="Password" 
+                          secureTextEntry={true}
+                          onChangeText = {(password) => setPassword(password)}></TextBox>
+                      </View>
+                      <TouchableOpacity style={styles.buttonContainer} 
+                      onPress = {() => navigation.navigate('ForgotPassword')}>
+                          <Text style={styles.textButton}>Forgot Password?</Text>
+                      </TouchableOpacity>
+                  </View>
+             </View>
+                  
+             <View style={styles.container3}>
+                  <CustomButton textButton="Log in" 
+                  onPress={() => {
+                    loginUser(email, password)
+                  }}></CustomButton>
+                  <Text style={[styles.textButton, styles.subText3]}>- Or log in with -</Text>
+                  <View style={styles.subContainer3}>
+                      <TouchableOpacity style={styles.iconContainer}>
+                          <Image style={styles.icon} source={IC_GOOGLE}></Image>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.iconContainer}>
+                          <Image style={styles.icon} source={IC_FACEBOOK}></Image>
+                      </TouchableOpacity>
+                  </View>
+                  <View style={styles.bottomContainer}>
+                      <Text style={styles.bottomText}>New to CHT? </Text>
+                      <TouchableOpacity
+                      onPress={() => navigation.navigate('SignUp')}>
+                          <Text style={[styles.bottomText, styles.addBottomText]}>Sign up</Text>
+                      </TouchableOpacity>
+                  </View>
+             </View>
+          </ImageBackground>
+        </SafeAreaView>
+      )
+
 }
 
 export default LoginScreen

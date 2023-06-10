@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import CourseScreen from '../screens/CourseScreen';
@@ -25,6 +25,7 @@ import scale from '../src/constants/responsive'
 import CourseDetailScreen from '../screens/CourseDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import LessonDetailScreen from '../screens/LessonDetailScreen';
+import {firebase} from '../configs/FirebaseConfig'
 
 const Tab = createBottomTabNavigator();
 
@@ -127,8 +128,26 @@ const CourseStack = () => {
 export default function AppStack() {
   const navigation = useNavigation();
 
-  return (
-    <Stack.Navigator
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if(initializing)
+      setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subcriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subcriber;
+  }, []);
+
+  if(initializing)
+    return null;
+
+  if(!user) {
+    return (
+      <Stack.Navigator
       initialRouteName="Loading"
       options={{headerShown: false}}>
       <Stack.Screen
@@ -162,6 +181,45 @@ export default function AppStack() {
         options={{headerShown: false}}
       >
       </Stack.Screen> 
+    </Stack.Navigator>
+    )
+  }
+
+  return (
+    <Stack.Navigator
+      initialRouteName="HomeScreen"
+      options={{headerShown: false}}>
+      {/* <Stack.Screen
+        name="Loading"
+        component={LoadingScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Intro"
+        component={IntroScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="VerifyCode"
+        component={VerifyCodeScreen}
+        options={{headerShown: false}}
+      >
+      </Stack.Screen>  */}
       <Stack.Screen
         name="HomeTabs"
         component={HomeTabs}

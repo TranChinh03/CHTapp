@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
@@ -7,73 +7,96 @@ import CustomButton from '../src/components/button'
 import TextBox from '../src/components/textBox'
 import { IC_FACEBOOK, IC_GOOGLE } from '../src/assets/icons'
 import BackButton from '../src/components/backButton'
+import {firebase} from '../configs/FirebaseConfig'
+import { useNavigation } from '@react-navigation/native';
 
-export class SignUpScreen extends Component {
-    state = {
-        name: '',
-        email: '',
-        password: '',
+const SignUpScreen = () => {
+
+    const navigation = useNavigation()
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+
+    registerUser = async(email, password, name) => {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            firebase.auth().currentUser.sendEmailVerification({
+                handleCodeInApp: true,
+                url: 'https://chtapp-3a342.firebaseapp.com',
+            })
+            .then(() => {
+                Alert.alert('Verification email sent')
+            }).catch((error) => {
+                Alert.alert(error.message)
+            })
+            .then(() => {
+                firebase.firestore().collection('users')
+                .doc(firebase.auth().currentUser.uid)
+                .set({
+                    name,
+                    email,
+                })
+            })
+            .catch((error) => {
+                Alert.alert(error.message)
+            })
+        })
+        .catch((error => {
+            Alert.alert(error.message)
+        }))
+
     }
-    
-    checkInfo = (name, email, password) => {
-        if(email === '' || password === ''|| name === '')
-            return false;
-        return true;
-    }
-  render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
-           <View style={styles.container1}>
-                <BackButton onPress={() => this.props.navigation.goBack()}/>
-                <Text style={styles.text1}>CHT</Text>
-                <Text style={styles.subtext1}>Course - Homework - Technical</Text>
-           </View>
-           <View style={styles.container2}>
-                <Text style={styles.text2}>Sign up</Text>
-                <Text style={styles.subtext2}>Create your Account</Text>
-                <View style={styles.subContainer2}>
-                    <TextBox text="" 
-                    placeholder="Name"
-                    onChangeText = {name => this.setState({name: name})}
-                    ></TextBox>
-                    <TextBox text="" 
-                    placeholder="Email"
-                    onChangeText = {email => this.setState({email: email})}></TextBox>
-                    <TextBox text=""
-                    placeholder="Password" 
-                    secureTextEntry={true}
-                    onChangeText = {password => this.setState({password: password})}></TextBox>
-                    <CustomButton onPress={() => {
-                        this.checkInfo(this.state.name, this.state.email, this.state.password) ? 
-                        this.props.navigation.navigate('Login') :
-                        Alert.alert('You need to full fill the information to Sign Up!')
-                    }} textButton="Sign up"></CustomButton>
-                </View>
-           </View>
-                
-           <View style={styles.container3}>
-                <Text style={styles.textButton}>- Or log in with -</Text>
-                <View style={styles.subContainer3}>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image style={styles.icon} source={IC_GOOGLE}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image style={styles.icon} source={IC_FACEBOOK}></Image>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.bottomContainer}>
-                    <Text style={styles.bottomText}>Already have an account? </Text>
-                    <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Login')}>
-                        <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
-                    </TouchableOpacity>
-                </View>
-           </View>
-        </ImageBackground>
-      </SafeAreaView>
-    )
-  }
+        <SafeAreaView style={styles.container}>
+          <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
+             <View style={styles.container1}>
+                  <BackButton onPress={() => this.props.navigation.goBack()}/>
+                  <Text style={styles.text1}>CHT</Text>
+                  <Text style={styles.subtext1}>Course - Homework - Technical</Text>
+             </View>
+             <View style={styles.container2}>
+                  <Text style={styles.text2}>Sign up</Text>
+                  <Text style={styles.subtext2}>Create your Account</Text>
+                  <View style={styles.subContainer2}>
+                      <TextBox text={name} 
+                      placeholder="Name"
+                      onChangeText = {(name) => setName(name)}
+                      ></TextBox>
+                      <TextBox text= {email}
+                      placeholder="Email"
+                      onChangeText = {(email) => setEmail(email)}></TextBox>
+                      <TextBox text={password}
+                      placeholder="Password" 
+                      secureTextEntry={true}
+                      onChangeText = {(password) => setPassword(password)}></TextBox>
+                      <CustomButton onPress={() => {
+                          registerUser(email, password, name)
+                      }} textButton="Sign up"></CustomButton>
+                  </View>
+             </View>
+                  
+             <View style={styles.container3}>
+                  <Text style={styles.textButton}>- Or log in with -</Text>
+                  <View style={styles.subContainer3}>
+                      <TouchableOpacity style={styles.iconContainer}>
+                          <Image style={styles.icon} source={IC_GOOGLE}></Image>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.iconContainer}>
+                          <Image style={styles.icon} source={IC_FACEBOOK}></Image>
+                      </TouchableOpacity>
+                  </View>
+                  <View style={styles.bottomContainer}>
+                      <Text style={styles.bottomText}>Already have an account? </Text>
+                      <TouchableOpacity
+                      onPress={() => navigation.navigate('Login')}>
+                          <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
+                      </TouchableOpacity>
+                  </View>
+             </View>
+          </ImageBackground>
+        </SafeAreaView>
+      )
 }
 
 export default SignUpScreen

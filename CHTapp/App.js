@@ -30,7 +30,9 @@ import NoticationScreen from './screens/NotificationScreen';
 import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
 
+
 export default function App() {
+
   return (
       // <SearchBar placeholder='Find Course...'/>
       // textBox("Enter Text", true),
