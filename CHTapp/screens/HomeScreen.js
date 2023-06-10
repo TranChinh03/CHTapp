@@ -18,7 +18,7 @@ import TextBox from '../src/components/textBox';
 import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
 import SearchBar from '../src/components/searchBar';
-import { IC_Notification, IC_NotificationBing } from '../src/assets/iconsvg';
+import {IC_Notification, IC_NotificationBing} from '../src/assets/iconsvg';
 
 var titles = ['Python', 'SQL', 'Java', 'Ruby', 'Go', 'C#', 'C++'];
 
@@ -160,9 +160,9 @@ export default class HomeScreen extends Component {
           </View>
           <TouchableOpacity>
             <IC_NotificationBing
-                style={styles.icNotification}
-                fill={CUSTOM_COLORS.primary}
-              />
+              style={styles.icNotification}
+              fill={CUSTOM_COLORS.primary}
+            />
           </TouchableOpacity>
         </View>
 
@@ -200,8 +200,6 @@ export default class HomeScreen extends Component {
     );
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
