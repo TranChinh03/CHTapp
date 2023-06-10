@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "725147749269",
+    "project_id": "chtapp-3a342",
+    "storage_bucket": "chtapp-3a342.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725147749269:android:873e35960ae82087f0449c",
+        "android_client_info": {
+          "package_name": "com.chtapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725147749269-cg4254h0rujd6d6sdh3i8sv014aeebqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chtapp.MainApplication",
+            "certificate_hash": "f222310ed2df7a19f8db8b0d24c950f34ac3e083"
+          }
+        },
+        {
+          "client_id": "725147749269-ib4pjcidrit4r81k73t2nui2vl9qlvb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf3FMD5eWpmMNIG6wpxXNzDy9KQ8CNT9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725147749269-ib4pjcidrit4r81k73t2nui2vl9qlvb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

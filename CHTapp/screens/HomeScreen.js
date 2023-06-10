@@ -8,7 +8,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {IC_VIEW_MORE} from '../src/assets/icons';
 import {IMG_DECORHOMESCREEN} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
@@ -19,6 +19,7 @@ import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
 import SearchBar from '../src/components/searchBar';
 import { IC_Notification, IC_NotificationBing } from '../src/assets/iconsvg';
+import {firebase} from '../configs/FirebaseConfig'
 
 var titles = ['Python', 'SQL', 'Java', 'Ruby', 'Go', 'C#', 'C++'];
 
@@ -140,68 +141,75 @@ const renderCourses = (data, category) => {
   );
 };
 
-export default class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 'InProgress',
-    };
-  }
+const HomeScreen = () => {
 
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.introPart}>
-          <View style={styles.introText}>
-            <Text style={styles.helloUser}>Hi, Nhu Huynh!</Text>
-            <Text style={styles.slogan}>
-              Choose the course that's right for you
-            </Text>
-          </View>
-          <TouchableOpacity>
-            <IC_NotificationBing
-                style={styles.icNotification}
-                fill={CUSTOM_COLORS.primary}
-              />
-          </TouchableOpacity>
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid).get()
+    .then((snapshot) => {
+      if(snapshot.exists)
+      {
+        setName(snapshot.data())
+      }
+      else {
+        console.log('User does not exist')
+      }
+    })
+  }, [])
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.introPart}>
+        <View style={styles.introText}>
+          <Text style={styles.helloUser}>Hi, {name.name}</Text>
+          <Text style={styles.slogan}>
+            Choose the course that's right for you
+          </Text>
         </View>
+        <TouchableOpacity>
+          <IC_NotificationBing
+              style={styles.icNotification}
+              fill={CUSTOM_COLORS.primary}
+            />
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.searchPart}>
-          <SearchBar />
+      <View style={styles.searchPart}>
+        <SearchBar />
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Image
+          source={IMG_DECORHOMESCREEN}
+          resizeMode="cover"
+          style={styles.decorImage}
+        />
+
+        {renderTitles(
+          titles,
+          styles.containerStyle,
+          styles.layoutStyle,
+          styles.textStyle,
+        )}
+
+        {renderCourses(courses, 'MY COURSES')}
+        {renderCourses(courses, 'POPULAR')}
+        {renderCourses(courses, 'NEW')}
+        {renderCourses(courses, 'FAVORITE')}
+
+        <View style={styles.footerContent}>
+          <Text style={styles.cht}>CHT</Text>
+          <Text style={styles.explainCHT}>
+            Courses - Homework - Technical
+          </Text>
         </View>
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Image
-            source={IMG_DECORHOMESCREEN}
-            resizeMode="cover"
-            style={styles.decorImage}
-          />
-
-          {renderTitles(
-            titles,
-            styles.containerStyle,
-            styles.layoutStyle,
-            styles.textStyle,
-          )}
-
-          {renderCourses(courses, 'MY COURSES')}
-          {renderCourses(courses, 'POPULAR')}
-          {renderCourses(courses, 'NEW')}
-          {renderCourses(courses, 'FAVORITE')}
-
-          <View style={styles.footerContent}>
-            <Text style={styles.cht}>CHT</Text>
-            <Text style={styles.explainCHT}>
-              Courses - Homework - Technical
-            </Text>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
-
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
@@ -297,4 +305,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default HomeScreen
