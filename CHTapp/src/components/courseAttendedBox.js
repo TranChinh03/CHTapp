@@ -14,7 +14,7 @@ export default class CourseAttendedBox extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.numCourses}>{this.state.courses}</Text>
+        <Text style={styles.numCourses}>{this.props.courses}</Text>
         <Text style={styles.desbribe}>Courses Attended</Text>
       </View>
     )
