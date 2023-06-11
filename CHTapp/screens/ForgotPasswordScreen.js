@@ -1,84 +1,78 @@
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
 import scale from '../src/constants/responsive'
 import CustomButton from '../src/components/button'
 import TextBox from '../src/components/textBox'
 import BackButton from '../src/components/backButton'
+import {useNavigation} from '@react-navigation/native'
+import {firebase} from '../configs/FirebaseConfig'
 
-export class ForgotPasswordScreen extends Component {
-    state = {
-        email: '',
-        password: '',
-        confirmPassword: '',
-      }
-    
-      checkInfo = (email, password, confirmPassword) => {
-        if(email === '' || password === '' || confirmPassword === '') {
-            if(confirmPassword ===  password)
-                return 1;
-            return -1;
-        }
-        return 0;
-      }
+const ForgotPasswordScreen = () => {
 
-      checkCofirmPassword = (password, confirmPassword) => {
-        if(password === confirmPassword)
-            return true;
-        return false;
-      } 
-    
-  render() {
+    const navigation = useNavigation()
+
+    const [email, setEmail] = useState('')
+
+    changePassword = async(email) => {
+      try {
+        await firebase.auth().sendPasswordResetEmail(email)
+        .then(() => {
+             Alert.alert("Password reset email sent")
+             navigation.navigate('Login')
+        }).catch ((error) => {
+             Alert.alert(error.message)
+        })
+      } catch (error) {
+        Alert.alert(error.message)
+      }
+    }
+
     return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
-           <View style={styles.container1}>
-                <BackButton onPress={() => this.props.navigation.goBack()}/>
-                <Text style={styles.text1}>CHT</Text>
-                <Text style={styles.subtext1}>Course - Homework - Technical</Text>
-           </View>
-           <View style={styles.container2}>
-                <Text style={styles.text2}>Forgot</Text>
-                <Text style={styles.text2}>password</Text>
-                <Text style={styles.subtext2}>Enter your email address you're using and we will send you a reset password code to this email</Text>
-           </View>
-                
-           <View style={styles.container3}>
-                <View style={styles.subContainer3}>
-                    <TextBox text="" 
-                    placeholder="Email"
-                    onChangeText = {email => this.setState({email : email})}></TextBox>
-                    <TextBox text="" 
-                    placeholder="New Password" 
-                    secureTextEntry={true}
-                    onChangeText = {password => this.setState({password : password})}></TextBox>
-                    <TextBox text="" 
-                    placeholder="Confirm Password" 
-                    secureTextEntry={true}
-                    onChangeText = {confirmPassword => this.setState({confirmPassword : confirmPassword})}></TextBox>
-                    <CustomButton textButton="Send" 
-                    onPress={() => {
-                        if(this.checkInfo(this.state.email, this.state.password, this.state.confirmPassword) === 1)
-                            this.props.navigation.navigate('VerifyCode')
-                        else if(this.checkInfo(this.state.email, this.state.password, this.state.confirmPassword) === - 1)
-                            Alert.alert('Your new password and confirm password do not match!')
-                        else
-                            Alert.alert('You need to full fill the information to change password!')
-                    }}></CustomButton>
-                </View>
-                <View style={styles.bottomContainer}>
-                    <Text style={styles.bottomText}>Or back to </Text>
-                    <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Login')}>
-                        <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
-                    </TouchableOpacity>
-                </View>
-           </View>
-        </ImageBackground>
-      </SafeAreaView>
-    )
-  }
+        <SafeAreaView style={styles.container}>
+          <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
+             <View style={styles.container1}>
+                  <BackButton onPress={() => navigation.goBack()}/>
+                  <Text style={styles.text1}>CHT</Text>
+                  <Text style={styles.subtext1}>Course - Homework - Technical</Text>
+             </View>
+             <View style={styles.container2}>
+                  <Text style={styles.text2}>Forgot</Text>
+                  <Text style={styles.text2}>password</Text>
+                  <Text style={styles.subtext2}>Enter your email address you're using and we will send you a reset password code to this email</Text>
+             </View>
+                  
+             <View style={styles.container3}>
+                  <View style={styles.subContainer3}>
+                      <TextBox text="" 
+                      placeholder="Email"
+                      onChangeText = {email => setEmail(email)}></TextBox>
+                      {/* <TextBox text="" 
+                      placeholder="New Password" 
+                      secureTextEntry={true}
+                      onChangeText = {password => this.setState({password : password})}></TextBox> */}
+                      {/* <TextBox text="" 
+                      placeholder="Confirm Password" 
+                      secureTextEntry={true}
+                      onChangeText = {confirmPassword => this.setState({confirmPassword : confirmPassword})}></TextBox> */}
+                      <CustomButton textButton="Send" 
+                      onPress={() => {
+                          changePassword(email)
+                      }}
+                      ></CustomButton>
+                  </View>
+                  <View style={styles.bottomContainer}>
+                      <Text style={styles.bottomText}>Or back to </Text>
+                      <TouchableOpacity
+                      onPress={() => navigation.navigate('Login')}>
+                          <Text style={[styles.bottomText, styles.addBottomText]}>Log in</Text>
+                      </TouchableOpacity>
+                  </View>
+             </View>
+          </ImageBackground>
+        </SafeAreaView>
+      )
 }
 
 export default ForgotPasswordScreen
@@ -132,7 +126,7 @@ const styles = StyleSheet.create({
 
     subContainer3: {
         height: scale(253,'h'),
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
     },
 
     bottomContainer: {

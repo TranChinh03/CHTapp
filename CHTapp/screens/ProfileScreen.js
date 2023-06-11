@@ -1,5 +1,5 @@
 import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { IMG_PROFILEBACKGROUND, IMG_AVT } from '../src/assets/img'
 import { IC_EDIT_PRO5, IC_SETTING } from '../src/assets/icons'
 import CUSTOM_COLORS from '../src/constants/colors'
@@ -7,9 +7,28 @@ import scale from '../src/constants/responsive'
 import CourseAttendedBox from '../src/components/courseAttendedBox'
 import CourseCompletedBox from '../src/components/courseCompletedBox'
 import TextDisplayBox from '../src/components/textDisplayBox'
+import {firebase} from '../configs/FirebaseConfig'
 
-export default class ProfileScreen extends Component {
-  render() {
+
+
+const ProfileScreen = () => {
+
+    const [profile, setProfile] = useState('')
+
+    useEffect(() => {
+        firebase.firestore().collection('users')
+        .doc(firebase.auth().currentUser.uid).get()
+        .then((snapshot) => {
+          if(snapshot.exists)
+          {
+            setProfile(snapshot.data())
+          }
+          else {
+            console.log('User does not exist')
+          }
+        })
+      }, [])
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
@@ -29,61 +48,59 @@ export default class ProfileScreen extends Component {
 
               <View style={styles.nameContainer}>
                 <View style={styles.nameFrame}>
-                    <Text style={styles.name}>Nhu Huynh</Text>
+                    <Text style={styles.name}>{profile.name}</Text>
                     <TouchableOpacity>
                         <Image style={styles.icEdit} source={IC_EDIT_PRO5}/>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.subNameContainer}>
+                {/* <View style={styles.subNameContainer}>
                     <Text style={styles.subName}>Hyu</Text>
-                </View>
+                </View> */}
               </View>
 
               <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <View style={styles.contentRow}>
-                        <CourseAttendedBox courses = '7'/>
+                        <CourseAttendedBox courses = {profile.attendedCourses.toString()}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <CourseCompletedBox courses = '5'/>
+                        <CourseCompletedBox courses = {profile.completedCourses.toString()}/>
                     </View>
                 </View>
                 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                 <View style={styles.contentRow}>
-                        <TextDisplayBox label = 'Last name' text = 'Nguyen'/>
+                        <TextDisplayBox label = 'Last name' text = {profile.lastname}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <TextDisplayBox label = 'First name' text = 'Nhu Huynh'/>
+                        <TextDisplayBox label = 'First name' text = {profile.firstname}/>
                     </View>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                 <View style={styles.contentRow}>
-                        <TextDisplayBox label = 'Date of birth' text = '12/12/2003'/>
+                        <TextDisplayBox label = 'Date of birth' text = {profile.birthday}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <TextDisplayBox label = 'Job' text = 'Student'/>
+                        <TextDisplayBox label = 'Job' text = {profile.job}/>
                     </View>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextDisplayBox label = 'Email' text = 'hyunn@gmail.com'/>
+                    <TextDisplayBox label = 'Email' text = {profile.email}/>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextDisplayBox label = 'Phone' text = '012345678'/>
+                    <TextDisplayBox label = 'Phone' text = {profile.phone}/>
                 </View>
                 <View style={{height: scale(100, 'h')}}/>
               </ScrollView>
-
-                
-
             </View>
         </SafeAreaView>
     )
-  }
 }
+
+export default ProfileScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -125,15 +142,18 @@ const styles = StyleSheet.create({
     nameContainer: {
         flex: 0.2,
         display: 'flex',
+        justifyContent: 'center',
     },
     nameFrame: {
         flex: 0.65,
+        background: 'yellow',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
     name: {
-        fontSize: scale(40, 'w'),
+        marginTop: scale(5, 'h'),
+        fontSize: scale(30, 'w'),
         color: CUSTOM_COLORS.black,
         alignSelf: 'center',
     },

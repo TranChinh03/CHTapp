@@ -14,8 +14,8 @@ export default class CourseCompletedBox extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.numCourses}>{this.state.courses}</Text>
-        <Text style={styles.desbribe}>Courses Attended</Text>
+        <Text style={styles.numCourses}>{this.props.courses}</Text>
+        <Text style={styles.desbribe}>Courses Completed</Text>
       </View>
     )
   }

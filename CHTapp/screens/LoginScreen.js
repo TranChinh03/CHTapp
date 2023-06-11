@@ -21,7 +21,7 @@ const LoginScreen = () => {
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password)
         } catch (error) {
-            Alert.alert(error.message)
+            Alert.alert('Email or password is incorrect!')
         }
     }
 
@@ -29,7 +29,7 @@ const LoginScreen = () => {
         <SafeAreaView style={styles.container}>
           <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
              <View style={styles.container1}>
-                  <BackButton onPress={() => this.props.navigation.goBack()}/>
+                  <BackButton onPress={() => navigation.goBack()}/>
                   <Text style={styles.text1}>CHT</Text>
                   <Text style={styles.subtext1}>Course - Homework - Technical</Text>
              </View>
