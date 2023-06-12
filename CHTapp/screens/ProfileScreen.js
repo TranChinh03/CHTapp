@@ -61,10 +61,10 @@ const ProfileScreen = () => {
               <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <View style={styles.contentRow}>
-                        <CourseAttendedBox courses = {profile.attendedCourses.toString()}/>
+                        <CourseAttendedBox courses = {profile.attendedCourses}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <CourseCompletedBox courses = {profile.completedCourses.toString()}/>
+                        <CourseCompletedBox courses = {profile.completedCourses}/>
                     </View>
                 </View>
                 
