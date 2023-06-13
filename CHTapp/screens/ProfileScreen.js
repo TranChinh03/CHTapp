@@ -65,7 +65,26 @@ const ProfileScreen = () => {
           {/* <View style={styles.subNameContainer}>
                     <Text style={styles.subName}>Hyu</Text>
                 </View> */}
-        </View>
+              </View>
+
+              <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <View style={styles.contentRow}>
+                        <CourseAttendedBox courses = {profile.attendedCourses}/>
+                    </View>
+                    <View style={styles.contentRow}>
+                        <CourseCompletedBox courses = {profile.completedCourses}/>
+                    </View>
+                </View>
+                
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'Last name' text = {profile.lastname}/>
+                    </View>
+                    <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'First name' text = {profile.firstname}/>
+                    </View>
+                </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
