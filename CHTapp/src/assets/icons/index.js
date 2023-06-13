@@ -24,3 +24,4 @@ export {default as IC_START} from './start.png';
 export {default as IC_FILLEDSTART} from './filledstart.png';
 export {default as IC_FAVORITE} from './favorite.png';
 export {default as IC_FILLEDFAVORITE} from './filledfavorite.png';
+export {default as IC_BIN} from './bin.png';

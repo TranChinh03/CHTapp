@@ -9,6 +9,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import scale from '../constants/responsive';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -24,7 +25,7 @@ export type BottomSheetRefProps = {
 };
 
 const BottomSheet = React.forwardRef<BottomSheetRefProps>(({children}, ref) => {
-  const translateY = useSharedValue(-400);
+  const translateY = useSharedValue(-350);
   const active = useSharedValue(false);
 
   const scrollTo = useCallback((destination: number) => {
@@ -51,7 +52,7 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps>(({children}, ref) => {
     })
     .onEnd(() => {
       if (translateY.value > -SCREEN_HEIGHT / 2) {
-        scrollTo(-400);
+        scrollTo(-350);
       } else if (translateY.value < -SCREEN_HEIGHT / 1.5) {
         scrollTo(MAX_TRANSLATE_Y);
       }

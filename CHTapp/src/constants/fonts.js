@@ -3,6 +3,7 @@ const CUSTOM_FONTS = {
   medium: 'Rubik-Medium',
   bold: 'Rubik-Bold',
   light: 'Rubik-Light',
+  semibold: 'Rubik-SemiBold',
 
   Koho: 'KoHo-ExtraLightItalic',
 };
