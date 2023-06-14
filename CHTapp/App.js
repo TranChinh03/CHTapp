@@ -30,6 +30,7 @@ import NoticationScreen from './screens/NotificationScreen';
 import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
 import TodoScreen from './screens/TodoScreen';
+import ProfileEditScreen from './screens/ProfileEditScreen';
 
 
 export default function App() {
@@ -46,7 +47,8 @@ export default function App() {
     // <IntroScreen/>
     // <SwitchButton />
     // <CourseScreen/>
-    <AppNavigation />
+    // <AppNavigation />
+    <ProfileEditScreen/>
     // <ProfileScreen/>
     // <BottomTab/>
     // <CourseDetailScreen/>
