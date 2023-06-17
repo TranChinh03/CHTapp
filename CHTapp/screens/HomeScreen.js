@@ -20,75 +20,14 @@ import CourseItem from '../src/components/courseItem';
 import SearchBar from '../src/components/searchBar';
 import { IC_Notification, IC_NotificationBing } from '../src/assets/iconsvg';
 import {firebase} from '../configs/FirebaseConfig'
+import { ListItem } from '@rneui/base';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
+import CourseDetailScreen from './CourseDetailScreen';
+import CourseCompletedBox from '../src/components/courseCompletedBox';
 
 var titles = ['Python', 'SQL', 'Java', 'Ruby', 'Go', 'C#', 'C++'];
 
-var courses = [
-  {
-    id: '1',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '2',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '3',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '4',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '5',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '6',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '7',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '8',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-];
+// const navigation = useNavigation();
 
 const renderTitles = (data, containerStyle, layoutStyle, textStyle) => {
   return (
@@ -97,7 +36,7 @@ const renderTitles = (data, containerStyle, layoutStyle, textStyle) => {
       style={styles.titleList}
       showsHorizontalScrollIndicator={false}
       data={data}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={item => item.toString()}
       renderItem={({item}) => (
         <CustomButton
           textButton={item}
@@ -110,40 +49,104 @@ const renderTitles = (data, containerStyle, layoutStyle, textStyle) => {
   );
 };
 
-const renderCourses = (data, category) => {
-  return (
-    <View>
-      <View style={styles.titlePartCourses}>
-        <Text style={styles.categoryName}>{category}</Text>
-        <TouchableOpacity style={styles.loadAllPart}>
-          <Text style={styles.loadAll}>View All </Text>
-          <Image source={IC_VIEW_MORE} />
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        style={styles.coursesList}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={data}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <CourseItem
-            language={item.language}
-            title={item.title}
-            author={item.author}
-            rating={item.rating}
-            view={item.view}
-            style={{marginRight: scale(20, 'w')}}
-          />
-        )}
-      />
-    </View>
-  );
-};
+
 
 const HomeScreen = () => {
 
   const [name, setName] = useState('')
+  const [myCourse, setMyCourse] = useState([]);
+  const [popularCourse, setPopularCourse] = useState([]);
+  const [newCourse, setNewCourse] = useState([]);
+  const [favoriteCourse, setFavoriteCourse] = useState([]);
+
+
+  const renderCourses = (data, category) => {
+    const navigation = useNavigation();
+    return (
+      <View>
+        <View style={styles.titlePartCourses}>
+          <Text style={styles.categoryName}>{category}</Text>
+          <TouchableOpacity style={styles.loadAllPart}
+          onPress = {() => category === 'MY COURSES' ? navigation.navigate('CourseStack', {screen : 'Course'}) : 
+          category === 'POPULAR' ? null : null}>
+            <Text style={styles.loadAll}>View All </Text>
+            <Image source={IC_VIEW_MORE} />
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          style={styles.coursesList}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <CourseItem
+              key = {item.key}
+              language={item.programLanguage}
+              title={item.title}
+              author={item.name}
+              rating={item.rate}
+              view={item.numofAttendants}
+              style={{marginRight: scale(20, 'w')}}
+              onPress = {() => navigation.navigate('CourseStack', {screen : 'CourseDetail', params: {item: item}})}
+            />
+          )}
+        />
+      </View>
+    );
+  };
+  
+  async function joinedMyCourse(curEmail) {
+    const courseRef = firebase.firestore().collection('courses');
+    const courseSnapshot = await courseRef.get();
+    const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+  
+    const authorRef = firebase.firestore().collection('users');
+    const authorSnapshot = await authorRef.get();
+    const authorData = authorSnapshot.docs.map(doc => doc.data());
+  
+    const studyRef = firebase.firestore().collection('study');
+    const studySnapshot = await studyRef.get();
+    const studyData = studySnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+  
+    const joinedData = studyData
+    .filter(firstItem => firstItem.student === curEmail)
+    .map(firstItem => {
+      const  secondItem = courseData.find(item => item.author === firstItem.courseAuthor && item.title === firstItem.courseTitle);
+  
+      const thirdItem = authorData.find(item => item.email === secondItem.author)
+  
+      return {...firstItem, ...secondItem, ...thirdItem};
+    })
+  
+    return joinedData;
+  }
+  
+  
+  async function joinedCourse() {
+    const courseRef = firebase.firestore().collection('courses');
+    const courseSnapshot = await courseRef.get();
+    const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+  
+    const authorRef = firebase.firestore().collection('users');
+    const authorSnapshot = await authorRef.get();
+    const authorData = authorSnapshot.docs.map(doc => doc.data());
+  
+    const studyRef = firebase.firestore().collection('study');
+    const studySnapshot = await studyRef.get();
+    const studyData = studySnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+  
+    const joinedData = studyData
+    .map(firstItem => {
+      const  secondItem = courseData.find(item => item.author === firstItem.courseAuthor && item.title === firstItem.courseTitle);
+  
+      const thirdItem = authorData.find(item => item.email === secondItem.author)
+  
+      return {...firstItem, ...secondItem, ...thirdItem};
+    })
+  
+    return joinedData;
+  }
 
   useEffect(() => {
     firebase.firestore().collection('users')
@@ -158,6 +161,53 @@ const HomeScreen = () => {
       }
     })
   }, [])
+
+  // useEffect(() => {
+  //   const unsubcribe = firebase.firestore()
+  //   .collection('courses')
+  //   .onSnapshot(querySnapshot => {
+  //     const myCourse = querySnapshot.docs.map(doc => doc.data());
+  //     setMyCourse(myCourse);
+  //   });
+    
+  //   return () => unsubcribe();
+  // }, []);
+
+  useEffect(() => {
+    async function getData() {
+      const myCourse = (await joinedMyCourse(name.email)).slice(0, 5);
+      setMyCourse(myCourse);
+    }
+
+    getData();
+  }, [name.email]);
+
+  useEffect(() => {
+    async function getData() {
+      const popularCourse = (await joinedCourse()).sort((a, b) => a.numofAttendants - b.numofAttendants).slice(0, 5);
+      setPopularCourse(popularCourse);
+    }
+
+    getData();
+  }, [name.email]);
+
+  useEffect(() => {
+    async function getData() {
+      const newCourse = (await joinedCourse()).sort((a, b) => a.openDate - b.openDate).slice(0,5);
+      setNewCourse(newCourse);
+    }
+
+    getData();
+  }, []);
+
+  // useEffect(() => {
+  //   async function getData() {
+  //     const favoriteCourse = (await joinedMyCourse(name.email)).sort((a, b) => a.openDate - b.openDate);
+  //     setNewCourse(newCourse);
+  //   }
+
+  //   getData();
+  // });
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.introPart}>
@@ -193,10 +243,10 @@ const HomeScreen = () => {
           styles.textStyle,
         )}
 
-        {renderCourses(courses, 'MY COURSES')}
-        {renderCourses(courses, 'POPULAR')}
-        {renderCourses(courses, 'NEW')}
-        {renderCourses(courses, 'FAVORITE')}
+        {renderCourses(myCourse, 'MY COURSES')}
+        {renderCourses(popularCourse, 'POPULAR')}
+        {renderCourses(newCourse, 'NEW')}
+        {/* {renderCourses(courses, 'FAVORITE')} */}
 
         <View style={styles.footerContent}>
           <Text style={styles.cht}>CHT</Text>
@@ -204,6 +254,10 @@ const HomeScreen = () => {
             Courses - Homework - Technical
           </Text>
         </View>
+
+        <View style={styles.space}>
+          <View style={[styles.space]}></View>
+         </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -302,6 +356,10 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLORS.stateBlue,
     fontSize: scale(12, 'w'),
     fontStyle: 'italic',
+  },
+  space: {
+    height: scale(200, 'h'),
+    // backgroundColor: 'pink',
   },
 });
 

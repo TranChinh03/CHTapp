@@ -29,6 +29,7 @@ const ProfileScreen = () => {
         })
       }, [])
 
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
@@ -79,7 +80,7 @@ const ProfileScreen = () => {
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                 <View style={styles.contentRow}>
-                        <TextDisplayBox label = 'Date of birth' text = {profile.birthday}/>
+                        <TextDisplayBox label = 'Date of birth' text = {new Date(profile.birthday).toLocaleDateString()}/>
                     </View>
                     <View style={styles.contentRow}>
                         <TextDisplayBox label = 'Job' text = {profile.job}/>

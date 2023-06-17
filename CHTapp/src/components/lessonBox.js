@@ -40,8 +40,8 @@ import DropDown from './dropDown';
             </TouchableOpacity>
             <View style={styles.textContainer}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Environment Setup</Text>
-                    <Text style={styles.duration}>30m:32s</Text>
+                    <Text style={styles.title}>{this.props.title}</Text>
+                    <Text style={styles.duration}>{this.props.duration}</Text>
                 </View>
                 <View style={styles.docsContainer}>
                     <Text style={styles.docs}>PDF</Text>
