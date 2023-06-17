@@ -29,11 +29,11 @@ import HomeScreen from './screens/HomeScreen';
 import NoticationScreen from './screens/NotificationScreen';
 import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
+import ListItemCustom from './src/components/ListItemCustom';
 import TodoScreen from './screens/TodoScreen';
-
+import ProfileEditScreen from './screens/ProfileEditScreen';
 
 export default function App() {
-
   return (
     // <SearchBar placeholder='Find Course...'/>
     // textBox("Enter Text", true),
@@ -47,6 +47,7 @@ export default function App() {
     // <SwitchButton />
     // <CourseScreen/>
     <AppNavigation />
+    // <ProfileEditScreen/>
     // <ProfileScreen/>
     // <BottomTab/>
     // <CourseDetailScreen/>
@@ -62,5 +63,6 @@ export default function App() {
     // <NotificationItem />
     // <TickButton />
     //<TodoScreen />
+    //<ListItemCustom />
   );
 }

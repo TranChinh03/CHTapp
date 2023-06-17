@@ -18,6 +18,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import scale from '../src/constants/responsive';
 import CourseDetailScreen from '../screens/CourseDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProfileEditScreen from '../screens/ProfileEditScreen';
 import LessonDetailScreen from '../screens/LessonDetailScreen';
 import TodoScreen from '../screens/TodoScreen';
 import {firebase} from '../configs/FirebaseConfig'

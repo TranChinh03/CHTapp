@@ -4,6 +4,7 @@ import {
   View,
   ImageBackground,
   Image,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,18 +12,70 @@ import {IMG_AVT, IMG_TODOBG1, IMG_TODOEMPTY} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
 import scale from '../src/constants/responsive';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import React, {Component, useCallback, useRef} from 'react';
+import React, {
+  Component,
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet, {BottomSheetRefProps} from '../src/components/BottomSheet';
 import CUSTOM_FONTS from '../src/constants/fonts';
 import {FAB} from '@rneui/themed';
 import {Button} from 'react-native-paper';
 import CustomButton from '../src/components/button';
+import ListItemCustom from '../src/components/ListItemCustom';
+import CUSTOM_SIZES from '../src/constants/size';
+
+var tasks = [
+  {
+    id: '1',
+    title: 'C++ for Beginners 2023',
+    time: '10 AM - 11AM',
+  },
+  {
+    id: '2',
+    title: 'C# for Beginners 2023',
+    time: '20 PM - 21 PM',
+  },
+  {
+    id: '3',
+    title: 'Python for Beginners 2023',
+    time: '20 PM - 21 PM',
+  },
+  {
+    id: '4',
+    title: 'JavaScript for Beginners 2023',
+    time: '20 PM - 21 PM',
+  },
+  {
+    id: '5',
+    title: 'React Native for Beginners 2023',
+    time: '20 PM - 21 PM',
+  },
+];
+
+var tasks2 = [];
 
 export default function TodoScreen() {
-  const [visible, setVisible] = React.useState(true);
+  // const [visible, setVisible] = React.useState(
+  //   tasks2.length === 0 ? false : true,
+  // );
   const ref2 = useRef(null);
+  const [shouldShow, setShouldShow] = useState(
+    tasks.length === 0 ? true : false,
+  );
+  const [date, setDate] = useState(
+    new Date().toLocaleString('en-US', {timeZone: 'Asia/Barnaul'}),
+  );
+  useEffect(() => {
+    setInterval(() => {
+      setDate(new Date().toLocaleString('en-US', {timeZone: 'Asia/Barnaul'}));
+    }, 1000);
+  }, []);
 
+  const [currentPage, setCurrentPage] = useState('InProgress');
   //   const onPress = useCallback(() => {
   //     const isActive = ref2?.current?.isActive();
   //     if (isActive) {
@@ -31,23 +84,77 @@ export default function TodoScreen() {
   //       ref2?.current?.scrollTo(-600);
   //     }
   //   }, [ref2]);
+
   return (
     <GestureHandlerRootView style={styles.container}>
       {/* <TouchableOpacity style={styles.button} onPress={onPress} /> */}
 
+      {/* <Button
+        title="Hide/Show Component"
+        onPress={() => setShouldShow(!shouldShow)}
+      /> */}
       <BottomSheet ref={ref2}>
-        <View style={styles.bottomPopup}>
-          <View style={styles.EmptyFrame}>
-            <Image
-              resizeMode="contain"
-              style={styles.imgEmpty}
-              source={IMG_TODOEMPTY}
-            />
-          </View>
-          <Text style={styles.textTitle}>Manage your daily task so easy</Text>
-          <Text style={styles.textTitle2}>Let’s be productive today</Text>
-          <CustomButton textButton="Get Started"></CustomButton>
+        <View style={styles.containerTitle}>
+          {/* <Text style={styles.txtDate}>13/06/2023</Text> */}
+          <Text style={styles.txtTime}>{date}</Text>
         </View>
+        <View style={styles.vwNavigate}>
+          <TouchableOpacity
+            onPress={() => setCurrentPage('InProgress')}
+            style={
+              currentPage === 'InProgress'
+                ? styles.btnSelectedNavigate
+                : styles.btnNavigate
+            }>
+            <Text style={styles.txtNavigate}>In Progress</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setCurrentPage('Todo')}
+            style={
+              currentPage === 'Todo'
+                ? styles.btnSelectedNavigate
+                : styles.btnNavigate
+            }>
+            <Text style={styles.txtNavigate}>Todo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setCurrentPage('Complete')}
+            style={
+              currentPage === 'Complete'
+                ? styles.btnSelectedNavigate
+                : styles.btnNavigate
+            }>
+            <Text style={styles.txtNavigate}>Complete</Text>
+          </TouchableOpacity>
+        </View>
+
+        <FlatList
+          numColumns={1}
+          data={tasks}
+          renderItem={({item, index}) => {
+            return (
+              <ListItemCustom type={true} title={item.title} time={item.time} />
+            );
+          }}></FlatList>
+
+        {shouldShow ? (
+          <View style={styles.bottomPopup}>
+            <View style={styles.EmptyFrame}>
+              <Image
+                setVisible="hidden"
+                resizeMode="contain"
+                style={styles.imgEmpty}
+                source={IMG_TODOEMPTY}
+              />
+            </View>
+            <Text style={styles.textTitle}>Manage your daily task so easy</Text>
+            <Text style={styles.textTitle2}>Let’s be productive today</Text>
+            {/* <CustomButton textButton="Get Started"></CustomButton> */}
+          </View>
+        ) : null}
+        {/* <ListItemCustom type={true} />
+        <ListItemCustom type={false} />
+        <ListItemCustom type={true} /> */}
       </BottomSheet>
 
       <ImageBackground style={styles.imgBG} source={IMG_TODOBG1}>
@@ -196,7 +303,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   EmptyFrame: {
-    height: '30%',
+    height: '60%',
   },
   btnFAB: {
     zIndex: 1,
@@ -212,6 +319,57 @@ const styles = StyleSheet.create({
   txtFAB: {
     color: 'white',
     fontSize: scale(35, 'w'),
+    alignSelf: 'center',
+  },
+  containerTitle: {
+    height: '7%',
+    //backgroundColor: 'yellow',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderColor: CUSTOM_COLORS.stateBlue,
+    borderWidth: 1,
+    width: '80%',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  txtDate: {
+    fontSize: CUSTOM_SIZES.xLarge,
+    fontFamily: CUSTOM_FONTS.medium,
+    color: CUSTOM_COLORS.primary,
+    alignSelf: 'center',
+  },
+  txtTime: {
+    fontSize: CUSTOM_SIZES.xLarge,
+    fontFamily: CUSTOM_FONTS.regular,
+    color: CUSTOM_COLORS.stateBlue,
+    alignSelf: 'center',
+  },
+  vwNavigate: {
+    //backgroundColor: 'green',
+    height: '5%',
+    marginVertical: scale(10, 'h'),
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  btnNavigate: {
+    height: '100%',
+    width: '30%',
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    //borderBottomWidth: 2,
+  },
+  btnSelectedNavigate: {
+    height: '100%',
+    width: '30%',
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: CUSTOM_COLORS.stateBlue,
+  },
+  txtNavigate: {
+    color: CUSTOM_COLORS.stateBlue,
+    fontSize: CUSTOM_SIZES.medium,
+    fontFamily: CUSTOM_FONTS.semibold,
     alignSelf: 'center',
   },
 });
