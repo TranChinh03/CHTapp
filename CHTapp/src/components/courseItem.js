@@ -18,6 +18,7 @@ export default class CourseItem extends Component {
       author: '',
       rating: '',
       view: '',
+      key: '',
     };
   }
 

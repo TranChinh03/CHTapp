@@ -36,17 +36,15 @@ const ProfileScreen = () => {
       });
   }, []);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.bgContainer}>
-        <ImageBackground
-          style={styles.background}
-          source={IMG_PROFILEBACKGROUND}
-        />
-        <TouchableOpacity style={styles.whiteCircle}>
-          <Image source={IC_SETTING} />
-        </TouchableOpacity>
-      </View>
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.bgContainer}>
+                <ImageBackground style={styles.background} source={IMG_PROFILEBACKGROUND}/>
+                <TouchableOpacity style={styles.whiteCircle}>
+                    <Image source = {IC_SETTING}/>
+                </TouchableOpacity>
+            </View>
 
       <View style={styles.contentContainer}>
         <View style={styles.avtContainer}>
@@ -108,14 +106,14 @@ const ProfileScreen = () => {
             </View>
           </View>
 
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <View style={styles.contentRow}>
-              <TextDisplayBox label="Date of birth" text={profile.birthday} />
-            </View>
-            <View style={styles.contentRow}>
-              <TextDisplayBox label="Job" text={profile.job} />
-            </View>
-          </View>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'Date of birth' text = {new Date(profile.birthday).toLocaleDateString()}/>
+                    </View>
+                    <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'Job' text = {profile.job}/>
+                    </View>
+                </View>
 
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextDisplayBox label="Email" text={profile.email} />

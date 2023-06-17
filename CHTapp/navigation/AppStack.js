@@ -108,7 +108,7 @@ const Stack = createNativeStackNavigator();
 
 const CourseStack = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="Course">
       <Stack.Screen
         name="Course"
         component={CourseScreen}
