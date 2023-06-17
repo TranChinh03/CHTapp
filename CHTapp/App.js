@@ -46,8 +46,8 @@ export default function App() {
     // <IntroScreen/>
     // <SwitchButton />
     // <CourseScreen/>
-    // <AppNavigation />
-    <ProfileEditScreen/>
+    <AppNavigation />
+    // <ProfileEditScreen/>
     // <ProfileScreen/>
     // <BottomTab/>
     // <CourseDetailScreen/>
