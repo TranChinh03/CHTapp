@@ -1,5 +1,5 @@
 import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { IMG_PROFILEBACKGROUND, IMG_AVT } from '../src/assets/img'
 import { IC_EDIT_PRO5 } from '../src/assets/icons'
 import CUSTOM_COLORS from '../src/constants/colors'
@@ -9,10 +9,27 @@ import CourseCompletedBox from '../src/components/courseCompletedBox'
 import TextInputBox from '../src/components/textInputBox'
 import { IC_Tick } from '../src/assets/iconsvg'
 import BackButton from '../src/components/backButton'
+import {firebase} from '../configs/FirebaseConfig';
 
 
-export default class ProfileEditScreen extends Component {
-  render() {
+export const ProfileEditScreen = () => {
+    const [Profile, setProfile] = useState('')
+
+    useEffect(() => {
+        firebase
+            .firestore
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then(snapshot => {
+                if (snapshot.exists) {
+                    setProfile(snapshot.data());
+                } else {
+                    console.log('User does not exist');
+                }
+            });
+    }, []);
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
@@ -38,11 +55,8 @@ export default class ProfileEditScreen extends Component {
 
               <View style={styles.nameContainer}>
                 <View style={styles.nameFrame}>
-                    <Text style={styles.name}>Nhu Huynh</Text>
+                    <Text style={styles.name}>{profile.name}</Text>
                     <Image style={styles.icEdit} source={IC_EDIT_PRO5}/>
-                </View>
-                <View style={styles.subNameContainer}>
-                    <Text style={styles.subName}>Hyu</Text>
                 </View>
               </View>
 
@@ -58,28 +72,28 @@ export default class ProfileEditScreen extends Component {
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                 <View style={styles.contentRow}>
-                        <TextInputBox label = 'Last name' text = 'Nguyen'/>
+                        <TextInputBox label = 'Last name' text = {profile.lastname}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <TextInputBox label = 'First name' text = 'Nhu Huynh'/>
+                        <TextInputBox label = 'First name' text = {profile.firstname}/>
                     </View>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                 <View style={styles.contentRow}>
-                        <TextInputBox label = 'Date of birth' text = '12/12/2003'/>
+                        <TextInputBox label = 'Date of birth' text = {profile.birthday}/>
                     </View>
                     <View style={styles.contentRow}>
-                        <TextInputBox label = 'Job' text = 'Student'/>
+                        <TextInputBox label = 'Job' text = {profile.job}/>
                     </View>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextInputBox label = 'Email' text = 'hyunn@gmail.com'/>
+                    <TextInputBox label = 'Email' text = {profile.email}/>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextInputBox label = 'Phone' text = '012345678'/>
+                    <TextInputBox label = 'Phone' text = {profile.phone} />
                 </View>
                 <View style={{height: scale(100, 'h')}}/>
               </ScrollView>
@@ -89,7 +103,6 @@ export default class ProfileEditScreen extends Component {
             </View>
         </SafeAreaView>
     )
-  }
 }
 
 const styles = StyleSheet.create({

@@ -85,6 +85,7 @@ const ProfileScreen = () => {
                         <TextDisplayBox label = 'First name' text = {profile.firstname}/>
                     </View>
                 </View>
+                </ScrollView>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
