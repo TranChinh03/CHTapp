@@ -33,6 +33,8 @@ import ListItemCustom from './src/components/ListItemCustom';
 import TodoScreen from './screens/TodoScreen';
 import ProfileEditScreen from './screens/ProfileEditScreen';
 import AddCourseScreen from './screens/AddCourseScreen';
+import AddChapterScreen from './screens/AddChapterScreen';
+import AddLessonScreen from './screens/AddLessonScreen';
 
 export default function App() {
   return (
@@ -66,5 +68,7 @@ export default function App() {
     //<TodoScreen />
     //<ListItemCustom />
     //<AddCourseScreen />
+    //<AddChapterScreen />
+    //<AddLessonScreen />
   );
 }

@@ -22,21 +22,14 @@ import {
 import {SelectList} from 'react-native-dropdown-select-list';
 import DropDown from './dropDown';
 
-data = [
-  {
-    key: '1',
-    value: 'PDF',
-  },
-  {
-    key: '2',
-    value: 'Test',
-  },
-];
-
 export class LessonBox2 extends Component {
   constructor(props) {
     super(props);
-    this.state = {showFavor: false};
+    this.state = {
+      typeColor: this.props.type,
+      title: '',
+      time: '',
+    };
   }
 
   render() {
@@ -47,8 +40,8 @@ export class LessonBox2 extends Component {
         </TouchableOpacity>
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Environment Setup</Text>
-            <Text style={styles.duration}>30m:32s</Text>
+            <Text style={styles.title}>{this.props.title}</Text>
+            <Text style={styles.duration}>{this.props.time}</Text>
           </View>
           <View style={styles.docsContainer}>
             <Text style={styles.docs}>PDF</Text>
@@ -57,7 +50,6 @@ export class LessonBox2 extends Component {
             </Text>
           </View>
         </View>
-        <DropDown />
       </SafeAreaView>
     );
   }
@@ -66,8 +58,8 @@ export class LessonBox2 extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: scale(60, 'h'),
-    width: scale(319, 'w'),
+    height: scale(90, 'h'),
+    width: scale(280, 'w'),
     borderWidth: 1,
     borderRadius: scale(15, 'w'),
     borderColor: 'rgba(83, 144, 217, .5)',
@@ -86,8 +78,10 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
+    //justifyContent: 'space-around',
   },
   title: {
+    width: scale(170, 'w'),
     color: CUSTOM_COLOR.usBlue,
     fontSize: scale(16, 'w'),
   },

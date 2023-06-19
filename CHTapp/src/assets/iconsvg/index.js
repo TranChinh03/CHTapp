@@ -15,3 +15,5 @@ export {default as IC_LOGOUT} from './IC_LogOut';
 export {default as IC_NotificationBing} from './IC_NotificationBing';
 export {default as IC_Camera} from './IC_Camera';
 export {default as IC_Tick} from './IC_Tick';
+export {default as IC_Tick2} from './IC_Tick2';
+export {default as IC_Line} from './IC_Line';

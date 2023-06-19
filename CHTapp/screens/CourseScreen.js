@@ -17,190 +17,214 @@ import CustomButton from '../src/components/button';
 import TextBox from '../src/components/textBox';
 import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
-import { useNavigation } from '@react-navigation/native';
-import {firebase} from '../configs/FirebaseConfig'
-
+import {useNavigation} from '@react-navigation/native';
+import {firebase} from '../configs/FirebaseConfig';
 
 const CourseScreen = () => {
- const [currentPage, setCurrentPage] = useState('In Progress');
- const [inProgress, setInProgress] = useState([]);
- const [completed, setCompleted] = useState([]);
- const [favorite, setFavorite] = useState([]);
- const [name, setName] = useState('')
+  const [currentPage, setCurrentPage] = useState('In Progress');
+  const [inProgress, setInProgress] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [favorite, setFavorite] = useState([]);
+  const [name, setName] = useState('');
 
- const navigation = useNavigation();
+  const navigation = useNavigation();
 
- async function joinedMyCourse(curEmail, status) {
-  const courseRef = firebase.firestore().collection('courses');
-  const courseSnapshot = await courseRef.get();
-  const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+  async function joinedMyCourse(curEmail, status) {
+    const courseRef = firebase.firestore().collection('courses');
+    const courseSnapshot = await courseRef.get();
+    const courseData = courseSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-  const authorRef = firebase.firestore().collection('users');
-  const authorSnapshot = await authorRef.get();
-  const authorData = authorSnapshot.docs.map(doc => doc.data());
+    const authorRef = firebase.firestore().collection('users');
+    const authorSnapshot = await authorRef.get();
+    const authorData = authorSnapshot.docs.map(doc => doc.data());
 
-  const studyRef = firebase.firestore().collection('study');
-  const studySnapshot = await studyRef.get();
-  const studyData = studySnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+    const studyRef = firebase.firestore().collection('study');
+    const studySnapshot = await studyRef.get();
+    const studyData = studySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-  const joinedData = studyData
-  .filter(firstItem => firstItem.student === curEmail && firstItem.status === status)
-  .map(firstItem => {
-    const  secondItem = courseData.find(item => item.author === firstItem.courseAuthor && item.title === firstItem.courseTitle);
+    const joinedData = studyData
+      .filter(
+        firstItem =>
+          firstItem.student === curEmail && firstItem.status === status,
+      )
+      .map(firstItem => {
+        const secondItem = courseData.find(
+          item =>
+            item.author === firstItem.courseAuthor &&
+            item.title === firstItem.courseTitle,
+        );
 
-    const thirdItem = authorData.find(item => item.email === secondItem.author)
+        const thirdItem = authorData.find(
+          item => item.email === secondItem.author,
+        );
 
-    return {...firstItem, ...secondItem, ...thirdItem};
-  })
+        return {...firstItem, ...secondItem, ...thirdItem};
+      });
 
-  return joinedData;
-}
+    return joinedData;
+  }
 
-useEffect(() => {
-  firebase.firestore().collection('users')
-  .doc(firebase.auth().currentUser.uid).get()
-  .then((snapshot) => {
-    if(snapshot.exists)
-    {
-      setName(snapshot.data())
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          setName(snapshot.data());
+        } else {
+          console.log('User does not exist');
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      const inProgress = await joinedMyCourse(name.email, 'In Progress');
+      setInProgress(inProgress);
     }
-    else {
-      console.log('User does not exist')
+
+    getData();
+  });
+
+  useEffect(() => {
+    async function getData() {
+      const completed = await joinedMyCourse(name.email, 'Completed');
+      setCompleted(completed);
     }
-  })
-}, [])
 
- useEffect(() => {
-  async function getData() {
-    const inProgress = await joinedMyCourse(name.email, 'In Progress');
-    setInProgress(inProgress);
-  }
+    getData();
+  });
 
-  getData();
-});
+  useEffect(() => {
+    async function getData() {
+      const favorite = await joinedMyCourse(name.email, 'Favorite');
+      setFavorite(favorite);
+    }
 
-useEffect(() => {
-  async function getData() {
-    const completed = await joinedMyCourse(name.email, 'Completed')
-    setCompleted(completed);
-  }
+    getData();
+  });
 
-  getData();
-});
+  const renderCourses = data => {
+    return (
+      <FlatList
+        numColumns={2}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        data={data}
+        renderItem={({item, index}) => {
+          return (
+            <CourseItem
+              key={item.key}
+              language={item.programLanguage}
+              title={item.title}
+              author={item.name}
+              rating={item.rate}
+              view={item.numofAttendants}
+              onPress={() =>
+                navigation.navigate('CourseStack', {
+                  screen: 'CourseDetail',
+                  params: {item: item},
+                })
+              }
+            />
+          );
+        }}
+        ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
+        showsVerticalScrollIndicator={false}></FlatList>
+    );
+  };
 
-useEffect(() => {
-  async function getData() {
-    const favorite = await joinedMyCourse(name.email, 'Favorite')
-    setFavorite(favorite);
-  }
-
-  getData();
-});
-
-
-const renderCourses = (data) => {
+  const renderMyCourses = () => {
+    return currentPage === 'In Progress'
+      ? renderCourses(inProgress)
+      : currentPage === 'Completed'
+      ? renderCourses(completed)
+      : renderCourses(favorite);
+  };
   return (
-    <FlatList
-      numColumns={2}
-      columnWrapperStyle={{justifyContent: 'space-between'}}
-      data = {data}
-      renderItem = {({item, index}) => {
-        return (<CourseItem 
-      key = {item.key}
-      language={item.programLanguage}
-      title={item.title}
-      author={item.name}
-      rating={item.rate}
-      view={item.numofAttendants}
-      onPress = {() => navigation.navigate('CourseStack', {screen : 'CourseDetail', params: {item: item}})} />)
-      }}
-      ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
-      showsVerticalScrollIndicator={false}>
-      </FlatList>
-
-  );
-};
-
-const renderMyCourses = () => {
-  return (
-    currentPage === 'In Progress' ? renderCourses(inProgress) : 
-    currentPage === 'Completed' ? renderCourses(completed) : renderCourses(favorite)
-  )
-}
- return (
-  <SafeAreaView style={styles.container}>
-    <ImageBackground
-      style={styles.image}
-      source={IMG_COURSEBACKGROUND}
-      resizeMode="cover">
-      <View style={styles.container1}>
-        <Text style={styles.text}>Hi, {name.name}!</Text>
-        <Text style={styles.subText}>
-          Set your target and keep trying until you reach it
-        </Text>
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.navigateButton}>
-          <TouchableOpacity
-            onPress={() => setCurrentPage('In Progress')}
-            style={
-              currentPage === 'In Progress'
-                ? styles.selectedButton1
-                : styles.button1
-            }>
-            <Text
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        style={styles.image}
+        source={IMG_COURSEBACKGROUND}
+        resizeMode="cover">
+        <View style={styles.container1}>
+          <Text style={styles.text}>Hi, {name.name}!</Text>
+          <Text style={styles.subText}>
+            Set your target and keep trying until you reach it
+          </Text>
+        </View>
+        <View style={styles.container2}>
+          <View style={styles.navigateButton}>
+            <TouchableOpacity
+              onPress={() => setCurrentPage('In Progress')}
               style={
                 currentPage === 'In Progress'
-                  ? styles.selectedButtonText1
-                  : styles.buttonText1
+                  ? styles.selectedButton1
+                  : styles.button1
               }>
-              In Progress
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setCurrentPage('Completed')}
-            style={
-              currentPage === 'Completed'
-                ? styles.selectedButton1
-                : styles.button1
-            }>
-            <Text
+              <Text
+                style={
+                  currentPage === 'In Progress'
+                    ? styles.selectedButtonText1
+                    : styles.buttonText1
+                }>
+                In Progress
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setCurrentPage('Completed')}
               style={
                 currentPage === 'Completed'
-                  ? styles.selectedButtonText1
-                  : styles.buttonText1
+                  ? styles.selectedButton1
+                  : styles.button1
               }>
-              Completed
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setCurrentPage('Favorite')}
-            style={
-              currentPage === 'Favorite'
-                ? styles.selectedButton1
-                : styles.button1
-            }>
-            <Text
+              <Text
+                style={
+                  currentPage === 'Completed'
+                    ? styles.selectedButtonText1
+                    : styles.buttonText1
+                }>
+                Completed
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setCurrentPage('Favorite')}
               style={
                 currentPage === 'Favorite'
-                  ? styles.selectedButtonText1
-                  : styles.buttonText1
+                  ? styles.selectedButton1
+                  : styles.button1
               }>
-              Favorite
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.courseContainer}>
-          {renderMyCourses()}
-        </View>
+              <Text
+                style={
+                  currentPage === 'Favorite'
+                    ? styles.selectedButtonText1
+                    : styles.buttonText1
+                }>
+                Favorite
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.courseContainer}>{renderMyCourses()}</View>
         </View>
         {/* <View style={styles.container3}>
             <BottomTab/>
         </View> */}
-    </ImageBackground>
-  </SafeAreaView>
-);
-}
+        <TouchableOpacity
+          style={styles.fixedButton}
+          onPress={() => navigation.navigate('AddCourse')}>
+          <Text style={styles.start}>+</Text>
+        </TouchableOpacity>
+      </ImageBackground>
+    </SafeAreaView>
+  );
+};
 
 export default CourseScreen;
 
