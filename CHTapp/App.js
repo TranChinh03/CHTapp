@@ -31,6 +31,7 @@ import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
 import ListItemCustom from './src/components/ListItemCustom';
 import TodoScreen from './screens/TodoScreen';
+import AddCourseScreen from './screens/AddCourseScreen';
 
 export default function App() {
   return (
@@ -44,11 +45,11 @@ export default function App() {
     // <SignUpScreen/>
     // <IntroScreen/>
     // <SwitchButton />
-    // <CourseScreen/>
+    //<CourseScreen />
     <AppNavigation />
     // <ProfileScreen/>
     // <BottomTab/>
-    // <CourseDetailScreen/>
+    //<CourseDetailScreen />
     // <LessonBox/>
     // <CusProgressBar percent = '80%'/>
     // <DropDown/>
@@ -62,5 +63,6 @@ export default function App() {
     // <TickButton />
     //<TodoScreen />
     //<ListItemCustom />
+    //<AddCourseScreen />
   );
 }

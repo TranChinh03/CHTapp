@@ -19,7 +19,7 @@ export default class BackButton extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'red',
-    position: 'absolute',
+    //position: 'absolute',
     left: 0,
     marginTop: scale(20, 'h'),
   },

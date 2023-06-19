@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Image,
 } from 'react-native';
 import React, {Component} from 'react';
 import {IMG_AUTHBACKGROUND, IMG_COURSEBACKGROUND} from '../src/assets/img';
@@ -184,6 +185,11 @@ export class CourseScreen extends Component {
           {/* <View style={styles.container3}>
                 <BottomTab/>
             </View> */}
+          <TouchableOpacity
+            style={styles.fixedButton}
+            onPress={() => this.props.navigation.navigate('AddCourse')}>
+            <Text style={styles.start}>+</Text>
+          </TouchableOpacity>
         </ImageBackground>
       </SafeAreaView>
     );
@@ -264,5 +270,24 @@ const styles = StyleSheet.create({
     marginTop: scale(20, 'h'),
     flex: 1,
     marginHorizontal: scale(20, 'w'),
+  },
+  fixedButton: {
+    position: 'absolute',
+    width: scale(70, 'w'),
+    height: scale(70, 'w'),
+    borderRadius: scale(70 / 2, 'w'),
+    backgroundColor: CUSTOM_COLORS.PictionBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    bottom: scale(100, 'h'),
+    right: scale(35, 'w'),
+    flexDirection: 'row',
+    elevation: 7,
+  },
+  start: {
+    fontSize: scale(40, 'w'),
+    fontWeight: '300',
+    color: CUSTOM_COLORS.white,
   },
 });
