@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import React, {Component, useState, useEffect} from 'react';
 import {IMG_PROFILEBACKGROUND, IMG_AVT} from '../src/assets/img';
@@ -17,9 +18,13 @@ import CourseAttendedBox from '../src/components/courseAttendedBox';
 import CourseCompletedBox from '../src/components/courseCompletedBox';
 import TextDisplayBox from '../src/components/textDisplayBox';
 import {firebase} from '../configs/FirebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+
 
 const ProfileScreen = () => {
   const [profile, setProfile] = useState('');
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     firebase
@@ -34,7 +39,7 @@ const ProfileScreen = () => {
           console.log('User does not exist');
         }
       });
-  }, []);
+  });
 
 
     return (
@@ -56,7 +61,7 @@ const ProfileScreen = () => {
         <View style={styles.nameContainer}>
           <View style={styles.nameFrame}>
             <Text style={styles.name}>{profile.name}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('ProfileEdit')}>
               <Image style={styles.icEdit} source={IC_EDIT_PRO5} />
             </TouchableOpacity>
           </View>
@@ -64,7 +69,7 @@ const ProfileScreen = () => {
                     <Text style={styles.subName}>Hyu</Text>
                 </View> */}
               </View>
-
+{/* 
               <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <View style={styles.contentRow}>
@@ -83,16 +88,16 @@ const ProfileScreen = () => {
                         <TextDisplayBox label = 'First name' text = {profile.firstname}/>
                     </View>
                 </View>
-                </ScrollView>
+                </ScrollView> */}
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <View style={styles.contentRow}>
-              <CourseAttendedBox courses={profile.attendedCourses.toString()} />
+              <CourseAttendedBox courses={profile.attendedCourses} />
             </View>
             <View style={styles.contentRow}>
               <CourseCompletedBox
-                courses={profile.completedCourses.toString()}
+                courses={profile.completedCourses}
               />
             </View>
           </View>

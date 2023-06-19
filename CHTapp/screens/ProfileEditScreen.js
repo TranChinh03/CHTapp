@@ -1,111 +1,223 @@
-import { Text, StyleSheet, View, SafeAreaView, ImageBackground, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { Component, useEffect } from 'react'
-import { IMG_PROFILEBACKGROUND, IMG_AVT } from '../src/assets/img'
-import { IC_EDIT_PRO5 } from '../src/assets/icons'
-import CUSTOM_COLORS from '../src/constants/colors'
-import scale from '../src/constants/responsive'
-import CourseAttendedBox from '../src/components/courseAttendedBox'
-import CourseCompletedBox from '../src/components/courseCompletedBox'
-import TextInputBox from '../src/components/textInputBox'
-import { IC_Tick } from '../src/assets/iconsvg'
-import BackButton from '../src/components/backButton'
-import {firebase} from '../configs/FirebaseConfig';
+import {
+    Text,
+    StyleSheet,
+    View,
+    SafeAreaView,
+    ImageBackground,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+    TextInput,
+  } from 'react-native';
+  import React, {Component, useState, useEffect} from 'react';
+  import {IMG_PROFILEBACKGROUND, IMG_AVT} from '../src/assets/img';
+  import {IC_EDIT_PRO5, IC_SETTING} from '../src/assets/icons';
+  import CUSTOM_COLORS from '../src/constants/colors';
+  import scale from '../src/constants/responsive';
+  import CourseAttendedBox from '../src/components/courseAttendedBox';
+  import CourseCompletedBox from '../src/components/courseCompletedBox';
+  import TextDisplayBox from '../src/components/textDisplayBox';
+  import {firebase} from '../configs/FirebaseConfig';
+  import { useNavigation } from '@react-navigation/native';
+  import TextInputDisplayBox from '../src/components/textInputDisplayBox';
+  import { IC_Tick } from '../src/assets/iconsvg';
+  import BackButton from '../src/components/backButton';
 
 
-export const ProfileEditScreen = () => {
-    const [Profile, setProfile] = useState('')
+  
+  
+  const ProfileEditScreen = () => {
+    const [profile, setProfile] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [job, setJob] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
 
+    const navigation = useNavigation();
+
+    // const usersRef = firebase.firestore().
+  
     useEffect(() => {
-        firebase
-            .firestore
-            .collection('users')
-            .doc(firebase.auth().currentUser.uid)
-            .get()
-            .then(snapshot => {
-                if (snapshot.exists) {
-                    setProfile(snapshot.data());
-                } else {
-                    console.log('User does not exist');
-                }
-            });
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(snapshot => {
+          if (snapshot.exists) {
+            setProfile(snapshot.data());
+            setName(profile.name)
+            setFirstName(profile.firstname)
+            setLastName(profile.lastname)
+            setBirthday(profile.birthday)
+            setJob(profile.job)
+            setEmail(profile.email)
+            setPhone(profile.phone)
+          } else {
+            console.log('User does not exist');
+          }
+        });
     }, []);
+
+
+    const updateProfile = () => {
+      const updateData = {};
+      const updateData1 = {};
     
-    return (
-        <SafeAreaView style={styles.container}>
+      if (name !== undefined) {
+        updateData.name = name;
+      }
+      if (lastName !== undefined) {
+        updateData.lastname = lastName;
+      }
+      if (firstName !== undefined) {
+        updateData.firstname = firstName;
+      }
+      if (birthday !== undefined) {
+        updateData.birthday = birthday;
+      }
+      if (job !== undefined) {
+        updateData.job = job;
+      }
+      if (email !== undefined) {
+        updateData.email = email;
+        // updateData1.student = email;
+      }
+      if (phone !== undefined) {
+        updateData.phone = phone;
+      }
+
+
+
+    
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .update(updateData);
+
+        firebase
+        .firestore()
+        .collection('study')
+        .where('student', '==', profile.email)
+        .get().then((querrySnapshot) => {
+          if(!querrySnapshot.empty)
+          {
+            const documentId = querrySnapshot.docs[0].id
+            firebase
+            .firestore()
+            .collection('study')
+            .doc(documentId)
+            .update({student : email})
+          }
+
+        })
+    }
+
+  
+  
+      return (
+          <SafeAreaView style={styles.container}>
             <View style={styles.bgContainer}>
                 <ImageBackground style={styles.background} source={IMG_PROFILEBACKGROUND}/>
                 <View style={{justifyContent: 'center', position:'absolute', top:scale(20, 'h'), width:'100%'}}>
-                    <BackButton/>
+                    <BackButton onPress = {() => navigation.goBack()}/>
                     <View style={styles.screenTitleContainer}>
                         <Text style={styles.screenTitle}>Edit Profile</Text>
                     </View>
-                    <TouchableOpacity style={styles.whiteCircle}>
+                    <TouchableOpacity style={styles.whiteCircle} onPress={() =>{ updateProfile()
+                    navigation.navigate('ProfileStack', {screen : 'Profile'})}}>
                         <IC_Tick></IC_Tick>
                     </TouchableOpacity>
                 </View>
             </View>
-
-            <View style={styles.contentContainer}>
-              <View style={styles.avtContainer}>
-                <View style={styles.avtFrame}>
-                    <Image style={styles.avt} source={IMG_AVT}/>
-                </View>
-
-              </View>
-
-              <View style={styles.nameContainer}>
-                <View style={styles.nameFrame}>
-                    <Text style={styles.name}>{profile.name}</Text>
-                    <Image style={styles.icEdit} source={IC_EDIT_PRO5}/>
-                </View>
-              </View>
-
-              <ScrollView style={styles.content}>
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <View style={styles.contentRow}>
-                        <CourseAttendedBox courses = '7'/>
-                    </View>
-                    <View style={styles.contentRow}>
-                        <CourseCompletedBox courses = '5'/>
-                    </View>
-                </View>
-
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                <View style={styles.contentRow}>
-                        <TextInputBox label = 'Last name' text = {profile.lastname}/>
-                    </View>
-                    <View style={styles.contentRow}>
-                        <TextInputBox label = 'First name' text = {profile.firstname}/>
-                    </View>
-                </View>
-
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                <View style={styles.contentRow}>
-                        <TextInputBox label = 'Date of birth' text = {profile.birthday}/>
-                    </View>
-                    <View style={styles.contentRow}>
-                        <TextInputBox label = 'Job' text = {profile.job}/>
-                    </View>
-                </View>
-
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextInputBox label = 'Email' text = {profile.email}/>
-                </View>
-
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <TextInputBox label = 'Phone' text = {profile.phone} />
-                </View>
-                <View style={{height: scale(100, 'h')}}/>
-              </ScrollView>
-
-
-
+  
+        <View style={styles.contentContainer}>
+          <View style={styles.avtContainer}>
+            <View style={styles.avtFrame}>
+              <Image style={styles.avt} source={IMG_AVT} />
             </View>
-        </SafeAreaView>
-    )
-}
-
-const styles = StyleSheet.create({
+          </View>
+  
+          <View style={styles.nameContainer}>
+            <View style={styles.nameFrame}>
+              <TextInput onChangeText={(myName) => setName(myName)} style={styles.name} cursorColor={CUSTOM_COLORS.black}>{profile.name}</TextInput>
+            </View>
+            {/* <View style={styles.subNameContainer}>
+                      <Text style={styles.subName}>Hyu</Text>
+                  </View> */}
+                </View>
+  {/* 
+                <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                      <View style={styles.contentRow}>
+                          <CourseAttendedBox courses = {profile.attendedCourses}/>
+                      </View>
+                      <View style={styles.contentRow}>
+                          <CourseCompletedBox courses = {profile.completedCourses}/>
+                      </View>
+                  </View>
+                  
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <View style={styles.contentRow}>
+                          <TextInputDisplayBox label = 'Last name' text = {profile.lastname}/>
+                      </View>
+                      <View style={styles.contentRow}>
+                          <TextInputDisplayBox label = 'First name' text = {profile.firstname}/>
+                      </View>
+                  </View>
+                  </ScrollView> */}
+  
+          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={styles.contentRow}>
+                <CourseAttendedBox courses={profile.attendedCourses} />
+              </View>
+              <View style={styles.contentRow}>
+                <CourseCompletedBox
+                  courses={profile.completedCourses}
+                />
+              </View>
+            </View>
+  
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={styles.contentRow}>
+                <TextInputDisplayBox label="Last name" text={profile.lastname} onChangeText={(myLastName) => setLastName(myLastName)}/>
+              </View>
+              <View style={styles.contentRow}>
+                <TextInputDisplayBox label="First name" text={profile.firstname} onChangeText={(myFirstName) => setFirstName(myFirstName)}/>
+              </View>
+            </View>
+  
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <View style={styles.contentRow}>
+                          <TextInputDisplayBox label = 'Date of birth' text = {new Date(profile.birthday).toLocaleDateString()}/>
+                      </View>
+                      <View style={styles.contentRow}>
+                          <TextInputDisplayBox label = 'Job' text = {profile.job} onChangeText={(myJob) => setJob(myJob)}/>
+                      </View>
+                  </View>
+  
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <TextInputDisplayBox label="Email" text={profile.email} onChangeText={(myEmail) => setEmail(myEmail)}/>
+            </View>
+  
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <TextInputDisplayBox label="Phone" text={profile.phone} onChangeText={(myPhone) => setPhone(myPhone)}/>
+            </View>
+            <View style={{height: scale(100, 'h')}} />
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    );
+  };
+  
+  export default ProfileEditScreen;
+  
+  const styles = StyleSheet.create({
     container: {
       backgroundColor: 'black',
         height: '100%',
@@ -148,13 +260,18 @@ const styles = StyleSheet.create({
         display: 'flex',
     },
     nameFrame: {
-        flex: 0.7,
+        borderWidth: 1,
+        borderRadius: 15,
+        borderColor: CUSTOM_COLORS.FrenchViolet,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        marginHorizontal: scale(50, 'w'),
+        marginTop: scale(15, 'h'),
+        paddingLeft: scale(10, 'w'),
     },
     name: {
-        fontSize: scale(40, 'w'),
+        fontSize: scale(30, 'w'),
         color: CUSTOM_COLORS.black,
         alignSelf: 'center',
     },
