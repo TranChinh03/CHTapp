@@ -9,7 +9,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {IMG_AUTHBACKGROUND, IMG_COURSEBACKGROUND} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
 import scale from '../src/constants/responsive';
@@ -17,183 +17,189 @@ import CustomButton from '../src/components/button';
 import TextBox from '../src/components/textBox';
 import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
+import { useNavigation } from '@react-navigation/native';
+import {firebase} from '../configs/FirebaseConfig'
 
-var courses = [
-  {
-    id: '1',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '2',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '3',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '4',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '5',
-    language: 'JavaScript',
-    title: 'JavaScript for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '6',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '7',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-  {
-    id: '8',
-    language: 'C++',
-    title: 'C++ for Beginners 2023',
-    author: 'Hau Nguyen',
-    rating: '5',
-    view: '320',
-  },
-];
 
-export class CourseScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 'InProgress',
-    };
+const CourseScreen = () => {
+ const [currentPage, setCurrentPage] = useState('In Progress');
+ const [inProgress, setInProgress] = useState([]);
+ const [completed, setCompleted] = useState([]);
+ const [favorite, setFavorite] = useState([]);
+ const [name, setName] = useState('')
+
+ const navigation = useNavigation();
+
+ async function joinedMyCourse(curEmail, status) {
+  const courseRef = firebase.firestore().collection('courses');
+  const courseSnapshot = await courseRef.get();
+  const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+
+  const authorRef = firebase.firestore().collection('users');
+  const authorSnapshot = await authorRef.get();
+  const authorData = authorSnapshot.docs.map(doc => doc.data());
+
+  const studyRef = firebase.firestore().collection('study');
+  const studySnapshot = await studyRef.get();
+  const studyData = studySnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+
+  const joinedData = studyData
+  .filter(firstItem => firstItem.student === curEmail && firstItem.status === status)
+  .map(firstItem => {
+    const  secondItem = courseData.find(item => item.author === firstItem.courseAuthor && item.title === firstItem.courseTitle);
+
+    const thirdItem = authorData.find(item => item.email === secondItem.author)
+
+    return {...firstItem, ...secondItem, ...thirdItem};
+  })
+
+  return joinedData;
+}
+
+useEffect(() => {
+  firebase.firestore().collection('users')
+  .doc(firebase.auth().currentUser.uid).get()
+  .then((snapshot) => {
+    if(snapshot.exists)
+    {
+      setName(snapshot.data())
+    }
+    else {
+      console.log('User does not exist')
+    }
+  })
+}, [])
+
+ useEffect(() => {
+  async function getData() {
+    const inProgress = await joinedMyCourse(name.email, 'In Progress');
+    setInProgress(inProgress);
   }
 
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground
-          style={styles.image}
-          source={IMG_COURSEBACKGROUND}
-          resizeMode="cover">
-          <View style={styles.container1}>
-            <Text style={styles.text}>Hi, Nhu Huynh!</Text>
-            <Text style={styles.subText}>
-              Set your target and keep trying until you reach it
-            </Text>
-          </View>
-          <View style={styles.container2}>
-            <View style={styles.navigateButton}>
-              <TouchableOpacity
-                onPress={() => this.setState({currentPage: 'InProgress'})}
-                style={
-                  this.state.currentPage === 'InProgress'
-                    ? styles.selectedButton1
-                    : styles.button1
-                }>
-                <Text
-                  style={
-                    this.state.currentPage === 'InProgress'
-                      ? styles.selectedButtonText1
-                      : styles.buttonText1
-                  }>
-                  In Progress
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({currentPage: 'Completed'})}
-                style={
-                  this.state.currentPage === 'Completed'
-                    ? styles.selectedButton1
-                    : styles.button1
-                }>
-                <Text
-                  style={
-                    this.state.currentPage === 'Completed'
-                      ? styles.selectedButtonText1
-                      : styles.buttonText1
-                  }>
-                  Completed
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({currentPage: 'Favorite'})}
-                style={
-                  this.state.currentPage === 'Favorite'
-                    ? styles.selectedButton1
-                    : styles.button1
-                }>
-                <Text
-                  style={
-                    this.state.currentPage === 'Favorite'
-                      ? styles.selectedButtonText1
-                      : styles.buttonText1
-                  }>
-                  Favorite
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.courseContainer}>
-              <FlatList
-                numColumns={2}
-                columnWrapperStyle={{justifyContent: 'space-between'}}
-                data={courses}
-                renderItem={({item, index}) => {
-                  return (
-                    <CourseItem
-                      onPress={() =>
-                        this.props.navigation.navigate('CourseDetail')
-                      }
-                      language={item.language}
-                      title={item.title}
-                      author={item.author}
-                      rating={item.rating}
-                      view={item.view}
-                    />
-                  );
-                }}
-                ItemSeparatorComponent={() => (
-                  <View style={{height: scale(20, 'h')}} />
-                )}
-                showsVerticalScrollIndicator={false}></FlatList>
-            </View>
-          </View>
-          {/* <View style={styles.container3}>
-                <BottomTab/>
-            </View> */}
+  getData();
+});
+
+useEffect(() => {
+  async function getData() {
+    const completed = await joinedMyCourse(name.email, 'Completed')
+    setCompleted(completed);
+  }
+
+  getData();
+});
+
+useEffect(() => {
+  async function getData() {
+    const favorite = await joinedMyCourse(name.email, 'Favorite')
+    setFavorite(favorite);
+  }
+
+  getData();
+});
+
+
+const renderCourses = (data) => {
+  return (
+    <FlatList
+      numColumns={2}
+      columnWrapperStyle={{justifyContent: 'space-between'}}
+      data = {data}
+      renderItem = {({item, index}) => {
+        return (<CourseItem 
+      key = {item.key}
+      language={item.programLanguage}
+      title={item.title}
+      author={item.name}
+      rating={item.rate}
+      view={item.numofAttendants}
+      onPress = {() => navigation.navigate('CourseStack', {screen : 'CourseDetail', params: {item: item}})} />)
+      }}
+      ItemSeparatorComponent={() => <View style={{height: scale(20, 'h')}} />}
+      showsVerticalScrollIndicator={false}>
+      </FlatList>
+
+  );
+};
+
+const renderMyCourses = () => {
+  return (
+    currentPage === 'In Progress' ? renderCourses(inProgress) : 
+    currentPage === 'Completed' ? renderCourses(completed) : renderCourses(favorite)
+  )
+}
+ return (
+  <SafeAreaView style={styles.container}>
+    <ImageBackground
+      style={styles.image}
+      source={IMG_COURSEBACKGROUND}
+      resizeMode="cover">
+      <View style={styles.container1}>
+        <Text style={styles.text}>Hi, {name.name}!</Text>
+        <Text style={styles.subText}>
+          Set your target and keep trying until you reach it
+        </Text>
+      </View>
+      <View style={styles.container2}>
+        <View style={styles.navigateButton}>
           <TouchableOpacity
-            style={styles.fixedButton}
-            onPress={() => this.props.navigation.navigate('AddCourse')}>
-            <Text style={styles.start}>+</Text>
+            onPress={() => setCurrentPage('In Progress')}
+            style={
+              currentPage === 'In Progress'
+                ? styles.selectedButton1
+                : styles.button1
+            }>
+            <Text
+              style={
+                currentPage === 'In Progress'
+                  ? styles.selectedButtonText1
+                  : styles.buttonText1
+              }>
+              In Progress
+            </Text>
           </TouchableOpacity>
-        </ImageBackground>
-      </SafeAreaView>
-    );
-  }
+          <TouchableOpacity
+            onPress={() => setCurrentPage('Completed')}
+            style={
+              currentPage === 'Completed'
+                ? styles.selectedButton1
+                : styles.button1
+            }>
+            <Text
+              style={
+                currentPage === 'Completed'
+                  ? styles.selectedButtonText1
+                  : styles.buttonText1
+              }>
+              Completed
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setCurrentPage('Favorite')}
+            style={
+              currentPage === 'Favorite'
+                ? styles.selectedButton1
+                : styles.button1
+            }>
+            <Text
+              style={
+                currentPage === 'Favorite'
+                  ? styles.selectedButtonText1
+                  : styles.buttonText1
+              }>
+              Favorite
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.courseContainer}>
+          {renderMyCourses()}
+        </View>
+        </View>
+        {/* <View style={styles.container3}>
+            <BottomTab/>
+        </View> */}
+    </ImageBackground>
+  </SafeAreaView>
+);
 }
 
 export default CourseScreen;

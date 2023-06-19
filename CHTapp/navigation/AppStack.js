@@ -18,6 +18,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import scale from '../src/constants/responsive';
 import CourseDetailScreen from '../screens/CourseDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProfileEditScreen from '../screens/ProfileEditScreen';
 import LessonDetailScreen from '../screens/LessonDetailScreen';
 import TodoScreen from '../screens/TodoScreen';
 import {firebase} from '../configs/FirebaseConfig';
@@ -88,8 +89,8 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="ProfileStack"
+        component={ProfileStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View>
@@ -110,7 +111,7 @@ const Stack = createNativeStackNavigator();
 
 const CourseStack = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="Course">
       <Stack.Screen
         name="Course"
         component={CourseScreen}
@@ -144,6 +145,24 @@ const CourseStack = () => {
     </Stack.Navigator>
   );
 };
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ProfileEdit"
+        component={ProfileEditScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 
 export default function AppStack() {
   const navigation = useNavigation();

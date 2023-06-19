@@ -3,18 +3,15 @@ import React, { Component } from 'react'
 import scale from '../constants/responsive';
 import CUSTOM_COLORS from '../constants/colors';
 
-export class TextDisplayBox extends Component {
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.label}>{this.props.label}</Text>
-        <View style={styles.textContainer}>
-            <Text style={styles.text}>{this.props.text}</Text>
-        </View>
+export default TextDisplayBox = (props) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{props.label}</Text>
+      <View style={styles.textContainer}>
+          <Text style={styles.text}>{props.text}</Text>
       </View>
-    )
-  }
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -40,5 +37,3 @@ const styles = StyleSheet.create({
         color: '#74786D',
     },
 })
-
-export default TextDisplayBox

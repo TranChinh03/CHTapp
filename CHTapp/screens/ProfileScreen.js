@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import React, {Component, useState, useEffect} from 'react';
 import {IMG_PROFILEBACKGROUND, IMG_AVT} from '../src/assets/img';
@@ -17,9 +18,13 @@ import CourseAttendedBox from '../src/components/courseAttendedBox';
 import CourseCompletedBox from '../src/components/courseCompletedBox';
 import TextDisplayBox from '../src/components/textDisplayBox';
 import {firebase} from '../configs/FirebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+
 
 const ProfileScreen = () => {
   const [profile, setProfile] = useState('');
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     firebase
@@ -34,19 +39,17 @@ const ProfileScreen = () => {
           console.log('User does not exist');
         }
       });
-  }, []);
+  });
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.bgContainer}>
-        <ImageBackground
-          style={styles.background}
-          source={IMG_PROFILEBACKGROUND}
-        />
-        <TouchableOpacity style={styles.whiteCircle}>
-          <Image source={IC_SETTING} />
-        </TouchableOpacity>
-      </View>
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.bgContainer}>
+                <ImageBackground style={styles.background} source={IMG_PROFILEBACKGROUND}/>
+                <TouchableOpacity style={styles.whiteCircle}>
+                    <Image source = {IC_SETTING}/>
+                </TouchableOpacity>
+            </View>
 
       <View style={styles.contentContainer}>
         <View style={styles.avtContainer}>
@@ -58,7 +61,7 @@ const ProfileScreen = () => {
         <View style={styles.nameContainer}>
           <View style={styles.nameFrame}>
             <Text style={styles.name}>{profile.name}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('ProfileEdit')}>
               <Image style={styles.icEdit} source={IC_EDIT_PRO5} />
             </TouchableOpacity>
           </View>
@@ -90,11 +93,11 @@ const ProfileScreen = () => {
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <View style={styles.contentRow}>
-              <CourseAttendedBox courses={profile.attendedCourses.toString()} />
+              <CourseAttendedBox courses={profile.attendedCourses} />
             </View>
             <View style={styles.contentRow}>
               <CourseCompletedBox
-                courses={profile.completedCourses.toString()}
+                courses={profile.completedCourses}
               />
             </View>
           </View>
@@ -108,14 +111,14 @@ const ProfileScreen = () => {
             </View>
           </View>
 
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <View style={styles.contentRow}>
-              <TextDisplayBox label="Date of birth" text={profile.birthday} />
-            </View>
-            <View style={styles.contentRow}>
-              <TextDisplayBox label="Job" text={profile.job} />
-            </View>
-          </View>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'Date of birth' text = {new Date(profile.birthday).toLocaleDateString()}/>
+                    </View>
+                    <View style={styles.contentRow}>
+                        <TextDisplayBox label = 'Job' text = {profile.job}/>
+                    </View>
+                </View>
 
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextDisplayBox label="Email" text={profile.email} />

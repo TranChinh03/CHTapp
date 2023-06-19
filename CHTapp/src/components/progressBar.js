@@ -20,7 +20,7 @@ import StarRating from 'react-native-star-rating-widget';
         <View style={styles.container}>
             <View style={styles.container1}>
                 <View style={styles.progressBackground}></View>
-                <View style={[styles.progress, { width: `${props.percent}`}]}></View>
+                <View style={[styles.progress, { width: `${props.percent}%`}]}></View>
             </View>
             <StarRating
               onChange={() => {}}
@@ -30,7 +30,7 @@ import StarRating from 'react-native-star-rating-widget';
               starStyle={styles.star}
               style={{marginLeft: scale(10, 'w')}}
             />
-            <Text style={styles.percentageText}>{props.percent}</Text>
+            <Text style={styles.percentageText}>{`${props.percent}%`}</Text>
         </View>
       );
   }

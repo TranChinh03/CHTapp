@@ -31,6 +31,7 @@ import NotificationItem from './src/components/notificationItem';
 import TickButton from './src/components/tickButton';
 import ListItemCustom from './src/components/ListItemCustom';
 import TodoScreen from './screens/TodoScreen';
+import ProfileEditScreen from './screens/ProfileEditScreen';
 import AddCourseScreen from './screens/AddCourseScreen';
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
     // <SwitchButton />
     //<CourseScreen />
     <AppNavigation />
+    // <ProfileEditScreen/>
     // <ProfileScreen/>
     // <BottomTab/>
     //<CourseDetailScreen />
