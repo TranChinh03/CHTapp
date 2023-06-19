@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import CourseScreen from '../screens/CourseScreen';
@@ -21,7 +21,10 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ProfileEditScreen from '../screens/ProfileEditScreen';
 import LessonDetailScreen from '../screens/LessonDetailScreen';
 import TodoScreen from '../screens/TodoScreen';
-import {firebase} from '../configs/FirebaseConfig'
+import {firebase} from '../configs/FirebaseConfig';
+import AddCourseScreen from '../screens/AddCourseScreen';
+import AddChapterScreen from '../screens/AddChapterScreen';
+import AddLessonScreen from '../screens/AddLessonScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -124,6 +127,21 @@ const CourseStack = () => {
         component={LessonDetailScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="AddCourse"
+        component={AddCourseScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddChapterScreen"
+        component={AddChapterScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddLessonScreen"
+        component={AddLessonScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -149,14 +167,12 @@ const ProfileStack = () => {
 export default function AppStack() {
   const navigation = useNavigation();
 
-
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
   function onAuthStateChanged(user) {
     setUser(user);
-    if(initializing)
-      setInitializing(false);
+    if (initializing) setInitializing(false);
   }
 
   useEffect(() => {
@@ -164,48 +180,44 @@ export default function AppStack() {
     return subcriber;
   }, []);
 
-  if(initializing)
-    return null;
+  if (initializing) return null;
 
-  if(!user) {
+  if (!user) {
     return (
       <Stack.Navigator
-      initialRouteName="Loading"
-      options={{headerShown: false}}>
-      <Stack.Screen
-        name="Loading"
-        component={LoadingScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Intro"
-        component={IntroScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="VerifyCode"
-        component={VerifyCodeScreen}
-
-        options={{headerShown: false}}
-      >
-      </Stack.Screen> 
-    </Stack.Navigator>
-    )
+        initialRouteName="Loading"
+        options={{headerShown: false}}>
+        <Stack.Screen
+          name="Loading"
+          component={LoadingScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Intro"
+          component={IntroScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="VerifyCode"
+          component={VerifyCodeScreen}
+          options={{headerShown: false}}></Stack.Screen>
+      </Stack.Navigator>
+    );
   }
 
   return (

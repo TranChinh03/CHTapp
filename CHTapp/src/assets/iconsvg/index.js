@@ -13,4 +13,5 @@ export {default as IC_Help} from './IC_Help';
 export {default as IC_Language} from './IC_Language';
 export {default as IC_LOGOUT} from './IC_LogOut';
 export {default as IC_NotificationBing} from './IC_NotificationBing';
+export {default as IC_Camera} from './IC_Camera';
 export {default as IC_Tick} from './IC_Tick';

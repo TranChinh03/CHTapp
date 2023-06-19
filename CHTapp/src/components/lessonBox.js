@@ -1,18 +1,25 @@
 import {
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Image,
-    Button,
-    TouchableOpacity,
-  } from 'react-native';
-  import React, {Component} from 'react';
-  import scale from '../constants/responsive';
-  import CUSTOM_COLOR from '../constants/colors';
-  import {IC_SEARCH, IC_FILLEDHEART, IC_HEART, IC_INFORMATION, IC_PLAYCIRCLE, IC_DROPDOWN} from '../assets/icons';
-  import { SelectList } from 'react-native-dropdown-select-list';
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+import React, {Component} from 'react';
+import scale from '../constants/responsive';
+import CUSTOM_COLOR from '../constants/colors';
+import {
+  IC_SEARCH,
+  IC_FILLEDHEART,
+  IC_HEART,
+  IC_INFORMATION,
+  IC_PLAYCIRCLE,
+  IC_DROPDOWN,
+} from '../assets/icons';
+import {SelectList} from 'react-native-dropdown-select-list';
 import DropDown from './dropDown';
 
   data = [

@@ -15,3 +15,4 @@ export {default as IMG_DECORHOMESCREEN} from './decorHomeScreen.png';
 export {default as IMG_VIDEO} from './Video.png';
 export {default as IMG_TODOBG1} from './TodoBG1.jpg';
 export {default as IMG_TODOEMPTY} from './TodoEmpty.png';
+export {default as IMG_BG1} from './BG1.png';
