@@ -86,8 +86,8 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="ProfileStack"
+        component={ProfileStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View>
@@ -127,6 +127,24 @@ const CourseStack = () => {
     </Stack.Navigator>
   );
 };
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ProfileEdit"
+        component={ProfileEditScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 
 export default function AppStack() {
   const navigation = useNavigation();
