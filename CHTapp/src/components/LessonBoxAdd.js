@@ -30,27 +30,27 @@ var lesson = [
   {
     id: '1',
     title: 'C++ for Beginners 2023',
-    time: '10 AM - 11AM',
+    time: '30m20s',
   },
   {
     id: '2',
     title: 'C# for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '3',
     title: 'Python for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '4',
     title: 'JavaScript for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '5',
     title: 'React Native for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
 ];
 
@@ -106,9 +106,9 @@ export class LessonBoxAdd extends Component {
           renderItem={({item, index}) => {
             return (
               <LessonBox2
-              // type={true}
-              // title={item.title}
-              // time={item.time}
+                // type={true}
+                title={item.title}
+                time={item.time}
               />
             );
           }}></FlatList>
