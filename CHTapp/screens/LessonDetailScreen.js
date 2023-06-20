@@ -25,6 +25,8 @@ import TextBox from '../src/components/textBox';
 import BottomTab from '../src/components/bottomTab';
 import CourseItem from '../src/components/courseItem';
 import StarRating from 'react-native-star-rating-widget';
+import {useNavigation} from '@react-navigation/native';
+
 import {
   IC_DOWNLOAD,
   IC_FAVORITE,
@@ -37,7 +39,7 @@ import LessonBox from '../src/components/lessonBox';
 import {IMG_LECTURERAVA} from '../src/assets/img';
 import Evaluation from '../src/components/evaluation';
 import BackButton from '../src/components/backButton';
-import {IC_LeftArrow} from '../src/assets/iconsvg';
+import {IC_Edit, IC_LeftArrow} from '../src/assets/iconsvg';
 import {IC_EYE, IC_VIEW} from '../src/assets/icons';
 import CusRatingBar from '../src/components/CusRatingBar';
 
@@ -118,6 +120,15 @@ export class LessonDetailScreen extends Component {
             </View>
           </View>
         </ScrollView>
+        <TouchableOpacity
+          style={styles.fixedBtnEdit}
+          onPress={() =>
+            this.props.navigation.navigate('AddChapterScreen', {
+              txtHeader: 'Edit Chapter',
+            })
+          }>
+          <IC_Edit />
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -220,5 +231,19 @@ const styles = StyleSheet.create({
   iconFavor: {
     position: 'absolute',
     right: 0,
+  },
+  fixedBtnEdit: {
+    position: 'absolute',
+    width: scale(50, 'w'),
+    height: scale(50, 'w'),
+    borderRadius: scale(50 / 2, 'w'),
+    backgroundColor: CUSTOM_COLORS.skyBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    bottom: scale(160, 'h'),
+    right: scale(35, 'w'),
+    flexDirection: 'row',
+    elevation: 7,
   },
 });

@@ -27,36 +27,37 @@ import {SpeedDial} from '@rneui/themed';
 import LessonBox from '../src/components/lessonBox';
 import LessonBoxAdd from '../src/components/LessonBoxAdd';
 import {useNavigation} from '@react-navigation/native';
+import BtnDelete from '../src/components/BtnDelete';
 
 var lesson = [
   {
     id: '1',
     title: 'C++ for Beginners 2023',
-    time: '10 AM - 11AM',
+    time: '30m20s',
   },
   {
     id: '2',
     title: 'C# for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '3',
     title: 'Python for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '4',
     title: 'JavaScript for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
   {
     id: '5',
     title: 'React Native for Beginners 2023',
-    time: '20 PM - 21 PM',
+    time: '30m20s',
   },
 ];
-
-export default function AddCourseScreen() {
+export default function AddCourseScreen({route}) {
+  const {txtHeader} = route.params;
   const navigation = useNavigation();
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
@@ -65,14 +66,13 @@ export default function AddCourseScreen() {
     {label: 'English', value: 'english'},
     {label: 'VietNamese', value: 'vietnamese'},
   ]);
-  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.vwImg} source={IMG_BG1} resizeMode="cover">
         <View style={styles.vwTitle}>
           <BackButton onPress={() => navigation.goBack()} />
-          <Text style={styles.txtHeader}>Add course</Text>
+          <Text style={styles.txtHeader}>{txtHeader}</Text>
         </View>
       </ImageBackground>
       <View style={styles.content}>
@@ -100,6 +100,7 @@ export default function AddCourseScreen() {
             <DropDownPicker
               style={styles.dropDown}
               textStyle={styles.txtDropDown}
+              dropDownDirection="TOP"
               dropDownContainerStyle={styles.condropdown2}
               open={open}
               value={value}
@@ -154,7 +155,11 @@ export default function AddCourseScreen() {
                 }}>
                 <TouchableOpacity
                   style={styles.spAction}
-                  onPress={() => navigation.navigate('AddChapterScreen')}>
+                  onPress={() =>
+                    navigation.navigate('AddChapterScreen', {
+                      txtHeader: 'Add Chapter',
+                    })
+                  }>
                   <Text style={styles.txtSDAction}>Chapter</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -165,20 +170,30 @@ export default function AddCourseScreen() {
               </View>
             ) : null}
           </View>
-          <View style={styles.flLesson}>
+          <View
+            style={{
+              width: scale(320, 'w'),
+              alignSelf: 'center',
+              marginBottom: scale(15, 'h'),
+              flexDirection: 'row',
+            }}>
             <FlatList
               scrollEnabled={false}
               numColumns={1}
               data={lesson}
               renderItem={({item, index}) => {
-                return (
-                  <LessonBoxAdd
-                  // type={true}
-                  // title={item.title}
-                  // time={item.time}
-                  />
-                );
-              }}></FlatList>
+                return <LessonBoxAdd title={item.title} time={item.time} />;
+              }}
+            />
+            <FlatList
+              style={{marginTop: scale(10, 'h'), marginLeft: scale(5, 'h')}}
+              scrollEnabled={false}
+              numColumns={1}
+              data={lesson}
+              renderItem={({item, index}) => {
+                return <BtnDelete />;
+              }}
+            />
           </View>
         </ScrollView>
       </View>
@@ -207,7 +222,9 @@ const styles = StyleSheet.create({
   flLesson: {
     marginVertical: scale(15, 'h'),
     //backgroundColor: 'red',
-    alignItems: 'center',
+    //alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   vwImg: {
     flex: 1.3,

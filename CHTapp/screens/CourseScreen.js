@@ -218,7 +218,11 @@ const CourseScreen = () => {
         </View> */}
         <TouchableOpacity
           style={styles.fixedButton}
-          onPress={() => navigation.navigate('AddCourse')}>
+          onPress={() =>
+            navigation.navigate('AddCourse', {
+              txtHeader: 'Add course',
+            })
+          }>
           <Text style={styles.start}>+</Text>
         </TouchableOpacity>
       </ImageBackground>

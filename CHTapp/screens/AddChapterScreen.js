@@ -62,6 +62,9 @@ var lesson = [
 export default class AddChapterScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      txtHeader: this.props.route.params.txtHeader,
+    };
   }
   render() {
     return (
@@ -72,7 +75,7 @@ export default class AddChapterScreen extends Component {
           resizeMode="cover">
           <View style={styles.vwTitle}>
             <BackButton onPress={() => this.props.navigation.goBack()} />
-            <Text style={styles.txtHeader}>Add course - Chapter</Text>
+            <Text style={styles.txtHeader}>{this.state.txtHeader}</Text>
           </View>
         </ImageBackground>
         <View style={styles.content}>
@@ -114,7 +117,7 @@ export default class AddChapterScreen extends Component {
               />
             </View>
           </ScrollView>
-          <BtnTick />
+          <BtnTick onPress={() => this.props.navigation.goBack()} />
         </View>
       </SafeAreaView>
     );
