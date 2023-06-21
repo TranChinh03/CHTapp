@@ -72,7 +72,7 @@ const ProfileScreen = () => {
                 </View> */}
         </View>
 
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        {/* <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <View style={styles.contentRow}>
               <CourseAttendedBox courses={profile.attendedCourses} />
@@ -89,8 +89,7 @@ const ProfileScreen = () => {
               <TextDisplayBox label="First name" text={profile.firstname} />
             </View>
           </View>
-          /
-        </ScrollView>
+        </ScrollView> */}
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
