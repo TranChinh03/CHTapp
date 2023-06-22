@@ -10,8 +10,9 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import scale from '../src/constants/responsive';
 import {assets} from '../react-native.config';
@@ -27,11 +28,10 @@ import {SpeedDial} from '@rneui/themed';
 import LessonBox from '../src/components/lessonBox';
 import LessonBoxAdd from '../src/components/LessonBoxAdd';
 import {useNavigation} from '@react-navigation/native';
-import CustomButton from '../src/components/button';
-import ItemPdf from '../src/components/ItemPdf';
 import BtnDelete from '../src/components/BtnDelete';
-import {Tile} from '@rneui/base';
 import BtnTick from '../src/components/BtnTick';
+import {firebase} from '../configs/FirebaseConfig'
+import ItemPdf from '../src/components/ItemPdf';
 
 var titles = [
   'Python.pdf',
@@ -43,39 +43,243 @@ var titles = [
   'C++.pdf',
 ];
 
-// const navigation = useNavigation();
+const AddLessonScreen = () => {
+  const navigation = useNavigation();
+  const [shouldShow, setShouldShow] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [open1, setOpen1] = useState(false);
+  const [value1, setValue1] = useState('');
+  const [chapter, setChapter] = useState([]);
 
-export default class AddCLessonScreen extends Component {
-  constructor(props) {
-    super(props);
+
+  const [course, setCourse] = useState([]);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [myChapter, setMyChapter] = useState('');
+
+  const [myCourse, setMyCourse] = useState('');
+
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid).get()
+    .then((snapshot) => {
+      if(snapshot.exists)
+      {
+        setName(snapshot.data())
+      }
+      else {
+        console.log('User does not exist')
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Check if name.email is defined
+      if (name.email) {
+        // Fetch data from Firestore and filter the results
+        const querySnapshot = await firebase.firestore()
+          .collection('courses')
+          .where('author', '==', name.email)
+          .get();
+  
+        // Update the state with the new data
+        let index = 0;
+        querySnapshot.forEach(documentSnapshot => {
+          const fieldValue = documentSnapshot.get('title');
+          setCourse(prevData => [
+            ...prevData,
+            {label: fieldValue, value: index.toString()},
+          ]);
+          index++;
+        });
+      }
+    };
+  
+    fetchData();
+  }, [name.email]);
+
+  const chapterList = async (curCourse) => {
+    if (curCourse) {
+      // Fetch data from Firestore and filter the results
+      const querySnapshot = await firebase.firestore()
+        .collection('chapters')
+        .where('courseAuthor', '==', name.email)
+        .where('courseTitle', '==', curCourse)
+        .get();
+
+      // Update the state with the new data
+      let index = 0;
+      querySnapshot.forEach(documentSnapshot => {
+        const fieldValue = documentSnapshot.get('title');
+        setChapter(prevData => [
+          ...prevData,
+          {label: fieldValue, value: index.toString()},
+        ]);
+        index++;
+      });
+    }
   }
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground
-          style={styles.vwImg}
-          source={IMG_BG1}
-          resizeMode="cover">
-          <View style={styles.vwTitle}>
-            <BackButton onPress={() => this.props.navigation.goBack()} />
-            <Text style={styles.txtHeader}>Add course - Lesson</Text>
+
+
+  const renderItem = ({item}) => {
+    if(item.type ==='content1'){
+      return  (
+        <View>
+          <Text style={styles.txtTiltle}>Title</Text>
+          <TextInput multiline style={styles.txtInput} onChangeText={(myTitle) => setTitle(myTitle)}></TextInput>
+        </View>
+      )
+    }
+    else if(item.type === 'dropdown')
+    {
+      return (
+        <View>
+          <Text style={styles.txtTiltle}>Course</Text>
+          <View style={styles.conDropDown}>
+            <DropDownPicker
+              style={styles.dropDown}
+              textStyle={styles.txtDropDown}
+              dropDownDirection="TOP"
+              dropDownContainerStyle={styles.condropdown2}
+              open={open1}
+              value={value1}
+              items={course}
+              setOpen={setOpen1}
+              setValue={setValue1}
+              setItems={setCourse}
+              multiple={false}
+              mode="BADGE"
+              badgeDotColors={['#e76f51', '#00b4d8']}
+              onChangeValue={(value) => {
+                setChapter([])
+                // Find the selected item
+                const selectedItem = course.find(item => item.value === value);
+                // Set the myCourse state to the label of the selected item
+                if (selectedItem) {
+                  setMyCourse(selectedItem.label);
+                  chapterList(selectedItem.label)
+                }
+              }}
+            />
           </View>
-        </ImageBackground>
-        <View style={styles.content}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.txtTiltle}>Thumbnail</Text>
-            <View style={styles.vwThumnail}>
-              <TouchableOpacity style={styles.btnThumnail}>
-                <IC_Camera style={styles.icCamera} />
-                <Text style={styles.txtThumnail}>Upload from your device</Text>
-              </TouchableOpacity>
-              <View style={styles.currentThumnail}></View>
-            </View>
-            <Text style={styles.txtTiltle}>Title</Text>
-            <TextInput multiline style={styles.txtInput}></TextInput>
-            <Text style={styles.txtTiltle}>Description</Text>
-            <TextInput multiline style={styles.txtInput2}></TextInput>
-            <Text style={styles.txtTiltle}>Material</Text>
+
+          <Text style={styles.txtTiltle}>Chapter</Text>
+          <View style={styles.conDropDown}>
+            <DropDownPicker
+              style={styles.dropDown}
+              textStyle={styles.txtDropDown}
+              dropDownDirection="TOP"
+              dropDownContainerStyle={styles.condropdown2}
+              open={open}
+              value={value}
+              items={chapter}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setChapter}
+              multiple={false}
+              dropDownMaxHeight={200}
+              listMode='SCROLLVIEW'
+              scrollViewProps={{nestedScrollEnabled: true}}
+              // mode="BADGE"
+              // badgeDotColors={['#e76f51', '#00b4d8']}
+              onChangeValue={(mychapter) => setMyChapter(mychapter) }
+            />
+          </View>
+          
+        </View>
+      )
+    }
+    else {
+      return (
+        <View>
+          {/* <Text style={styles.txtTiltle}>Chapter</Text> */}
+          {/* <View style={styles.conSpeedDial}>
+            <SpeedDial
+              DropDownPicker="left"
+              flexDirection="right"
+              color={CUSTOM_COLORS.usBlue}
+              style={styles.btnSd}
+              isOpen={openSpeedDial}
+              icon={{name: 'edit', color: '#fff'}}
+              openIcon={{name: 'close', color: '#fff'}}
+              onOpen={() => setOpenSpeedDial(!openSpeedDial)}
+              onClose={() => setOpenSpeedDial(!openSpeedDial)}>
+              <SpeedDial.Action
+                color={CUSTOM_COLORS.usBlue}
+                icon={{name: 'add', color: '#fff'}}
+                title="Chapter"
+
+                //onPress={() => console.log('Add Something')}
+              />
+              <SpeedDial.Action
+                color={CUSTOM_COLORS.usBlue}
+                icon={{name: 'delete', color: '#fff'}}
+                title="Lesson"
+                //onPress={() => console.log('Delete Something')}
+              />
+            </SpeedDial>
+          </View> */}
+          {/* <View style={styles.conSpeedDial}>
+            <TouchableOpacity
+              style={styles.btnSD}
+              onPress={() => setShouldShow(!shouldShow)}>
+              <Text style={styles.txtSD}>+</Text>
+            </TouchableOpacity>
+            {shouldShow ? (
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'space-between',
+                  backfaceVisibility: 'hidden',
+                }}>
+                <TouchableOpacity
+                  style={styles.spAction}
+                  onPress={() =>
+                    navigation.navigate('AddChapterScreen', {
+                      txtHeader: 'Add Chapter',
+                    })
+                  }>
+                  <Text style={styles.txtSDAction}>Chapter</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.spAction}
+                  onPress={() => navigation.navigate('AddLessonScreen')}>
+                  <Text style={styles.txtSDAction}>Lesson</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View> */}
+          {/* <View
+            style={{
+              width: scale(320, 'w'),
+              alignSelf: 'center',
+              marginBottom: scale(15, 'h'),
+              flexDirection: 'row',
+            }}>
+            <FlatList
+              scrollEnabled={false}
+              numColumns={1}
+              data={lesson}
+              renderItem={({item, index}) => {
+                return <LessonBoxAdd title={item.title} time={item.time} />;
+              }}
+            />
+            <FlatList
+              style={{marginTop: scale(10, 'h'), marginLeft: scale(5, 'h')}}
+              scrollEnabled={false}
+              numColumns={1}
+              data={lesson}
+              renderItem={({item, index}) => {
+                return <BtnDelete />;
+              }}
+            />
+          </View> */}
+          <Text style={styles.txtTiltle}>Material</Text>
             <View style={{marginLeft: scale(15, 'w'), flexDirection: 'row'}}>
               <TouchableOpacity style={styles.btnBorder}>
                 <Text style={styles.txtDelete}>-</Text>
@@ -104,13 +308,78 @@ export default class AddCLessonScreen extends Component {
               />
             </View>
             <View style={{marginBottom: scale(30, 'h')}}></View>
-          </ScrollView>
-          <BtnTick onPress={() => this.props.navigation.goBack()} />
+          {/* <View style={styles.space}>
+            <View style={[styles.space]}></View>
+         </View> */}
         </View>
-      </SafeAreaView>
-    );
+      )
+    }
   }
+
+  const data = [
+    { id: 'content1', type: 'content1' },
+    { id: 'dropdown', type: 'dropdown' },
+    { id: 'content2', type: 'content2' },
+  ];
+
+  useEffect(() => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid).get()
+    .then((snapshot) => {
+      if(snapshot.exists)
+      {
+        setName(snapshot.data())
+      }
+      else {
+        console.log('User does not exist')
+      }
+    })
+  }, [])
+
+  const now = firebase.firestore.Timestamp.now()
+
+  const addChapter = () => {
+    firebase
+    .firestore()
+    .collection('chapters')
+    .add ({
+      courseAuthor: name.email,
+      courseTitle: myCourse,
+      number: myChapter,
+      title: title,
+    })
+    .then(() => {
+      Alert.alert('Add Chapter Successfully!')
+      navigation.navigate('Course')
+    })
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ImageBackground style={styles.vwImg} source={IMG_BG1} resizeMode="cover">
+        <View style={styles.vwTitle}>
+          <BackButton onPress={() => navigation.goBack()} />
+          <Text style={styles.txtHeader}>Add Lesson</Text>
+        </View>
+      </ImageBackground>
+      <View style={styles.content}>
+        <FlatList 
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}>
+          
+        </FlatList>
+      </View>
+
+      <BtnTick onPress={() => {
+        addChapter()
+      }} />
+    </SafeAreaView>
+  );
 }
+
+export default AddLessonScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -133,7 +402,9 @@ const styles = StyleSheet.create({
   flLesson: {
     marginVertical: scale(15, 'h'),
     //backgroundColor: 'red',
-    alignItems: 'center',
+    //alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   vwImg: {
     flex: 1.3,
@@ -293,20 +564,8 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLORS.PictionBlue,
     justifyContent: 'center',
   },
-  btnBorder: {
-    height: scale(35, 'h'),
-    width: scale(35, 'h'),
-    borderRadius: scale(35 / 2, 'h'),
-    borderWidth: scale(1, 'w'),
-    borderColor: CUSTOM_COLORS.sunsetOrange,
-    padding: 0,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  txtDelete: {
-    fontSize: scale(20, 'w'),
-    //fontWeight: 100,
-    color: CUSTOM_COLORS.sunsetOrange,
-    alignSelf: 'center',
+  space: {
+    height: scale(200, 'h'),
+    // backgroundColor: 'pink',
   },
 });

@@ -99,6 +99,8 @@ import {
         .doc(firebase.auth().currentUser.uid)
         .update(updateData);
 
+      if(profile.job === 'Student')
+      {
         firebase
         .firestore()
         .collection('study')
@@ -115,6 +117,25 @@ import {
           }
 
         })
+      }
+      else {
+        firebase
+        .firestore()
+        .collection('courses')
+        .where('author', '==', profile.email)
+        .get().then((querrySnapshot) => {
+          if(!querrySnapshot.empty)
+          {
+            const documentId = querrySnapshot.docs[0].id
+            firebase
+            .firestore()
+            .collection('courses')
+            .doc(documentId)
+            .update({author : email})
+          }
+
+        })
+      }
     }
 
   
@@ -172,7 +193,9 @@ import {
                   </ScrollView> */}
   
           <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+                {
+                  profile.job === 'Student' ? (
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
               <View style={styles.contentRow}>
                 <CourseAttendedBox courses={profile.attendedCourses} />
               </View>
@@ -182,6 +205,8 @@ import {
                 />
               </View>
             </View>
+                  ) : null
+                }
   
             <View style={{display: 'flex', flexDirection: 'row'}}>
               <View style={styles.contentRow}>

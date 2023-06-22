@@ -64,13 +64,13 @@ const CourseDetailScreen = ({route}) => {
     getStarPercentage('2').then(data => setTwoStar(data));
     getStarPercentage('1').then(data => setOneStar(data));
     // GetEvaluation().then((data) => setEvaluation(data))
-  }, []);
+  }, [item.author]);
 
   const renderLessonItem = ({item: lesson}) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('LessonDetail')}>
         <LessonBox
-          title={lesson.title}
+          title={lesson.lessonTitle}
           duration={formatDuration(lesson.duration)}
         />
       </TouchableOpacity>
@@ -146,7 +146,9 @@ const CourseDetailScreen = ({route}) => {
       ...doc.data(),
     }));
 
-    const joinedData = lessonData.map(firstItem => {
+    const joinedData = lessonData
+    .filter(filter => filter.courseAuthor === item.author && filter.courseTitle === item.title)
+    .map(firstItem => {
       const secondItem = chapterData.find(
         item =>
           item.courseAuthor === firstItem.courseAuthor &&
@@ -175,7 +177,9 @@ const CourseDetailScreen = ({route}) => {
       ...doc.data(),
     }));
 
-    const joinedData = evaluationData.map(firstItem => {
+    const joinedData = evaluationData
+    .filter(filter => filter.courseAuthor === item.author && filter.courseTitle === item.title )
+    .map(firstItem => {
       const secondItem = userData.find(
         item => item.email === firstItem.student,
       );
