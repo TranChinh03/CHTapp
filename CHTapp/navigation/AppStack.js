@@ -25,6 +25,8 @@ import {firebase} from '../configs/FirebaseConfig';
 import AddCourseScreen from '../screens/AddCourseScreen';
 import AddChapterScreen from '../screens/AddChapterScreen';
 import AddLessonScreen from '../screens/AddLessonScreen';
+import AllCourseScreen from '../screens/AllCourseScreen';
+import AddOptionScreen from '../screens/AddOptionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -118,6 +120,11 @@ const CourseStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="AllCourse"
+        component={AllCourseScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="CourseDetail"
         component={CourseDetailScreen}
         options={{headerShown: false}}
@@ -140,6 +147,12 @@ const CourseStack = () => {
       <Stack.Screen
         name="AddLessonScreen"
         component={AddLessonScreen}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="AddOption"
+        component={AddOptionScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

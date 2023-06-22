@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './AppStack';
 
+
+
 const AppNavigation = () => {
   return (
     <NavigationContainer>

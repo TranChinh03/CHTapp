@@ -68,7 +68,7 @@ const HomeScreen = () => {
           <Text style={styles.categoryName}>{category}</Text>
           <TouchableOpacity style={styles.loadAllPart}
           onPress = {() => category === 'MY COURSES' ? navigation.navigate('CourseStack', {screen : 'Course'}) : 
-          category === 'POPULAR' ? null : null}>
+          navigation.navigate('CourseStack', {screen : 'AllCourse'})}>
             <Text style={styles.loadAll}>View All </Text>
             <Image source={IC_VIEW_MORE} />
           </TouchableOpacity>
@@ -122,27 +122,40 @@ const HomeScreen = () => {
     return joinedData;
   }
   
-  
-  async function joinedCourse() {
+  async function joinedMyCourse2(curEmail) {
     const courseRef = firebase.firestore().collection('courses');
     const courseSnapshot = await courseRef.get();
     const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
-  
+
     const authorRef = firebase.firestore().collection('users');
     const authorSnapshot = await authorRef.get();
     const authorData = authorSnapshot.docs.map(doc => doc.data());
   
-    const studyRef = firebase.firestore().collection('study');
-    const studySnapshot = await studyRef.get();
-    const studyData = studySnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
-  
-    const joinedData = studyData
+    const joinedData = courseData
+    .filter(item => item.author === curEmail)
     .map(firstItem => {
-      const  secondItem = courseData.find(item => item.author === firstItem.courseAuthor && item.title === firstItem.courseTitle);
+      const  secondItem = authorData.find(item => item.email === firstItem.author);
   
-      const thirdItem = authorData.find(item => item.email === secondItem.author)
+      return {...firstItem, ...secondItem};
+    })
   
-      return {...firstItem, ...secondItem, ...thirdItem};
+    return joinedData;
+  }
+
+  async function joinedCourse() {
+    const courseRef = firebase.firestore().collection('courses');
+    const courseSnapshot = await courseRef.get();
+    const courseData = courseSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+
+    const authorRef = firebase.firestore().collection('users');
+    const authorSnapshot = await authorRef.get();
+    const authorData = authorSnapshot.docs.map(doc => doc.data());
+  
+    const joinedData = courseData
+    .map(firstItem => {
+      const  secondItem = authorData.find(item => item.email === firstItem.author);
+  
+      return {...firstItem, ...secondItem};
     })
   
     return joinedData;
@@ -175,8 +188,16 @@ const HomeScreen = () => {
 
   useEffect(() => {
     async function getData() {
-      const myCourse = (await joinedMyCourse(name.email)).slice(0, 5);
-      setMyCourse(myCourse);
+    
+      if(name.job === 'Student')
+      {
+        const myCourse = (await joinedMyCourse(name.email)).slice(0, 5);
+        setMyCourse(myCourse);
+      }
+      else {
+        const myCourse = (await joinedMyCourse2(name.email)).slice(0, 5);
+        setMyCourse(myCourse);
+      }
     }
 
     getData();

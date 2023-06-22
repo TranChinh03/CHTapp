@@ -10,8 +10,9 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import scale from '../src/constants/responsive';
 import {assets} from '../react-native.config';
@@ -28,6 +29,8 @@ import LessonBox from '../src/components/lessonBox';
 import LessonBoxAdd from '../src/components/LessonBoxAdd';
 import {useNavigation} from '@react-navigation/native';
 import BtnDelete from '../src/components/BtnDelete';
+import BtnTick from '../src/components/BtnTick';
+import {firebase} from '../configs/FirebaseConfig'
 
 var lesson = [
   {
@@ -56,27 +59,44 @@ var lesson = [
     time: '30m20s',
   },
 ];
-export default function AddCourseScreen({route}) {
+
+
+const AddCourseScreen = ({route}) => {
   const {txtHeader} = route.params;
   const navigation = useNavigation();
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(['vietnamese', 'english']);
+  const [value, setValue] = useState('');
+  const [open1, setOpen1] = useState(false);
+  const [value1, setValue1] = useState('');
+  const [programLanguage, setProgramLanguage] = useState([
+    {label: 'Python', value: 'python'},
+    {label: 'Java', value: 'java'},
+    {label: 'Ruby', value: 'ruby'},
+    {label: 'C#', value: 'c#'},
+    {label: 'C++', value: 'c++'},
+    {label: 'JavaScript', value: 'javascript'},
+  ]);
+
   const [items, setItems] = useState([
     {label: 'English', value: 'english'},
     {label: 'VietNamese', value: 'vietnamese'},
   ]);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.vwImg} source={IMG_BG1} resizeMode="cover">
-        <View style={styles.vwTitle}>
-          <BackButton onPress={() => navigation.goBack()} />
-          <Text style={styles.txtHeader}>{txtHeader}</Text>
-        </View>
-      </ImageBackground>
-      <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [language, setLanguage] = useState('');
+
+  const [myProgramLanguage, setMyProgramLanguage] = useState('');
+
+  const [name, setName] = useState('')
+
+
+
+  const renderItem = ({item}) => {
+    if(item.type ==='content1'){
+      return  (
+        <View>
           <Text style={styles.txtTiltle}>Thumbnail</Text>
           <View style={styles.vwThumnail}>
             <TouchableOpacity style={styles.btnThumnail}>
@@ -92,10 +112,17 @@ export default function AddCourseScreen({route}) {
             </View>
           </View>
           <Text style={styles.txtTiltle}>Title</Text>
-          <TextInput multiline style={styles.txtInput}></TextInput>
+          <TextInput multiline style={styles.txtInput} onChangeText={(myTitle) => setTitle(myTitle)}></TextInput>
           <Text style={styles.txtTiltle}>Description</Text>
-          <TextInput multiline style={styles.txtInput2}></TextInput>
-          <Text style={styles.txtTiltle}>Language</Text>
+          <TextInput multiline style={styles.txtInput2} onChangeText={(myDescription) => setDescription(myDescription)}></TextInput>
+          <Text style={styles.txtTiltle}>Program Language</Text>
+        </View>
+      )
+    }
+    else if(item.type === 'dropdown')
+    {
+      return (
+        <View>
           <View style={styles.conDropDown}>
             <DropDownPicker
               style={styles.dropDown}
@@ -104,16 +131,42 @@ export default function AddCourseScreen({route}) {
               dropDownContainerStyle={styles.condropdown2}
               open={open}
               value={value}
-              items={items}
+              items={programLanguage}
               setOpen={setOpen}
               setValue={setValue}
-              setItems={setItems}
-              multiple={true}
-              mode="BADGE"
-              badgeDotColors={['#e76f51', '#00b4d8']}
+              setItems={setProgramLanguage}
+              multiple={false}
+              // mode="BADGE"
+              // badgeDotColors={['#e76f51', '#00b4d8']}
+              onChangeValue={(myProgramLanguage) => setMyProgramLanguage(myProgramLanguage) }
             />
           </View>
-          <Text style={styles.txtTiltle}>Lesson</Text>
+          <Text style={styles.txtTiltle}>Language</Text>
+          <View style={styles.conDropDown}>
+            <DropDownPicker
+              style={styles.dropDown}
+              textStyle={styles.txtDropDown}
+              dropDownDirection="TOP"
+              dropDownContainerStyle={styles.condropdown2}
+              open={open1}
+              value={value1}
+              items={items}
+              setOpen={setOpen1}
+              setValue={setValue1}
+              setItems={setItems}
+              multiple={false}
+              mode="BADGE"
+              badgeDotColors={['#e76f51', '#00b4d8']}
+              onChangeValue={(myLanguage) => setLanguage(myLanguage) }
+            />
+          </View>
+        </View>
+      )
+    }
+    else {
+      return (
+        <View>
+          {/* <Text style={styles.txtTiltle}>Chapter</Text> */}
           {/* <View style={styles.conSpeedDial}>
             <SpeedDial
               DropDownPicker="left"
@@ -140,7 +193,7 @@ export default function AddCourseScreen({route}) {
               />
             </SpeedDial>
           </View> */}
-          <View style={styles.conSpeedDial}>
+          {/* <View style={styles.conSpeedDial}>
             <TouchableOpacity
               style={styles.btnSD}
               onPress={() => setShouldShow(!shouldShow)}>
@@ -169,8 +222,8 @@ export default function AddCourseScreen({route}) {
                 </TouchableOpacity>
               </View>
             ) : null}
-          </View>
-          <View
+          </View> */}
+          {/* <View
             style={{
               width: scale(320, 'w'),
               alignSelf: 'center',
@@ -194,12 +247,84 @@ export default function AddCourseScreen({route}) {
                 return <BtnDelete />;
               }}
             />
-          </View>
-        </ScrollView>
+          </View> */}
+          <View style={styles.space}>
+            <View style={[styles.space]}></View>
+         </View>
+        </View>
+      )
+    }
+  }
+
+  const data = [
+    { id: 'content1', type: 'content1' },
+    { id: 'dropdown', type: 'dropdown' },
+    { id: 'content2', type: 'content2' },
+  ];
+
+  useEffect(() => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid).get()
+    .then((snapshot) => {
+      if(snapshot.exists)
+      {
+        setName(snapshot.data())
+      }
+      else {
+        console.log('User does not exist')
+      }
+    })
+  }, [])
+
+  const now = firebase.firestore.Timestamp.now()
+
+  const addCourse = () => {
+    firebase
+    .firestore()
+    .collection('courses')
+    .add ({
+      author: name.email,
+      description: description,
+      title: title,
+      language: language,
+      programLanguage: myProgramLanguage,
+      rate: '0',
+      numofAttendants: '0',
+      openDate: now,
+      lastUpdate: now,
+    })
+    .then(() => {
+      Alert.alert('Add Course Successfully!')
+      navigation.navigate('Course')
+    })
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ImageBackground style={styles.vwImg} source={IMG_BG1} resizeMode="cover">
+        <View style={styles.vwTitle}>
+          <BackButton onPress={() => navigation.goBack()} />
+          <Text style={styles.txtHeader}>{txtHeader}</Text>
+        </View>
+      </ImageBackground>
+      <View style={styles.content}>
+        <FlatList 
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}>
+          
+        </FlatList>
       </View>
+
+      <BtnTick onPress={() => {
+        addCourse()
+      }} />
     </SafeAreaView>
   );
 }
+
+export default AddCourseScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -383,5 +508,9 @@ const styles = StyleSheet.create({
     marginLeft: scale(15, 'w'),
     backgroundColor: CUSTOM_COLORS.PictionBlue,
     justifyContent: 'center',
+  },
+  space: {
+    height: scale(200, 'h'),
+    // backgroundColor: 'pink',
   },
 });

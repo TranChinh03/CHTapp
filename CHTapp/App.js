@@ -35,6 +35,7 @@ import ProfileEditScreen from './screens/ProfileEditScreen';
 import AddCourseScreen from './screens/AddCourseScreen';
 import AddChapterScreen from './screens/AddChapterScreen';
 import AddLessonScreen from './screens/AddLessonScreen';
+import AddOptionScreen from './screens/AddCourseScreen';
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
     // <SwitchButton />
     //<CourseScreen />
     <AppNavigation />
+    // <AddOptionScreen/>
     // <ProfileEditScreen/>
     // <ProfileScreen/>
     // <BottomTab/>
