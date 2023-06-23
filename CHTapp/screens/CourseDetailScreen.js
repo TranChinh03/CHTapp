@@ -147,17 +147,21 @@ const CourseDetailScreen = ({route}) => {
     }));
 
     const joinedData = lessonData
-    .filter(filter => filter.courseAuthor === item.author && filter.courseTitle === item.title)
-    .map(firstItem => {
-      const secondItem = chapterData.find(
-        item =>
-          item.courseAuthor === firstItem.courseAuthor &&
-          item.courseTitle === firstItem.courseTitle &&
-          item.number === firstItem.numofChapter,
-      );
+      .filter(
+        filter =>
+          filter.courseAuthor === item.author &&
+          filter.courseTitle === item.title,
+      )
+      .map(firstItem => {
+        const secondItem = chapterData.find(
+          item =>
+            item.courseAuthor === firstItem.courseAuthor &&
+            item.courseTitle === firstItem.courseTitle &&
+            item.number === firstItem.numofChapter,
+        );
 
-      return {...firstItem, ...secondItem};
-    });
+        return {...firstItem, ...secondItem};
+      });
 
     return joinedData;
   }
@@ -178,14 +182,18 @@ const CourseDetailScreen = ({route}) => {
     }));
 
     const joinedData = evaluationData
-    .filter(filter => filter.courseAuthor === item.author && filter.courseTitle === item.title )
-    .map(firstItem => {
-      const secondItem = userData.find(
-        item => item.email === firstItem.student,
-      );
+      .filter(
+        filter =>
+          filter.courseAuthor === item.author &&
+          filter.courseTitle === item.title,
+      )
+      .map(firstItem => {
+        const secondItem = userData.find(
+          item => item.email === firstItem.student,
+        );
 
-      return {...firstItem, ...secondItem};
-    });
+        return {...firstItem, ...secondItem};
+      });
 
     return joinedData;
   }
@@ -233,7 +241,7 @@ const CourseDetailScreen = ({route}) => {
             source={IMG_CPPBACKGROUND}
             resizeMode="stretch"
           />
-          <BackButton onPress={() => navigation.navigate('Course')} />
+          <BackButton onPress={() => navigation.navigate('Course')} type={1} />
         </View>
         <View style={styles.container2}>
           <Text style={styles.title}>{item.title}</Text>

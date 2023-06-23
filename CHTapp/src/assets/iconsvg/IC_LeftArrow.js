@@ -14,11 +14,11 @@ const SvgComponent = props => (
       cx={24}
       cy={24}
       r={23.5}
-      fill={props.type === 1 ? CUSTOM_COLORS.primary : '#F5F5F5'}
-      stroke={props.type === 1 ? CUSTOM_COLORS.primary : '#F5F5F5'}
+      fill={props.type === 1 ? CUSTOM_COLORS.PictionBlue : '#F5F5F5'}
+      stroke={props.type === 1 ? CUSTOM_COLORS.PictionBlue : '#F5F5F5'}
     />
     <Path
-      stroke={props.type === 1 ? 'white' : CUSTOM_COLORS.primary}
+      stroke={props.type === 1 ? 'white' : CUSTOM_COLORS.PictionBlue}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

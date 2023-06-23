@@ -19,6 +19,7 @@ import CourseCompletedBox from '../src/components/courseCompletedBox';
 import TextDisplayBox from '../src/components/textDisplayBox';
 import {firebase} from '../configs/FirebaseConfig';
 import {useNavigation} from '@react-navigation/native';
+import CUSTOM_FONTS from '../src/constants/fonts';
 
 const ProfileScreen = () => {
   const [profile, setProfile] = useState('');
@@ -92,20 +93,16 @@ const ProfileScreen = () => {
         </ScrollView> */}
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {
-                  profile.job === 'Student' ? (
-                    <View style={{display: 'flex', flexDirection: 'row'}}>
+          {profile.job === 'Student' ? (
+            <View style={{display: 'flex', flexDirection: 'row'}}>
               <View style={styles.contentRow}>
                 <CourseAttendedBox courses={profile.attendedCourses} />
               </View>
               <View style={styles.contentRow}>
-                <CourseCompletedBox
-                  courses={profile.completedCourses}
-                />
+                <CourseCompletedBox courses={profile.completedCourses} />
               </View>
             </View>
-                  ) : null
-                }
+          ) : null}
 
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <View style={styles.contentRow}>
@@ -196,7 +193,8 @@ const styles = StyleSheet.create({
   name: {
     marginTop: scale(5, 'h'),
     fontSize: scale(30, 'w'),
-    color: CUSTOM_COLORS.black,
+    color: CUSTOM_COLORS.gray,
+    fontFamily: CUSTOM_FONTS.medium,
     alignSelf: 'center',
   },
   icEdit: {
