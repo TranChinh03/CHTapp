@@ -28,7 +28,7 @@ export default class CourseItem extends Component {
         style={[styles.container, this.props.style]}
         onPress={this.props.onPress}>
         <Image
-          source={this.props.language === 'C++' ? IMG_CPP : IMG_JAVASCRIPT}
+          source={{uri: this.props.source}}
           resizeMode="contain"
           style={styles.logoImage}
         />
