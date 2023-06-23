@@ -27,6 +27,7 @@ import AddChapterScreen from '../screens/AddChapterScreen';
 import AddLessonScreen from '../screens/AddLessonScreen';
 import AllCourseScreen from '../screens/AllCourseScreen';
 import AddOptionScreen from '../screens/AddOptionScreen';
+import EditCourseScreen from '../screens/EditCourseScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -153,6 +154,12 @@ const CourseStack = () => {
       <Stack.Screen
         name="AddOption"
         component={AddOptionScreen}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="EditCourse"
+        component={EditCourseScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
