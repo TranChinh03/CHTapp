@@ -135,8 +135,8 @@ const AddCourseScreen = ({route}) => {
 
 
   const renderItem = ({item}) => {
-    if(item.type ==='content1'){
-      return  (
+    if (item.type === 'content1') {
+      return (
         <View>
           <Text style={styles.txtTiltle}>Thumbnail</Text>
           <View style={styles.vwThumnail}>
@@ -154,15 +154,21 @@ const AddCourseScreen = ({route}) => {
             </View>
           </View>
           <Text style={styles.txtTiltle}>Title</Text>
-          <TextInput multiline style={styles.txtInput} onChangeText={(myTitle) => setTitle(myTitle)}></TextInput>
+          <TextInput
+            multiline
+            style={styles.txtInput}
+            onChangeText={myTitle => setTitle(myTitle)}></TextInput>
           <Text style={styles.txtTiltle}>Description</Text>
-          <TextInput multiline style={styles.txtInput2} onChangeText={(myDescription) => setDescription(myDescription)}></TextInput>
+          <TextInput
+            multiline
+            style={styles.txtInput2}
+            onChangeText={myDescription =>
+              setDescription(myDescription)
+            }></TextInput>
           <Text style={styles.txtTiltle}>Program Language</Text>
         </View>
-      )
-    }
-    else if(item.type === 'dropdown')
-    {
+      );
+    } else if (item.type === 'dropdown') {
       return (
         <View>
           <View style={styles.conDropDown}>
@@ -180,7 +186,9 @@ const AddCourseScreen = ({route}) => {
               multiple={false}
               // mode="BADGE"
               // badgeDotColors={['#e76f51', '#00b4d8']}
-              onChangeValue={(myProgramLanguage) => setMyProgramLanguage(myProgramLanguage) }
+              onChangeValue={myProgramLanguage =>
+                setMyProgramLanguage(myProgramLanguage)
+              }
             />
           </View>
           <Text style={styles.txtTiltle}>Language</Text>
@@ -199,13 +207,12 @@ const AddCourseScreen = ({route}) => {
               multiple={false}
               mode="BADGE"
               badgeDotColors={['#e76f51', '#00b4d8']}
-              onChangeValue={(myLanguage) => setLanguage(myLanguage) }
+              onChangeValue={myLanguage => setLanguage(myLanguage)}
             />
           </View>
         </View>
-      )
-    }
-    else {
+      );
+    } else {
       return (
         <View>
           {/* <Text style={styles.txtTiltle}>Chapter</Text> */}
@@ -292,33 +299,34 @@ const AddCourseScreen = ({route}) => {
           </View> */}
           <View style={styles.space}>
             <View style={[styles.space]}></View>
-         </View>
+          </View>
         </View>
-      )
+      );
     }
-  }
+  };
 
   const data = [
-    { id: 'content1', type: 'content1' },
-    { id: 'dropdown', type: 'dropdown' },
-    { id: 'content2', type: 'content2' },
+    {id: 'content1', type: 'content1'},
+    {id: 'dropdown', type: 'dropdown'},
+    {id: 'content2', type: 'content2'},
   ];
 
   useEffect(() => {
-    firebase.firestore().collection('users')
-    .doc(firebase.auth().currentUser.uid).get()
-    .then((snapshot) => {
-      if(snapshot.exists)
-      {
-        setName(snapshot.data())
-      }
-      else {
-        console.log('User does not exist')
-      }
-    })
-  }, [])
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          setName(snapshot.data());
+        } else {
+          console.log('User does not exist');
+        }
+      });
+  }, []);
 
-  const now = firebase.firestore.Timestamp.now()
+  const now = firebase.firestore.Timestamp.now();
 
   const addCourse = async () => {
     try {
@@ -357,21 +365,21 @@ const AddCourseScreen = ({route}) => {
         </View>
       </ImageBackground>
       <View style={styles.content}>
-        <FlatList 
-        showsVerticalScrollIndicator={false}
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}>
-          
-        </FlatList>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}></FlatList>
       </View>
 
-      <BtnTick onPress={() => {
-        handleUpload()
-      }} />
+      <BtnTick
+        onPress={() => {
+          addCourse();
+        }}
+      />
     </SafeAreaView>
   );
-}
+};
 
 export default AddCourseScreen;
 

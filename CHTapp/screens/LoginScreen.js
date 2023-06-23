@@ -1,3 +1,25 @@
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
+import React, {Component, useState} from 'react';
+import {IMG_AUTHBACKGROUND} from '../src/assets/img';
+import CUSTOM_COLORS from '../src/constants/colors';
+import scale from '../src/constants/responsive';
+import CustomButton from '../src/components/button';
+import TextBox from '../src/components/textBox';
+import {IC_FACEBOOK, IC_GOOGLE} from '../src/assets/icons';
+import BackButton from '../src/components/backButton';
+import {useNavigation} from '@react-navigation/native';
+import {firebase} from '../configs/FirebaseConfig';
+import CUSTOM_FONTS from '../src/constants/fonts';
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
@@ -9,21 +31,21 @@ import { IC_FACEBOOK, IC_GOOGLE } from '../src/assets/icons'
 import BackButton from '../src/components/backButton'
 import { useNavigation } from '@react-navigation/native';
 import {firebase} from '../configs/FirebaseConfig'
-
+import CUSTOM_FONTS from '../src/constants/fonts';
 
 const LoginScreen = () => {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    loginUser = async (email, password) => {
-        try {
-            await firebase.auth().signInWithEmailAndPassword(email, password)
-        } catch (error) {
-            Alert.alert('Email or password is incorrect!')
-        }
+  loginUser = async (email, password) => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      Alert.alert('Email or password is incorrect!');
     }
+  };
 
     return (
         <SafeAreaView style={styles.container}>

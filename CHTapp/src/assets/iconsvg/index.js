@@ -7,6 +7,7 @@ export {default as IC_Checked} from './IC_Checked';
 export {default as IC_Delete} from './IC_Delete';
 export {default as IC_Prev} from './IC_Prev';
 export {default as IC_RightArrow} from './IC_RightArrow';
+export {default as IC_RightArrow2} from './IC_ArrowRight';
 export {default as IC_Notification} from './IC_Notification';
 export {default as IC_Moon} from './IC_Moon';
 export {default as IC_Help} from './IC_Help';

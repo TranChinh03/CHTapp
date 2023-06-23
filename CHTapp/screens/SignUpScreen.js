@@ -1,3 +1,25 @@
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
+import React, {Component, useState} from 'react';
+import {IMG_AUTHBACKGROUND} from '../src/assets/img';
+import CUSTOM_COLORS from '../src/constants/colors';
+import scale from '../src/constants/responsive';
+import CustomButton from '../src/components/button';
+import TextBox from '../src/components/textBox';
+import {IC_FACEBOOK, IC_GOOGLE} from '../src/assets/icons';
+import BackButton from '../src/components/backButton';
+import {firebase} from '../configs/FirebaseConfig';
+import {useNavigation} from '@react-navigation/native';
+import CUSTOM_FONTS from '../src/constants/fonts';
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
@@ -11,8 +33,11 @@ import {firebase} from '../configs/FirebaseConfig'
 import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {
+  const navigation = useNavigation();
 
-    const navigation = useNavigation()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -101,94 +126,101 @@ const SignUpScreen = () => {
       )
 }
 
-export default SignUpScreen
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        height: '100%',
-    },
-    image: {
-        flex: 1,
-    },
-    container1: {
-        flex:2,
-        alignItems: 'center'
-    },
+  container: {
+    height: '100%',
+  },
+  image: {
+    flex: 1,
+  },
+  container1: {
+    flex: 2,
+    //alignItems: 'center',
+    flexDirection: 'row',
+    //backgroundColor: 'pink',
+    //justifyContent: 'center',
+  },
 
-    container2: {
-        flex: 2.8,
-    },
+  container2: {
+    flex: 4,
+    //backgroundColor: 'pink',
+  },
 
     container3: {
         flex:1,
         alignItems: 'center',
     },
 
-    text1: {
-        color: CUSTOM_COLORS.white,
-        fontSize: scale(75, 'w'),
-        marginTop: scale(40, 'h'),
-        fontWeight:'bold'
-    },
-    subtext1: {
-        color: CUSTOM_COLORS.white,
-        fontSize: scale(16, 'w'),
-    },
-    text2: {
-        color: CUSTOM_COLORS.black,
-        fontSize: scale(40, 'w'),
-        fontWeight: '500',
-        marginLeft: scale(25, 'w'),
-        marginTop: scale(-10, 'h'),
-    },
-    subtext2: {
-        fontSize: scale(14, 'w'),
-        marginTop: scale(20, 'h'),
-        marginHorizontal: scale(40, 'w'),
-        color: CUSTOM_COLORS.black,
-    },
+  text1: {
+    color: CUSTOM_COLORS.white,
+    fontSize: scale(75, 'w'),
+    marginTop: scale(40, 'h'),
+    fontFamily: CUSTOM_FONTS.black,
+    alignSelf: 'center',
+  },
+  subtext1: {
+    color: CUSTOM_COLORS.white,
+    fontSize: scale(16, 'w'),
+    fontFamily: CUSTOM_FONTS.italic,
+  },
+  text2: {
+    color: CUSTOM_COLORS.black,
+    fontSize: scale(40, 'w'),
+    fontWeight: '500',
+    marginLeft: scale(25, 'w'),
+    marginTop: scale(-10, 'h'),
+  },
+  subtext2: {
+    fontSize: scale(14, 'w'),
+    marginTop: scale(20, 'h'),
+    marginHorizontal: scale(40, 'w'),
+    color: CUSTOM_COLORS.black,
+  },
 
-    subContainer2: {
-        alignSelf: 'center',
-        marginTop: scale(10, 'h'),
-        height: scale(240, 'h'),
-        justifyContent: 'space-between',
-    },
+  subContainer2: {
+    alignSelf: 'center',
+    marginTop: scale(10, 'h'),
+    //height: scale(400, 'h'),
+    height: scale(380, 'h'),
+    justifyContent: 'space-between',
+    //backgroundColor: 'yellow',
+  },
 
+  buttonContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
 
-    buttonContainer: {
-        position: 'absolute',
-        right: 0,
-        bottom: 0,
-    },
+  textButton: {
+    fontSize: scale(14, 'w'),
+    color: CUSTOM_COLORS.black,
+    marginTop: scale(15, 'h'),
+  },
 
-    textButton: {
-        fontSize: scale(14,'w'),
-        color: CUSTOM_COLORS.black,
-    },
+  subContainer3: {
+    flexDirection: 'row',
+    width: scale(150, 'w'),
+    justifyContent: 'space-between',
+    marginTop: scale(20, 'h'),
+  },
 
+  iconContainer: {
+    height: scale(48, 'h'),
+    width: scale(65, 'w'),
+    borderWidth: 1,
+    borderColor: CUSTOM_COLORS.gray,
+    borderRadius: scale(15, 'w'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
-    subContainer3: {
-        flexDirection: 'row',
-        width: scale(150, 'w'),
-        justifyContent: 'space-between',
-        marginTop: scale(20, 'h'),
-    },
-
-    iconContainer: {
-        height: scale(48, 'h'),
-        width: scale(65, 'w'),
-        borderWidth: 1,
-        borderColor: CUSTOM_COLORS.gray,
-        borderRadius: scale(15, 'w'),
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    icon: {
-        height: scale(24, 'h'),
-        width: scale(24, 'w'),
-    },
+  icon: {
+    height: scale(24, 'h'),
+    width: scale(24, 'w'),
+  },
 
 
     bottomContainer: {
