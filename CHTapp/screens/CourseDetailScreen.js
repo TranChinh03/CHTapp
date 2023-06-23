@@ -46,6 +46,8 @@ const CourseDetailScreen = ({route}) => {
   const [chapters, setChapters] = useState([]);
   const [lessons, setLessons] = useState([]);
 
+  const [myTitle, setMyTitle] = useState([]);
+
   const [evaluation, setEvaluation] = useState([]);
 
   const [fiveStar, setFiveStar] = useState(0);
@@ -64,7 +66,28 @@ const CourseDetailScreen = ({route}) => {
     getStarPercentage('2').then(data => setTwoStar(data));
     getStarPercentage('1').then(data => setOneStar(data));
     // GetEvaluation().then((data) => setEvaluation(data))
-  }, [item.author]);
+  }, [item.title]);
+
+  // useEffect(() => {
+  //   // Listen for when the screen is focused again
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     firebase
+  //     .firestore()
+  //     .collection('courses')
+  //     .where('courseTitle', '==', item.title)
+  //     .where('courseAuthor', '==', item.email)
+  //     .get().then((querrySnapshot) => {
+  //       if(!querrySnapshot.empty)
+  //       {
+  //         const title = querrySnapshot.docs[0].title;
+  //         setMyTitle(title);
+          
+  //       }
+  //     })
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const renderLessonItem = ({item: lesson}) => {
     return (
@@ -365,15 +388,20 @@ const CourseDetailScreen = ({route}) => {
           </View>
         </View>
       </ScrollView>
-      <TouchableOpacity
+      {
+        item.job === 'Teacher' ? (
+          <TouchableOpacity
         style={styles.fixedBtnEdit}
         onPress={() =>
-          navigation.navigate('AddCourse', {
-            txtHeader: 'Edit course',
+          navigation.navigate('CourseStack', {
+            screen: 'EditCourse',
+            params: {preItem: item},
           })
         }>
         <IC_Edit />
       </TouchableOpacity>
+        ) : null
+      }
 
       <TouchableOpacity style={styles.fixedButton}>
         <Text style={styles.start}>Start</Text>
