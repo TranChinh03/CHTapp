@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
+import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
@@ -49,6 +49,7 @@ const SignUpScreen = () => {
     }
     return (
         <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.container}>
           <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
              <View style={styles.container1}>
                   <BackButton style={{position: 'absolute', left: 0, top: 0}} onPress={() => navigation.goBack()}/>
@@ -95,6 +96,7 @@ const SignUpScreen = () => {
                   </View>
              </View>
           </ImageBackground>
+          </ScrollView>
         </SafeAreaView>
       )
 }
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     },
 
     container3: {
-        flex:1.2,
+        flex:1,
         alignItems: 'center',
     },
 
@@ -191,8 +193,6 @@ const styles = StyleSheet.create({
 
     bottomContainer: {
         flexDirection: 'row',
-        position: 'absolute',
-        bottom: scale(20,'h'),
         alignSelf: 'center'
     },
     bottomText: {
