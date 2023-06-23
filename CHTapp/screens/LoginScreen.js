@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView } from 'react-native'
+import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
 import CUSTOM_COLORS from '../src/constants/colors'
@@ -27,7 +27,7 @@ const LoginScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-          <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
               <View style={styles.container1}>
                 <BackButton style={{position: 'absolute', left: 0, top: 0}} onPress={() => navigation.goBack()}/>
@@ -83,7 +83,7 @@ const LoginScreen = () => {
                 </View>
               </View>
             </ImageBackground>
-          </KeyboardAvoidingView>
+          </ScrollView>
         </SafeAreaView>
       )
 }
@@ -92,6 +92,7 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     container: {
+        overflow: 'hidden',
         flex: 1,
     },
     image: {
