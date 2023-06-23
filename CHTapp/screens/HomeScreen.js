@@ -88,6 +88,7 @@ const HomeScreen = () => {
               rating={item.rate}
               view={item.numofAttendants}
               style={{marginRight: scale(20, 'w')}}
+              source={item.image}
               onPress = {() => navigation.navigate('CourseStack', {screen : 'CourseDetail', params: {item: item}})}
             />
           )}

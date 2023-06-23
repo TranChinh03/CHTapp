@@ -19,12 +19,25 @@ import CourseCompletedBox from '../src/components/courseCompletedBox';
 import TextDisplayBox from '../src/components/textDisplayBox';
 import {firebase} from '../configs/FirebaseConfig';
 import {useNavigation} from '@react-navigation/native';
+import { IC_LOGOUT } from '../src/assets/iconsvg';
+import { IMG_LOGOUTBACKGROUND } from '../src/assets/imgsvg';
 import CUSTOM_FONTS from '../src/constants/fonts';
 
 const ProfileScreen = () => {
+  const navigation = useNavigation();
+
+
+  const handleSignOut = () => {
+    firebase.auth()
+      .signOut()
+      .then(() => {
+        navigation.replace("Loading")
+      })
+      .catch(error => alert(error.message))
+  }
+
   const [profile, setProfile] = useState('');
 
-  const navigation = useNavigation();
 
   useEffect(() => {
     firebase
@@ -132,7 +145,24 @@ const ProfileScreen = () => {
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextDisplayBox label="Phone" text={profile.phone} />
           </View>
-          <View style={{height: scale(100, 'h')}} />
+
+          <View style={styles.logOutContainer}>
+                <TouchableOpacity onPress={handleSignOut} style={{
+                  flex: 6,
+                  padding: scale(10, 'w'),
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                    <Text style={styles.logouttext}>Log Out  </Text>
+                    <IC_LOGOUT></IC_LOGOUT>
+                </TouchableOpacity>
+
+                <View style={{flex: 4}}>
+                    <IMG_LOGOUTBACKGROUND/>
+                </View>
+            </View>
+            <View style={{height: scale(100, 'h')}} />
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -232,4 +262,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logOutContainer: {
+    flex: 2,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  logouttext: {
+    fontSize: scale(20, 'w'),
+    color: CUSTOM_COLORS.usBlue,
+  }
 });

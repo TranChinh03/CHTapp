@@ -33,7 +33,7 @@ const ForgotPasswordScreen = () => {
         <SafeAreaView style={styles.container}>
           <ImageBackground source={IMG_AUTHBACKGROUND} resizeMode='cover' style={styles.image}>
              <View style={styles.container1}>
-                  <BackButton onPress={() => navigation.goBack()}/>
+                  <BackButton style={{position: 'absolute', left: 0, top: 0}} onPress={() => navigation.goBack()}/>
                   <Text style={styles.text1}>CHT</Text>
                   <Text style={styles.subtext1}>Course - Homework - Technical</Text>
              </View>
