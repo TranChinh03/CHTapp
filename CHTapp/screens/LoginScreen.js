@@ -1,3 +1,4 @@
+
 import React, {Component, useState} from 'react';
 import {IMG_AUTHBACKGROUND} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
@@ -22,6 +23,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+
 
 const LoginScreen = () => {
   const navigation = useNavigation();
