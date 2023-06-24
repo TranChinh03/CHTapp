@@ -78,7 +78,7 @@ export default class MeetingScreen extends Component {
 
         <TouchableOpacity
           style={styles.fixedButton}
-          onPress={() => this.props.navigation.navigate('AddOption')}>
+          onPress={() => this.props.navigation.navigate('CreateMeeting')}>
           <Text style={styles.start}>+</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -142,5 +142,24 @@ const styles = StyleSheet.create({
     marginLeft: scale(30, 'w'),
     marginTop: scale(30, 'h'),
     marginBottom: scale(10, 'h'),
+  },
+  fixedButton: {
+    position: 'absolute',
+    width: scale(70, 'w'),
+    height: scale(70, 'w'),
+    borderRadius: scale(70 / 2, 'w'),
+    backgroundColor: CUSTOM_COLORS.Grape,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    bottom: scale(100, 'h'),
+    right: scale(35, 'w'),
+    flexDirection: 'row',
+    elevation: 7,
+  },
+  start: {
+    fontSize: scale(40, 'w'),
+    fontWeight: '300',
+    color: CUSTOM_COLORS.white,
   },
 });
