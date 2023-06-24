@@ -1,15 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ImageBackground,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Alert,
-  ScrollView
-} from 'react-native';
+
 import React, {Component, useState} from 'react';
 import {IMG_AUTHBACKGROUND} from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
@@ -21,6 +10,9 @@ import BackButton from '../src/components/backButton';
 import {useNavigation} from '@react-navigation/native';
 import {firebase} from '../configs/FirebaseConfig';
 import CUSTOM_FONTS from '../src/constants/fonts';
+import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView, ScrollView } from 'react-native'
+
+
 
 const LoginScreen = () => {
   const navigation = useNavigation();
