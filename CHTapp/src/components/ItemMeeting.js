@@ -12,7 +12,7 @@ export default class ItemMeeting extends Component {
       <View style={styles.container}>
         <View style={styles.content1}>
           <Text style={styles.txtMeetingName}>{this.props.meetingName}</Text>
-          <Text style={styles.txtTime}>{this.props.time}</Text>
+          <Text style={styles.txtTime}>{this.props.date} {this.props.time}</Text>
         </View>
         <View style={styles.content2}>
           <Text style={styles.txtTitle}>{this.props.courseName}</Text>
