@@ -298,19 +298,24 @@ const AddChapterScreen = ({route}) => {
   const now = firebase.firestore.Timestamp.now()
 
   const addChapter = () => {
-    firebase
-    .firestore()
-    .collection('chapters')
-    .add ({
-      courseAuthor: name.email,
-      courseTitle: myCourse,
-      number: myChapter,
-      title: title,
-    })
-    .then(() => {
-      Alert.alert('Add Chapter Successfully!')
-      navigation.navigate('Course')
-    })
+    if (myCourse !== '' && myChapter !== '' && title !== '') {
+      firebase
+      .firestore()
+      .collection('chapters')
+      .add ({
+        courseAuthor: name.email,
+        courseTitle: myCourse,
+        number: myChapter,
+        title: title,
+      })
+      .then(() => {
+        Alert.alert('Add Chapter Successfully!')
+        navigation.navigate('Course')
+      })
+    }
+    else {
+      Alert.alert('Please fill full enough information!');
+    }
   }
 
   return (

@@ -176,7 +176,6 @@ import {
                 author={item.name}
                 rating={item.rate}
                 view={item.numofAttendants}
-                source={item.image}
                 onPress={() =>
                   navigation.navigate('CourseStack', {
                     screen: 'CourseDetail',
@@ -263,6 +262,11 @@ import {
             </View> */}
             <View style={styles.courseContainer}>{renderCourses(courseList)}</View>
           </View>
+          
+          <View style={styles.space}>
+            <View style={[styles.space]}></View>
+         </View>
+
           {/* <View style={styles.container3}>
               <BottomTab/>
           </View> */}
@@ -372,6 +376,10 @@ import {
       fontSize: scale(40, 'w'),
       fontWeight: '300',
       color: CUSTOM_COLORS.white,
+    },
+    space: {
+      height: scale(100, 'h'),
+      // backgroundColor: 'pink',
     },
   });
   

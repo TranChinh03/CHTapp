@@ -219,10 +219,10 @@ import {
   
                   <View style={{display: 'flex', flexDirection: 'row'}}>
                   <View style={styles.contentRow}>
-                          <TextInputDisplayBox label = 'Date of birth' text = {new Date(profile.birthday).toLocaleDateString()}/>
+                          <TextInputDisplayBox label = 'Date of birth' text = {profile.birthday}/>
                       </View>
                       <View style={styles.contentRow}>
-                          <TextInputDisplayBox label = 'Job' text = {profile.job} onChangeText={(myJob) => setJob(myJob)}/>
+                          <TextDisplayBox label = 'Job' text = {profile.job} onChangeText={(myJob) => setJob(myJob)}/>
                       </View>
                   </View>
   

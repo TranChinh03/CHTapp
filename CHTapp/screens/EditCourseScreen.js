@@ -69,20 +69,20 @@ import { lang } from 'moment-timezone';
       if(item.type ==='content1'){
         return  (
           <View>
-            <Text style={styles.txtTiltle}>Thumbnail</Text>
+            {/* <Text style={styles.txtTiltle}>Thumbnail</Text>
             <View style={styles.vwThumnail}>
               <TouchableOpacity style={styles.btnThumnail}>
                 <IC_Camera style={styles.icCamera} />
                 <Text style={styles.txtThumnail}>Upload from your device</Text>
               </TouchableOpacity>
               <View style={styles.currentThumnail}>
-                {/* <Image
+                <Image
                       style={styles.imgThumnail}
                       source={IMG_CPP}
                       resizeMode="cover"
-                    /> */}
+                    />
               </View>
-            </View>
+            </View> */}
             <Text style={styles.txtTiltle}>Title</Text>
             <TextInput multiline style={styles.txtInput} onChangeText={(myTitle) => setTitle(myTitle)}>{preItem.title}</TextInput>
             <Text style={styles.txtTiltle}>Description</Text>
@@ -257,8 +257,8 @@ import { lang } from 'moment-timezone';
     const now = firebase.firestore.Timestamp.now()
   
     const updateCourse = () => {
-    
-      firebase
+      if ( title !== '' && description !== '' &&language !== '' &&myProgramLanguage !== '' ) {
+        firebase
         .firestore()
         .collection('courses')
         .where('title', '==', preItem.title)
@@ -395,6 +395,11 @@ import { lang } from 'moment-timezone';
           }
         })
       
+      }
+      else {
+        Alert.alert('Please fill full enough information!');
+      }
+ 
       
     }
   

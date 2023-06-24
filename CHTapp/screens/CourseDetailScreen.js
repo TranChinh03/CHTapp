@@ -17,6 +17,10 @@ import {
   IMG_COURSEBACKGROUND,
   IMG_CPP,
   IMG_CPPBACKGROUND,
+  IMG_CSHARP,
+  IMG_RUBY,
+  IMG_JAVASCRIPT,
+  IMG_PYTHON
 } from '../src/assets/img';
 import CUSTOM_COLORS from '../src/constants/colors';
 import scale from '../src/constants/responsive';
@@ -261,8 +265,14 @@ const CourseDetailScreen = ({route}) => {
         <View style={styles.container1}>
           <ImageBackground
             style={styles.image}
-            source={IMG_CPPBACKGROUND}
-            resizeMode="stretch"
+            source={item.programLanguage === 'c++' ? IMG_CPP : (
+              item.programLanguage === 'c#' ? IMG_CSHARP : (
+                item.programLanguage === 'ruby' ? IMG_RUBY : (
+                  item.programLanguage === 'python' ? IMG_PYTHON : IMG_JAVASCRIPT
+            )
+          )
+        )}
+            resizeMode="contain"
           />
           <BackButton onPress={() => navigation.navigate('Course')} type={1} />
         </View>
