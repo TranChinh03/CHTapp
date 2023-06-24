@@ -28,6 +28,7 @@ import AddLessonScreen from '../screens/AddLessonScreen';
 import AllCourseScreen from '../screens/AllCourseScreen';
 import AddOptionScreen from '../screens/AddOptionScreen';
 import EditCourseScreen from '../screens/EditCourseScreen';
+import MeetingScreen from '../screens/MeetingScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -77,6 +78,21 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
+        name="Meeting"
+        component={MeetingScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View>
+              <IC_Schedule
+                fill={focused ? CUSTOM_COLORS.primary : CUSTOM_COLORS.lightGray}
+                fill2={
+                  focused ? CUSTOM_COLORS.primary : 'transparent'
+                }></IC_Schedule>
+            </View>
+          ),
+        }}
+      />
+      {/* <Tab.Screen
         name="Todo"
         component={TodoScreen}
         options={{
@@ -90,7 +106,7 @@ const HomeTabs = () => {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="ProfileStack"
         component={ProfileStack}
@@ -182,7 +198,6 @@ const ProfileStack = () => {
     </Stack.Navigator>
   );
 };
-
 
 export default function AppStack() {
   const navigation = useNavigation();
