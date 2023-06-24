@@ -48,7 +48,10 @@ const data = [
 
   const [data, setData] = useState('');
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
+
+  
+  const [link, setLink] = useState('')
 
   const navigation = useNavigation();
 
@@ -59,13 +62,13 @@ const data = [
 
   
     return meetingData;
+    <SafeAreaView>
         <TouchableOpacity
           style={styles.fixedButton}
           onPress={() => this.props.navigation.navigate('CreateMeeting')}>
           <Text style={styles.start}>+</Text>
         </TouchableOpacity>
       </SafeAreaView>
-    );
   }
 
   useEffect(() => {
@@ -119,6 +122,7 @@ const data = [
                 date={item.date}
                 courseName={item.subject}
                 lectureName={item.host}
+                link= {item.joinUrl}
               />
             );
           }}

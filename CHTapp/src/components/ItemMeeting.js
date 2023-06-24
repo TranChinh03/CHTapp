@@ -1,4 +1,4 @@
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity, Linking} from 'react-native';
 import React, {Component} from 'react';
 import scale from '../constants/responsive';
 import CUSTOM_COLORS from '../constants/colors';
@@ -21,7 +21,9 @@ export default class ItemMeeting extends Component {
               <Text style={styles.txtTitle2}>{this.props.lectureName}</Text>
             </View>
             <View style={styles.conBtn}>
-              <TouchableOpacity style={styles.btnJoin}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL('mailto:minhchinhtran03@example.com?subject=SendMail&body=Description') }
+               style={styles.btnJoin}>
                 <Text style={styles.txtJoin}>Get link</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnInvite}>
