@@ -32,6 +32,7 @@ import BtnDelete from '../src/components/BtnDelete';
 import BtnTick from '../src/components/BtnTick';
 import {firebase} from '../configs/FirebaseConfig'
 import ItemPdf from '../src/components/ItemPdf';
+import DocumentPicker from 'react-native-document-picker';
 
 var titles = [
   'Python.pdf',
@@ -125,6 +126,38 @@ const AddLessonScreen = () => {
     }
   }
 
+  const [fileName, setFileName] = useState(null)
+
+  async function uploadFile() {
+    try {
+      // Select a file using the document picker
+      const file = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+
+      // setFileName (file.name)
+  
+      // Create a FormData object and append the file
+      const data = new FormData();
+      data.append('file', {
+        uri: file.uri,
+        type: file.type,
+        name: file.name,
+      });
+  
+      // Upload the file to your server using a POST request
+      const response = await fetch('<URL>', {
+        method: 'POST',
+        body: data,
+      });
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker
+      } else {
+        throw err;
+      }
+    }
+  }
 
   const renderItem = ({item}) => {
     if(item.type ==='content1'){
@@ -284,6 +317,12 @@ const AddLessonScreen = () => {
               <TouchableOpacity style={styles.btnBorder}>
                 <Text style={styles.txtDelete}>-</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.fixedButton}
+                onPress = {uploadFile}
+              >
+            <Text style={styles.start}>+</Text>
+          </TouchableOpacity>
               <FlatList
                 horizontal
                 numColumns={1}
@@ -292,6 +331,11 @@ const AddLessonScreen = () => {
                   return <ItemPdf title={item} />;
                 }}
               />
+              {/* <View>
+                {fileName && (
+                  <ItemPdf title={fileName}/>
+                )}
+              </View> */}
             </View>
             <Text style={styles.txtTiltle}>Test</Text>
             <View style={{marginLeft: scale(15, 'w'), flexDirection: 'row'}}>
@@ -567,5 +611,20 @@ const styles = StyleSheet.create({
   space: {
     height: scale(200, 'h'),
     // backgroundColor: 'pink',
+  },
+
+  fixedButton: {
+    width: scale(40, 'w'),
+    height: scale(40, 'w'),
+    borderRadius: scale(70 / 2, 'w'),
+    backgroundColor: CUSTOM_COLORS.PictionBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 7,
+  },
+  start: {
+    fontSize: scale(30, 'w'),
+    fontWeight: '300',
+    color: CUSTOM_COLORS.white,
   },
 });
