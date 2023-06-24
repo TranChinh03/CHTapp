@@ -27,13 +27,11 @@ export default class CourseItem extends Component {
       <TouchableOpacity
         style={[styles.container, this.props.style]}
         onPress={this.props.onPress}>
-        {this.props.source && (
-          <Image
+        <Image
           source={{uri: this.props.source}}
           resizeMode="contain"
           style={styles.logoImage}
         />
-        )}
         <View style={styles.infoContainer}>
           <Text style={styles.courseName}>{this.props.title}</Text>
           <Text style={styles.lecturerName}>{this.props.author}</Text>
