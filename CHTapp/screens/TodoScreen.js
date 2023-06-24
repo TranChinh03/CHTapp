@@ -382,6 +382,7 @@ export default class TodoScreen extends Component {
     return (
       <View>
         <Text>TodoScreen</Text>
+        <Button onPress={() => Linking.openURL('mailto:minhchinhtran03@example.com?subject=SendMail&body=Description') }title="support@example.com" />
       </View>
     );
   }
