@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import AppStack from './AppStack';
-
-
 
 const AppNavigation = () => {
   return (
@@ -12,4 +10,4 @@ const AppNavigation = () => {
   );
 };
 
-export default AppNavigation; 
+export default AppNavigation;
