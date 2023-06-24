@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import BackButton from '../src/components/backButton';
 import {IMG_BG1} from '../src/assets/img';
 import BtnTick from '../src/components/BtnTick';
@@ -17,6 +17,8 @@ import CUSTOM_SIZES from '../src/constants/size';
 import CUSTOM_COLORS from '../src/constants/colors';
 import BtnDelete from '../src/components/BtnDelete';
 import ItemMeeting from '../src/components/ItemMeeting';
+import {firebase} from '../configs/FirebaseConfig'
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 const data = [
   {
@@ -42,40 +44,21 @@ const data = [
   },
 ];
 
-export default class MeetingScreen extends Component {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground
-          style={styles.vwImg}
-          source={IMG_BG1}
-          resizeMode="cover">
-          <View style={styles.vwTitle}>
-            <BackButton onPress={() => this.props.navigation.goBack()} />
-            <Text style={styles.txtHeader}>Your Meeting</Text>
-          </View>
-        </ImageBackground>
-        <View style={styles.content}>
-          <Text style={styles.txtTiltle}>Your Meeting</Text>
+ const MeetingScreen = ()  =>  {
 
-          <FlatList
-            style={{marginTop: scale(10, 'h'), marginLeft: scale(5, 'h')}}
-            scrollEnabled={false}
-            numColumns={1}
-            data={data}
-            renderItem={({item, index}) => {
-              return (
-                <ItemMeeting
-                  meetingName={item.meetingName}
-                  time={item.time}
-                  courseName={item.courseName}
-                  lectureName={item.lectureName}
-                />
-              );
-            }}
-          />
-        </View>
+  const [data, setData] = useState('');
 
+  const [name, setName] = useState('')
+
+  const navigation = useNavigation();
+
+  async function joinedCourse() {
+    const meetingRef = firebase.firestore().collection('meetings');
+    const meetingSnapshot = await meetingRef.get();
+    const meetingData = meetingSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+
+  
+    return meetingData;
         <TouchableOpacity
           style={styles.fixedButton}
           onPress={() => this.props.navigation.navigate('CreateMeeting')}>
@@ -84,7 +67,74 @@ export default class MeetingScreen extends Component {
       </SafeAreaView>
     );
   }
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          setName(snapshot.data());
+        } else {
+          console.log('User does not exist');
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      const newCourse = await joinedCourse()
+      setData(newCourse);
+    }
+
+    getData();
+  }, [name.email]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        style={styles.vwImg}
+        source={IMG_BG1}
+        resizeMode="cover">
+        <View style={styles.vwTitle}>
+          <BackButton onPress={() => this.props.navigation.goBack()} />
+          <Text style={styles.txtHeader}>Meetings</Text>
+        </View>
+      </ImageBackground>
+      <View style={styles.content}>
+        <Text style={styles.txtTiltle}>Meetings</Text>
+
+        <FlatList
+          style={{marginTop: scale(10, 'h'), marginLeft: scale(5, 'h')}}
+          scrollEnabled={false}
+          numColumns={1}
+          data={data}
+          renderItem={({item, index}) => {
+            return (
+              <ItemMeeting
+                meetingName={item.title}
+                time={item.time}
+                date={item.date}
+                courseName={item.subject}
+                lectureName={item.host}
+              />
+            );
+          }}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={styles.fixedButton}
+        onPress={() => this.props.navigation.navigate('AddOption')}>
+        <Text style={styles.start}>+</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
 }
+
+export default MeetingScreen;
 
 const styles = StyleSheet.create({
   container: {
