@@ -25,6 +25,7 @@ import { useNavigation, useNavigationState } from '@react-navigation/native';
 import CourseDetailScreen from './CourseDetailScreen';
 import CourseCompletedBox from '../src/components/courseCompletedBox';
 
+
 var titles = ['Python', 'SQL', 'Java', 'Ruby', 'Go', 'C#', 'C++'];
 
 // const navigation = useNavigation();
@@ -88,7 +89,6 @@ const HomeScreen = () => {
               rating={item.rate}
               view={item.numofAttendants}
               style={{marginRight: scale(20, 'w')}}
-              source={item.image}
               onPress = {() => navigation.navigate('CourseStack', {screen : 'CourseDetail', params: {item: item}})}
             />
           )}
@@ -206,7 +206,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     async function getData() {
-      const popularCourse = (await joinedCourse()).sort((a, b) => a.numofAttendants - b.numofAttendants).slice(0, 5);
+      const popularCourse = (await joinedCourse()).sort((a, b) => b.numofAttendants - a.numofAttendants).slice(0, 5);
       setPopularCourse(popularCourse);
     }
 
@@ -215,7 +215,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     async function getData() {
-      const newCourse = (await joinedCourse()).sort((a, b) => a.openDate - b.openDate).slice(0,5);
+      const newCourse = (await joinedCourse()).sort((a, b) => b.openDate - a.openDate).slice(0,5);
       setNewCourse(newCourse);
     }
 
@@ -239,31 +239,32 @@ const HomeScreen = () => {
             Choose the course that's right for you
           </Text>
         </View>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <IC_NotificationBing
               style={styles.icNotification}
               fill={CUSTOM_COLORS.primary}
             />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
-      <View style={styles.searchPart}>
+      {/* <View style={styles.searchPart}>
         <SearchBar />
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Image
+      </View> */}
+      <Image
           source={IMG_DECORHOMESCREEN}
           resizeMode="cover"
           style={styles.decorImage}
         />
 
-        {renderTitles(
+      <ScrollView showsVerticalScrollIndicator={false}>
+      
+
+        {/* {renderTitles(
           titles,
           styles.containerStyle,
           styles.layoutStyle,
           styles.textStyle,
-        )}
+        )} */}
 
         {renderCourses(myCourse, 'MY COURSES')}
         {renderCourses(popularCourse, 'POPULAR')}

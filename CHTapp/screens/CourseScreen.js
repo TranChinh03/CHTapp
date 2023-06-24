@@ -48,9 +48,9 @@ const CourseScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       {
-        name.job === 'Student' ? (
-          <StudentCourseScreen/> 
-        ) : (<TeacherCourseScreen/>)
+        name.job === 'Teacher' ? (
+          <TeacherCourseScreen/> 
+        ) : (<StudentCourseScreen/>)
       }
     </SafeAreaView>
   );

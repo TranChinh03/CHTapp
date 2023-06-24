@@ -44,7 +44,6 @@ const AddCourseScreen = ({route}) => {
   const [value1, setValue1] = useState('');
   const [programLanguage, setProgramLanguage] = useState([
     {label: 'Python', value: 'python'},
-    {label: 'Java', value: 'java'},
     {label: 'Ruby', value: 'ruby'},
     {label: 'C#', value: 'c#'},
     {label: 'C++', value: 'c++'},
@@ -138,21 +137,21 @@ const AddCourseScreen = ({route}) => {
     if (item.type === 'content1') {
       return (
         <View>
-          <Text style={styles.txtTiltle}>Thumbnail</Text>
+          {/* <Text style={styles.txtTiltle}>Thumbnail</Text>
           <View style={styles.vwThumnail}>
             <TouchableOpacity style={styles.btnThumnail} onPress={handleButtonPress}>
               <IC_Camera style={styles.icCamera} />
               <Text style={styles.txtThumnail}>Upload from your device</Text>
             </TouchableOpacity>
             <View style={styles.currentThumnail}>
-              {/* <Image
+              <Image
                     style={styles.imgThumnail}
                     source={IMG_CPP}
                     resizeMode="cover"
-                  /> */}
+                  />
                   {imageUri && <Image source={{ uri: imageUri }} style={styles.imgThumnail} />}
             </View>
-          </View>
+          </View> */}
           <Text style={styles.txtTiltle}>Title</Text>
           <TextInput
             multiline
@@ -330,26 +329,32 @@ const AddCourseScreen = ({route}) => {
 
   const addCourse = async () => {
     try {
-      const imageUrl = await handleUpload();
+       if(description !== '' && title !== '' && language !== '' && programLanguage !== '')
+       {
+        // const imageUrl = await handleUpload();
 
-      console.log('imageUrl', imageUrl)
-  
-      // Add a new course document to the 'courses' collection
-      await firebase.firestore().collection('courses').add({
-        author: name.email,
-        description: description,
-        title: title,
-        language: language,
-        programLanguage: myProgramLanguage,
-        rate: '0',
-        numofAttendants: '0',
-        openDate: now,
-        lastUpdate: now,
-        image: imageUrl,
-      });
-  
-      Alert.alert('Add Course Successfully!');
-      navigation.navigate('Course');
+        // console.log('imageUrl', imageUrl)
+    
+        // Add a new course document to the 'courses' collection
+        await firebase.firestore().collection('courses').add({
+          author: name.email,
+          description: description,
+          title: title,
+          language: language,
+          programLanguage: myProgramLanguage,
+          rate: '0',
+          numofAttendants: '0',
+          openDate: now,
+          lastUpdate: now,
+          // image: imageUrl,
+        });
+    
+        Alert.alert('Add Course Successfully!');
+        navigation.navigate('Course');
+       }
+       else {
+        Alert.alert('Please fill full enough information!');
+       }
     } catch (error) {
       console.log('Error adding course:', error);
     }

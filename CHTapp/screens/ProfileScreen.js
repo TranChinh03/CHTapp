@@ -61,9 +61,9 @@ const ProfileScreen = () => {
           style={styles.background}
           source={IMG_PROFILEBACKGROUND}
         />
-        <TouchableOpacity style={styles.whiteCircle}>
+        {/* <TouchableOpacity style={styles.whiteCircle}>
           <Image source={IC_SETTING} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <View style={styles.contentContainer}>
@@ -130,7 +130,7 @@ const ProfileScreen = () => {
             <View style={styles.contentRow}>
               <TextDisplayBox
                 label="Date of birth"
-                text={new Date(profile.birthday).toLocaleDateString()}
+                text={profile.birthday}
               />
             </View>
             <View style={styles.contentRow}>

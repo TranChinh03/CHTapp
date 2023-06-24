@@ -7,7 +7,7 @@ import CUSTOM_COLORS from '../constants/colors';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {IC_EYE} from '../assets/icons';
 import scale from '../constants/responsive';
-import {IMG_CPP, IMG_JAVASCRIPT} from '../assets/img';
+import {IMG_CPP, IMG_CSHARP, IMG_JAVASCRIPT, IMG_PYTHON, IMG_RUBY} from '../assets/img';
 
 export default class CourseItem extends Component {
   constructor(props) {
@@ -28,7 +28,13 @@ export default class CourseItem extends Component {
         style={[styles.container, this.props.style]}
         onPress={this.props.onPress}>
         <Image
-          source={{uri: this.props.source}}
+        source={this.props.language === 'c++' ? IMG_CPP : (
+          this.props.language === 'c#' ? IMG_CSHARP : (
+            this.props.language === 'ruby' ? IMG_RUBY : (
+              this.props.language === 'python' ? IMG_PYTHON : IMG_JAVASCRIPT
+            )
+          )
+        )}
           resizeMode="contain"
           style={styles.logoImage}
         />
