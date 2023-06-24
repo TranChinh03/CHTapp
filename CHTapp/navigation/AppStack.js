@@ -29,6 +29,7 @@ import AllCourseScreen from '../screens/AllCourseScreen';
 import AddOptionScreen from '../screens/AddOptionScreen';
 import EditCourseScreen from '../screens/EditCourseScreen';
 import MeetingScreen from '../screens/MeetingScreen';
+import CreateMeeting from '../screens/CreateMeeting';
 
 const Tab = createBottomTabNavigator();
 
@@ -78,8 +79,8 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Meeting"
-        component={MeetingScreen}
+        name="MeetingStack"
+        component={MeetingStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View>
@@ -193,6 +194,22 @@ const ProfileStack = () => {
       <Stack.Screen
         name="ProfileEdit"
         component={ProfileEditScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+const MeetingStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="YourMeeting">
+      <Stack.Screen
+        name="YourMeeting"
+        component={MeetingScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CreateMeeting"
+        component={CreateMeeting}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
