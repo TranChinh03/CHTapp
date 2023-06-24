@@ -1,6 +1,3 @@
-
-
-
 import { Text, View, StyleSheet, SafeAreaView, ImageBackground, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import { IMG_AUTHBACKGROUND } from '../src/assets/img'
@@ -13,16 +10,13 @@ import BackButton from '../src/components/backButton'
 import {firebase} from '../configs/FirebaseConfig'
 import { useNavigation } from '@react-navigation/native';
 
-
 const SignUpScreen = () => {
-
 
     const navigation = useNavigation()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
-
 
     registerUser = async(email, password, name) => {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
