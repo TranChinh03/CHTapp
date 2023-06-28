@@ -17,8 +17,8 @@ import CUSTOM_SIZES from '../src/constants/size';
 import CUSTOM_COLORS from '../src/constants/colors';
 import BtnDelete from '../src/components/BtnDelete';
 import ItemMeeting from '../src/components/ItemMeeting';
-import {firebase} from '../configs/FirebaseConfig'
-import { useNavigation, useNavigationState } from '@react-navigation/native';
+import {firebase} from '../configs/FirebaseConfig';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
 
 const data = [
   {
@@ -44,31 +44,31 @@ const data = [
   },
 ];
 
- const MeetingScreen = ()  =>  {
-
+const MeetingScreen = () => {
   const [data, setData] = useState('');
 
   const [name, setName] = useState('');
 
-  
-  const [link, setLink] = useState('')
+  const [link, setLink] = useState('');
 
   const navigation = useNavigation();
 
   async function joinedCourse() {
     const meetingRef = firebase.firestore().collection('meetings');
     const meetingSnapshot = await meetingRef.get();
-    const meetingData = meetingSnapshot.docs.map(doc => ({id: doc.id , ...doc.data()}));
+    const meetingData = meetingSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-  
     return meetingData;
     <SafeAreaView>
-        <TouchableOpacity
-          style={styles.fixedButton}
-          onPress={() => this.props.navigation.navigate('CreateMeeting')}>
-          <Text style={styles.start}>+</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+      <TouchableOpacity
+        style={styles.fixedButton}
+        onPress={() => this.props.navigation.navigate('CreateMeeting')}>
+        <Text style={styles.start}>+</Text>
+      </TouchableOpacity>
+    </SafeAreaView>;
   }
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const data = [
 
   useEffect(() => {
     async function getData() {
-      const newCourse = await joinedCourse()
+      const newCourse = await joinedCourse();
       setData(newCourse);
     }
 
@@ -97,10 +97,7 @@ const data = [
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.vwImg}
-        source={IMG_BG1}
-        resizeMode="cover">
+      <ImageBackground style={styles.vwImg} source={IMG_BG1} resizeMode="cover">
         <View style={styles.vwTitle}>
           <BackButton onPress={() => this.props.navigation.goBack()} />
           <Text style={styles.txtHeader}>Meetings</Text>
@@ -110,8 +107,12 @@ const data = [
         <Text style={styles.txtTiltle}>Meetings</Text>
 
         <FlatList
-          style={{marginTop: scale(10, 'h'), marginLeft: scale(5, 'h')}}
-          scrollEnabled={false}
+          style={{
+            marginTop: scale(10, 'h'),
+            marginLeft: scale(5, 'h'),
+            marginBottom: scale(80, 'h'),
+          }}
+          scrollEnabled={true}
           numColumns={1}
           data={data}
           renderItem={({item, index}) => {
@@ -122,21 +123,25 @@ const data = [
                 date={item.date}
                 courseName={item.subject}
                 lectureName={item.host}
-                link= {item.joinUrl}
+                link={item.joinUrl}
               />
             );
           }}
         />
       </View>
 
+      {/* <View style={styles.space}>
+        <View style={[styles.space]}></View>
+      </View>
+ */}
       <TouchableOpacity
         style={styles.fixedButton}
-        onPress={() => this.props.navigation.navigate('AddOption')}>
+        onPress={() => navigation.navigate('CreateMeeting')}>
         <Text style={styles.start}>+</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
-}
+};
 
 export default MeetingScreen;
 
@@ -215,5 +220,9 @@ const styles = StyleSheet.create({
     fontSize: scale(40, 'w'),
     fontWeight: '300',
     color: CUSTOM_COLORS.white,
+  },
+  space: {
+    height: scale(88, 'h'),
+    // backgroundColor: 'pink',
   },
 });
