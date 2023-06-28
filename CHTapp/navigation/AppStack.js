@@ -30,6 +30,7 @@ import AddOptionScreen from '../screens/AddOptionScreen';
 import EditCourseScreen from '../screens/EditCourseScreen';
 import MeetingScreen from '../screens/MeetingScreen';
 import CreateMeeting from '../screens/CreateMeeting';
+import SettingScreen from '../screens/SettingScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -188,7 +189,7 @@ const ProfileStack = () => {
     <Stack.Navigator initialRouteName="Profile">
       <Stack.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={SettingScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

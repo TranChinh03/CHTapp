@@ -28,13 +28,14 @@ export default class CourseItem extends Component {
         style={[styles.container, this.props.style]}
         onPress={this.props.onPress}>
         <Image
-        source={this.props.language === 'c++' ? IMG_CPP : (
-          this.props.language === 'c#' ? IMG_CSHARP : (
-            this.props.language === 'ruby' ? IMG_RUBY : (
-              this.props.language === 'python' ? IMG_PYTHON : IMG_JAVASCRIPT
-            )
-          )
-        )}
+        // source={this.props.language === 'c++' ? IMG_CPP : (
+        //   this.props.language === 'c#' ? IMG_CSHARP : (
+        //     this.props.language === 'ruby' ? IMG_RUBY : (
+        //       this.props.language === 'python' ? IMG_PYTHON : IMG_JAVASCRIPT
+        //     )
+        //   )
+        // )}
+        source = {{uri : this.props.image}}
           resizeMode="contain"
           style={styles.logoImage}
         />
