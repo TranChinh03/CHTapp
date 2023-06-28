@@ -12,7 +12,9 @@ export default class ItemMeeting extends Component {
       <View style={styles.container}>
         <View style={styles.content1}>
           <Text style={styles.txtMeetingName}>{this.props.meetingName}</Text>
-          <Text style={styles.txtTime}>{this.props.date} {this.props.time}</Text>
+          <Text style={styles.txtTime}>
+            {this.props.date} {this.props.time}
+          </Text>
         </View>
         <View style={styles.content2}>
           <Text style={styles.txtTitle}>{this.props.courseName}</Text>
@@ -20,13 +22,22 @@ export default class ItemMeeting extends Component {
             <View style={styles.conLec}>
               <Text style={styles.txtTitle2}>{this.props.lectureName}</Text>
             </View>
+            {/* <View style={styles.txtTitle2}>
+              <Text>{this.props.link}</Text>
+            </View> */}
             <View style={styles.conBtn}>
               <TouchableOpacity
-                onPress={() => Linking.openURL('mailto:minhchinhtran03@example.com?subject=SendMail&body=Description') }
-               style={styles.btnJoin}>
-                <Text style={styles.txtJoin}>Get link</Text>
+                onPress={() => Linking.openURL(this.props.link)}
+                style={styles.btnJoin}>
+                <Text style={styles.txtJoin}>Join</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.btnInvite}>
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL(
+                    `mailto:demo@example.com?subject=Invitation Mail&body=You have invited to the meeting: ${this.props.link}`,
+                  )
+                }
+                style={styles.btnInvite}>
                 <Text style={styles.txtJoin}>Invite</Text>
               </TouchableOpacity>
             </View>
