@@ -32,7 +32,9 @@ import BtnDelete from '../src/components/BtnDelete';
 import BtnTick from '../src/components/BtnTick';
 import {firebase} from '../configs/FirebaseConfig'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
-import {uploadBytes, getStorage} from 'firebase/storage'
+import {utils} from '@react-native-firebase/app'
+import storage from '@react-native-firebase/storage'
+
 
 const AddCourseScreen = ({route}) => {
   const {txtHeader} = route.params;
@@ -88,23 +90,25 @@ const AddCourseScreen = ({route}) => {
   const handleUpload = async () => {
     if (imageUri) {
       try {
-        const reference = firebase.storage().ref(`images/${Date.now()}.jpg`);
-        // const task = reference.putFile(imageUri);
-        // task.on('state_changed', (snapshot) => {
-        //   console.log(
-        //     `${(snapshot.bytesTransferred / snapshot.totalBytes) * 100}% completed`
-        //   );
-        // });
-  
-        // await task;
-        // const url = await reference.getDownloadURL();
-        // console.log('Image uploaded to Firebase storage:', url);
-        // // return url;
-
-        reference.put(imageUri).then((snapshot) => {
-          console.log('test',snapshot.ref.getDownloadURL())
-          return snapshot.ref.getDownloadURL();
+        const reference = storage().ref(`images/${Date.now()}.jpg`);
+        const task = reference.putFile(imageUri);
+        task.on('state_changed', (snapshot) => {
+          console.log(
+            `${(snapshot.bytesTransferred / snapshot.totalBytes) * 100}% completed`
+          );
         });
+  
+        await task;
+        const url = await reference.getDownloadURL();
+        console.log('Image uploaded to Firebase storage:', url);
+        return url;
+
+        // const pathToFile = `${utils.FilePath.imageUri}`
+
+        // reference.put(imageUri).then((snapshot) => {
+        //   console.log('test',snapshot.ref.getDownloadURL())
+        //   return snapshot.ref.getDownloadURL();
+        // });
       } catch (error) {
         Alert.alert(error.message);
       }
@@ -137,21 +141,21 @@ const AddCourseScreen = ({route}) => {
     if (item.type === 'content1') {
       return (
         <View>
-          {/* <Text style={styles.txtTiltle}>Thumbnail</Text>
+          <Text style={styles.txtTiltle}>Thumbnail</Text>
           <View style={styles.vwThumnail}>
             <TouchableOpacity style={styles.btnThumnail} onPress={handleButtonPress}>
               <IC_Camera style={styles.icCamera} />
               <Text style={styles.txtThumnail}>Upload from your device</Text>
             </TouchableOpacity>
             <View style={styles.currentThumnail}>
-              <Image
+              {/* <Image
                     style={styles.imgThumnail}
                     source={IMG_CPP}
                     resizeMode="cover"
-                  />
+                  /> */}
                   {imageUri && <Image source={{ uri: imageUri }} style={styles.imgThumnail} />}
             </View>
-          </View> */}
+          </View>
           <Text style={styles.txtTiltle}>Title</Text>
           <TextInput
             multiline
@@ -331,9 +335,9 @@ const AddCourseScreen = ({route}) => {
     try {
        if(description !== '' && title !== '' && language !== '' && programLanguage !== '')
        {
-        // const imageUrl = await handleUpload();
+        const imageUrl = await handleUpload();
 
-        // console.log('imageUrl', imageUrl)
+        console.log('imageUrl', imageUrl)
     
         // Add a new course document to the 'courses' collection
         await firebase.firestore().collection('courses').add({
@@ -346,7 +350,7 @@ const AddCourseScreen = ({route}) => {
           numofAttendants: '0',
           openDate: now,
           lastUpdate: now,
-          // image: imageUrl,
+          image: imageUrl,
         });
     
         Alert.alert('Add Course Successfully!');

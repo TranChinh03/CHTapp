@@ -31,8 +31,9 @@ import {
   import BtnDelete from '../src/components/BtnDelete';
   import BtnTick from '../src/components/BtnTick';
   import {firebase} from '../configs/FirebaseConfig'
-import { lang } from 'moment-timezone';
-
+  import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
+  import {utils} from '@react-native-firebase/app'
+  import storage from '@react-native-firebase/storage'
   const EditCourseScreen = ({route}) => {
     const {preItem} = route.params;
     const navigation = useNavigation();
@@ -62,6 +63,56 @@ import { lang } from 'moment-timezone';
     const [myProgramLanguage, setMyProgramLanguage] = useState('');
   
     const [name, setName] = useState('')
+
+    const [imageUri, setImageUri] = useState(null)
+
+  const handleButtonPress = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        setImageUri(response.assets[0].uri);
+        console.log('imageUri', imageUri)
+      }
+    });
+  };
+
+  const handleUpload = async () => {
+    if (imageUri) {
+      try {
+        const reference = storage().ref(`images/${Date.now()}.jpg`);
+        const task = reference.putFile(imageUri);
+        task.on('state_changed', (snapshot) => {
+          console.log(
+            `${(snapshot.bytesTransferred / snapshot.totalBytes) * 100}% completed`
+          );
+        });
+  
+        await task;
+        const url = await reference.getDownloadURL();
+        console.log('Image uploaded to Firebase storage:', url);
+        return url;
+
+        // const pathToFile = `${utils.FilePath.imageUri}`
+
+        // reference.put(imageUri).then((snapshot) => {
+        //   console.log('test',snapshot.ref.getDownloadURL())
+        //   return snapshot.ref.getDownloadURL();
+        // });
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    }
+  };
   
 
   
@@ -69,20 +120,23 @@ import { lang } from 'moment-timezone';
       if(item.type ==='content1'){
         return  (
           <View>
-            {/* <Text style={styles.txtTiltle}>Thumbnail</Text>
+            <Text style={styles.txtTiltle}>Thumbnail</Text>
             <View style={styles.vwThumnail}>
-              <TouchableOpacity style={styles.btnThumnail}>
+              <TouchableOpacity style={styles.btnThumnail}
+              onPress = {handleButtonPress}>
                 <IC_Camera style={styles.icCamera} />
                 <Text style={styles.txtThumnail}>Upload from your device</Text>
               </TouchableOpacity>
               <View style={styles.currentThumnail}>
-                <Image
+                {/* <Image
                       style={styles.imgThumnail}
-                      source={IMG_CPP}
+                      source={{uri: preItem.image}}
                       resizeMode="cover"
-                    />
+                    /> */}
+                {imageUri ? <Image source={{ uri: imageUri }} style={styles.imgThumnail} resizeMode='cover'/> : 
+                <Image source={{uri: preItem.image}} style={styles.imgThumnail} resizeMode='cover'/>} 
               </View>
-            </View> */}
+            </View>
             <Text style={styles.txtTiltle}>Title</Text>
             <TextInput multiline style={styles.txtInput} onChangeText={(myTitle) => setTitle(myTitle)}>{preItem.title}</TextInput>
             <Text style={styles.txtTiltle}>Description</Text>
@@ -256,7 +310,11 @@ import { lang } from 'moment-timezone';
   
     const now = firebase.firestore.Timestamp.now()
   
-    const updateCourse = () => {
+    const updateCourse = async() => {
+
+      const imageUrl = await handleUpload();
+      console.log('imageUrl', imageUrl)
+
       if ( title !== '' && description !== '' &&language !== '' &&myProgramLanguage !== '' ) {
         firebase
         .firestore()
@@ -277,6 +335,7 @@ import { lang } from 'moment-timezone';
               language: language,
               programLanguage: myProgramLanguage,
               lastUpdate: now,
+              image: imageUrl,
             })
           }
         })

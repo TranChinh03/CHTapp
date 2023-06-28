@@ -176,6 +176,7 @@ import {
                 author={item.name}
                 rating={item.rate}
                 view={item.numofAttendants}
+                image={item.image}
                 onPress={() =>
                   navigation.navigate('CourseStack', {
                     screen: 'CourseDetail',
