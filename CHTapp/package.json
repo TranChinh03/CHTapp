@@ -30,6 +30,7 @@
     "react-native-calendars": "^1.1298.0",
     "react-native-custom-switch": "github:arshigtx/react-native-custom-switch#a965f4d",
     "react-native-date-picker": "^4.2.13",
+    "react-native-document-picker": "^9.0.1",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-gesture-handler": "^2.12.0",
@@ -42,7 +43,8 @@
     "react-native-star-rating-widget": "^1.7.2",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-navigation-drawer": "^1.4.0"
+    "react-navigation-drawer": "^1.4.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

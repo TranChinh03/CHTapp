@@ -131,7 +131,7 @@ const data = [
 
       <TouchableOpacity
         style={styles.fixedButton}
-        onPress={() => this.props.navigation.navigate('AddOption')}>
+        onPress={() => navigation.navigate('AddOption')}>
         <Text style={styles.start}>+</Text>
       </TouchableOpacity>
     </SafeAreaView>
