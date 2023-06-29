@@ -136,7 +136,7 @@ const MeetingScreen = () => {
  */}
       <TouchableOpacity
         style={styles.fixedButton}
-        onPress={() => navigation.navigate('CreateMeeting')}>
+        onPress={() => navigation.navigate('AddOption')}>
         <Text style={styles.start}>+</Text>
       </TouchableOpacity>
     </SafeAreaView>

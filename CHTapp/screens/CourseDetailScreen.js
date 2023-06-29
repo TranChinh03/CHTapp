@@ -125,11 +125,11 @@ const CourseDetailScreen = ({route}) => {
           <Text style={styles.normalText2}>{chapter.title}</Text>
         </View>
         <FlatList
-          data={lessons}
           horizontal
-          showsHorizontalScrollIndicator={false}
+          data={lessons}
           keyExtractor={item => item.id}
           renderItem={renderLessonItem}
+          ListEmptyComponent={<Text>No lessons available</Text>}
         />
       </View>
     );
@@ -184,7 +184,7 @@ const CourseDetailScreen = ({route}) => {
           item =>
             item.courseAuthor === firstItem.courseAuthor &&
             item.courseTitle === firstItem.courseTitle &&
-            item.number === firstItem.numofChapter,
+            item.title === firstItem.chapterTitle,
         );
 
         return {...firstItem, ...secondItem};
@@ -261,7 +261,7 @@ const CourseDetailScreen = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <View style={styles.container1}>
           <ImageBackground
             style={styles.image}
@@ -342,8 +342,8 @@ const CourseDetailScreen = ({route}) => {
                   </View> */}
 
           <FlatList
-            data={chapters}
             horizontal
+            data={chapters}
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
             renderItem={renderChapterItem}
@@ -396,8 +396,6 @@ const CourseDetailScreen = ({route}) => {
 
           <FlatList
             data={evaluation}
-            horizontal
-            showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
             renderItem={renderEvaluationItem}
           />

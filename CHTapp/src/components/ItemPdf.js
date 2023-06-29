@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import scale from '../constants/responsive';
 import CUSTOM_COLORS from '../constants/colors';
+import TextBox from './textBox';
 
 export default class ItemPdf extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class ItemPdf extends Component {
       <SafeAreaView>
         <View style={styles.conPdf}>
           <View style={styles.conDecor}></View>
-          <Text style={styles.txtPdf}>{this.props.title}</Text>
+          <View style={styles.textBox}>
+            <Text style={styles.txtPdf}>{this.props.title}</Text>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -38,6 +41,9 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLORS.usBlue,
     width: '15%',
   },
+  textBox:{
+    width: '80%'
+  },  
   txtPdf: {
     color: CUSTOM_COLORS.usBlue,
     alignSelf: 'center',
